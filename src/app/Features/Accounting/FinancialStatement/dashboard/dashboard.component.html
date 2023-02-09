@@ -1,0 +1,174 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="white" type="ball-fussion">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+
+<div class="container-fluid pt-3" id="Financial Summary" *ngIf="Filter == 'StoreSummary' && gridshow == true">
+    <div class="col-12" style="width: 100%;">
+
+        <div class="d-flex justify-content-center">
+            <div class="gross-tbl table-responsive ">
+                <table>
+                    <thead>
+                        <tr class="SGtitle" style="background-color: #2d91f1;">
+
+                        </tr>
+                        <tr class="SGtitle">
+                            <th *ngIf=" XpenseTrendByStoreKeys[0] != undefined">
+
+                                {{Month|date:'MMM-yy'}}
+                            </th>
+                            <th
+                                *ngFor="let item of ExpenseTrendByStoreKeys.slice(1,ExpenseTrendByStoreKeys.length-1); let ioe = index;">
+                                <span>{{item}}</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td *ngFor="let itemKey of AllDatakeys; let ioe_td = index;">
+                            </td>
+                        </tr>
+                        <ng-container *ngFor="let item of ExpenseTrendByStore; let ioe_tr = index; ">
+
+                            <tr [ngClass]="{'titleeven' : ioe_tr % 2 == 0 , 'titleOdd' : ioe_tr % 2 != 0 }">
+                                <td>
+                                    <span style="white-space: nowrap;"
+                                        [ngClass]="{ 'bold': item.LABLE =='Unit Retail Sales' || item.LABLE =='Pure Gross' || item.LABLE =='Variable Gross' || item.LABLE =='Total Fixed'  ||
+                            item.LABLE =='Total Store Gross'|| item.LABLE =='Total Expenses' || item.LABLE =='Operating Profit' || item.LABLE =='Net Adds/Deducts' || item.LABLE =='Net Profit' ,
+                          'notbold':  item.LABLE !='Unit Retail Sales' && item.LABLE !='Pure Gross' && item.LABLE !='Variable Gross' && item.LABLE !='Total Fixed' &&  item.LABLE !='Total Store Gross'
+                          && item.LABLE !='Total Expenses' && item.LABLE !='Operating Profit' && item.LABLE !='Net Adds/Deducts' && item.LABLE !='Net Profit'}">
+                                        {{item.LABLE}}
+
+                                    </span>
+                                </td>
+
+                                <td (click)="openDetails(item[itemKey],itemKey,'store',item)"
+                                    *ngFor="let itemKey of AllDatakeys.slice(1,AllDatakeys.length-1); let ioe_td = index; "
+                                    style="text-align: right;">
+                                    <span style="cursor: pointer !important; "
+                                        [ngClass]="{ negative: !inTheGreen(item[itemKey]),setPerens: !inTheGreen(item[itemKey]), 'bold': item.LABLE =='Unit Retail Sales' || item.LABLE =='Pure Gross' || item.LABLE =='Variable Gross' || item.LABLE =='Total Fixed'  ||
+                       item.LABLE =='Total Store Gross'|| item.LABLE =='Total Expenses' || item.LABLE =='Operating Profit' || item.LABLE =='Net Adds/Deducts' || item.LABLE =='Net Profit' ,
+                     'notbold':  item.LABLE !='Unit Retail Sales' && item.LABLE !='Pure Gross' && item.LABLE !='Variable Gross' && item.LABLE !='Total Fixed' &&  item.LABLE !='Total Store Gross'
+                     && item.LABLE !='Total Expenses' && item.LABLE !='Operating Profit' && item.LABLE !='Net Adds/Deducts' && item.LABLE !='Net Profit'}"
+                                        *ngIf="item.LABLE =='New Units' || item.LABLE =='Pre-Owned Units' || item.LABLE =='Unit Retail Sales'">{{item[itemKey].toString().replace('-','')}}</span>
+                                    <span style="cursor: pointer !important; "
+                                        [ngClass]="{ negative: !inTheGreen(item[itemKey]),setPerens: !inTheGreen(item[itemKey]), 'bold': item.LABLE =='Unit Retail Sales' || item.LABLE =='Pure Gross' || item.LABLE =='Variable Gross' || item.LABLE =='Total Fixed'  ||
+                       item.LABLE =='Total Store Gross'|| item.LABLE =='Total Expenses' || item.LABLE =='Operating Profit' || item.LABLE =='Net Adds/Deducts' || item.LABLE =='Net Profit' ,
+                     'notbold':  item.LABLE !='Unit Retail Sales' && item.LABLE !='Pure Gross' && item.LABLE !='Variable Gross' && item.LABLE !='Total Fixed' &&  item.LABLE !='Total Store Gross'
+                     && item.LABLE !='Total Expenses' && item.LABLE !='Operating Profit' && item.LABLE !='Net Adds/Deducts' && item.LABLE !='Net Profit'}"
+                                        *ngIf="item.LABLE =='Variable Expenses%' || item.LABLE =='Personnel Expenses%' || item.LABLE =='Semi-Fixed Expenses%' || item.LABLE =='Fixed Expenses%' || item.LABLE =='Other Expenses%'">{{item[itemKey].toString().replace('-','')
+                                        }}%</span>
+                                    <span style="cursor: pointer !important; "
+                                        [ngClass]="{ negative: !inTheGreen(item[itemKey]),setPerens: !inTheGreen(item[itemKey]), 'bold': item.LABLE =='Unit Retail Sales' || item.LABLE =='Pure Gross' || item.LABLE =='Variable Gross' || item.LABLE =='Total Fixed'  ||
+                       item.LABLE =='Total Store Gross'|| item.LABLE =='Total Expenses' || item.LABLE =='Operating Profit' || item.LABLE =='Net Adds/Deducts' || item.LABLE =='Net Profit' ,
+                     'notbold':  item.LABLE !='Unit Retail Sales' && item.LABLE !='Pure Gross' && item.LABLE !='Variable Gross' && item.LABLE !='Total Fixed' &&  item.LABLE !='Total Store Gross'
+                     && item.LABLE !='Total Expenses' && item.LABLE !='Operating Profit' && item.LABLE !='Net Adds/Deducts' && item.LABLE !='Net Profit'}"
+                                        *ngIf="item.LABLE !='New Units' && item.LABLE!='Pre-Owned Units' && item.LABLE !='Unit Retail Sales' && item.LABLE != 'Variable Expenses%' && item.LABLE !='Personnel Expenses%' && item.LABLE !='Semi-Fixed Expenses%' && item.LABLE !='Fixed Expenses%' && item.LABLE !='Other Expenses%'">{{item[itemKey].toString().replace('-','')
+                                        | currency: 'USD':'symbol':'1.0-0' }}</span>
+
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                    <tbody *ngIf="NoData">
+                        <tr>
+                            <td colspan="13" style="text-align: center;">No Records Found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="container-fluid pt-3 sub-title" id="Financial Summary"
+    *ngIf="Filter != 'StoreSummary' && monthgridshow == true">
+    <div class="col-12" style="width: 100%;">
+
+        <div class="d-flex">
+            <div class="gross-tbl table-responsive fs-tbl">
+                <table>
+                    <thead style="text-transform: uppercase;">
+                        <tr class="SGtitle" style="background-color: #2d91f1;font-size: .9rem;text-align: center;">
+
+                        </tr>
+                        <tr class="SGtitle">
+                            <th>
+                                <!-- {{XpenseTrendByStoreKeysMonth[0]}} -->
+                                {{Month|date:'MMM-yy'}}
+                            </th>
+                            <th
+                                *ngFor="let item of ExpenseTrendByStoreKeysMonth.slice(0,ExpenseTrendByStoreKeysMonth.length-1); let ioe = index;">
+                                <span>{{item}}</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td *ngFor="let itemKey of AllDatakeysMonth; let ioe_td = index;">
+                            </td>
+                        </tr>
+                        <ng-container *ngFor="let item of ExpenseTrendByStoreMonth; let ioe_tr = index; ">
+                            <tr [ngClass]="{'titleeven' : ioe_tr % 2 == 0 , 'titleOdd' : ioe_tr % 2 != 0 }">
+                                <td>
+                                    <span style="white-space: nowrap;"
+                                        [ngClass]="{ 'bold': item.LABLE =='Unit Retail Sales' || item.LABLE =='Pure Gross' || item.LABLE =='Variable Gross' || item.LABLE =='Total Fixed'  ||
+                              item.LABLE =='Total Store Gross'|| item.LABLE =='Total Expenses' || item.LABLE =='Operating Profit' || item.LABLE =='Net Adds/Deducts' || item.LABLE =='Net Profit' ,
+                            'notbold':  item.LABLE !='Unit Retail Sales' && item.LABLE !='Pure Gross' && item.LABLE !='Variable Gross' && item.LABLE !='Total Fixed' &&  item.LABLE !='Total Store Gross'
+                            && item.LABLE !='Total Expenses' && item.LABLE !='Operating Profit' && item.LABLE !='Net Adds/Deducts' && item.LABLE !='Net Profit'}">
+                                        {{item.LABLE}}
+
+                                    </span>
+                                </td>
+                                <!-- <td>{{item.LABLE}}</td> (click)="openDetails(item,'month')" style="cursor: pointer;"-->
+
+                                <td (click)="openDetails(item,'month')" style="cursor: pointer;"
+                                    *ngFor="let itemKey of AllDatakeysMonth.slice(0,AllDatakeysMonth.length-1); let ioe_td = index; "
+                                    style="text-align: right;">
+                                    <!-- <span [ngClass]="{ negative: !inTheGreen(item[itemKey])}" *ngIf="item.LABLE =='New Units' || item.LABLE =='Pre-Owned Units' || item.LABLE =='Unit Retail Sales'">{{item[itemKey] }}</span>
+                       <span [ngClass]="{ negative: !inTheGreen(item[itemKey])}" *ngIf="item.LABLE !='New Units' && item.LABLE!='Pre-Owned Units' && item.LABLE !='Unit Retail Sales'">{{item[itemKey] | currency: 'USD':'symbol':'1.0-0' }}</span> -->
+                                    <!-- <span [ngClass]="{ negative: !inTheGreen(item[itemKey])}" *ngIf="item.LABLE =='New Units' || item.LABLE =='Pre-Owned Units' || item.LABLE =='Unit Retail Sales'">{{item[itemKey] }}</span>
+                       <span [ngClass]="{ negative: !inTheGreen(item[itemKey])}" *ngIf="item.LABLE =='Variable Expenses%' || item.LABLE =='Personnel Expenses%' || item.LABLE =='Semi-Fixed Expenses%' || item.LABLE =='Fixed Expenses%' || item.LABLE =='Other Expenses%'">{{item[itemKey] }}%</span>
+                       <span [ngClass]="{ negative: !inTheGreen(item[itemKey])}" *ngIf="item.LABLE !='New Units' && item.LABLE!='Pre-Owned Units' && item.LABLE !='Unit Retail Sales' && item.LABLE != 'Variable Expenses%' && item.LABLE !='Personnel Expenses%' && item.LABLE !='Semi-Fixed Expenses%' && item.LABLE !='Fixed Expenses%' && item.LABLE !='Other Expenses%'">{{item[itemKey] | currency: 'USD':'symbol':'1.0-0' }}</span> -->
+
+
+                                    <span
+                                        [ngClass]="{ negative: !inTheGreen(item[itemKey]),setPerens: !inTheGreen(item[itemKey]), 'bold': item.LABLE =='Unit Retail Sales' || item.LABLE =='Pure Gross' || item.LABLE =='Variable Gross' || item.LABLE =='Total Fixed'  ||
+                       item.LABLE =='Total Store Gross'|| item.LABLE =='Total Expenses' || item.LABLE =='Operating Profit' || item.LABLE =='Net Adds/Deducts' || item.LABLE =='Net Profit' ,
+                     'notbold':  item.LABLE !='Unit Retail Sales' && item.LABLE !='Pure Gross' && item.LABLE !='Variable Gross' && item.LABLE !='Total Fixed' &&  item.LABLE !='Total Store Gross'
+                     && item.LABLE !='Total Expenses' && item.LABLE !='Operating Profit' && item.LABLE !='Net Adds/Deducts' && item.LABLE !='Net Profit'}"
+                                        *ngIf="item.LABLE =='New Units' || item.LABLE =='Pre-Owned Units' || item.LABLE =='Unit Retail Sales'">{{item[itemKey].toString().replace('-','')}}</span>
+                                    <span
+                                        [ngClass]="{ negative: !inTheGreen(item[itemKey]),setPerens: !inTheGreen(item[itemKey]), 'bold': item.LABLE =='Unit Retail Sales' || item.LABLE =='Pure Gross' || item.LABLE =='Variable Gross' || item.LABLE =='Total Fixed'  ||
+                       item.LABLE =='Total Store Gross'|| item.LABLE =='Total Expenses' || item.LABLE =='Operating Profit' || item.LABLE =='Net Adds/Deducts' || item.LABLE =='Net Profit' ,
+                     'notbold':  item.LABLE !='Unit Retail Sales' && item.LABLE !='Pure Gross' && item.LABLE !='Variable Gross' && item.LABLE !='Total Fixed' &&  item.LABLE !='Total Store Gross'
+                     && item.LABLE !='Total Expenses' && item.LABLE !='Operating Profit' && item.LABLE !='Net Adds/Deducts' && item.LABLE !='Net Profit'}"
+                                        *ngIf="item.LABLE =='Variable Expenses%' || item.LABLE =='Personnel Expenses%' || item.LABLE =='Semi-Fixed Expenses%' || item.LABLE =='Fixed Expenses%' || item.LABLE =='Other Expenses%'">{{item[itemKey].toString().replace('-','')
+                                        }}%</span>
+                                    <span
+                                        [ngClass]="{ negative: !inTheGreen(item[itemKey]),setPerens: !inTheGreen(item[itemKey]), 'bold': item.LABLE =='Unit Retail Sales' || item.LABLE =='Pure Gross' || item.LABLE =='Variable Gross' || item.LABLE =='Total Fixed'  ||
+                       item.LABLE =='Total Store Gross'|| item.LABLE =='Total Expenses' || item.LABLE =='Operating Profit' || item.LABLE =='Net Adds/Deducts' || item.LABLE =='Net Profit' ,
+                     'notbold':  item.LABLE !='Unit Retail Sales' && item.LABLE !='Pure Gross' && item.LABLE !='Variable Gross' && item.LABLE !='Total Fixed' &&  item.LABLE !='Total Store Gross'
+                     && item.LABLE !='Total Expenses' && item.LABLE !='Operating Profit' && item.LABLE !='Net Adds/Deducts' && item.LABLE !='Net Profit'}"
+                                        *ngIf="item.LABLE !='New Units' && item.LABLE!='Pre-Owned Units' && item.LABLE !='Unit Retail Sales' && item.LABLE != 'Variable Expenses%' && item.LABLE !='Personnel Expenses%' && item.LABLE !='Semi-Fixed Expenses%' && item.LABLE !='Fixed Expenses%' && item.LABLE !='Other Expenses%'">{{item[itemKey].toString().replace('-','')
+                                        | currency: 'USD':'symbol':'1.0-0' }}</span>
+
+                            </tr>
+
+
+                        </ng-container>
+                    </tbody>
+                    <tbody *ngIf="NoData">
+                        <tr>
+                            <td colspan="13" style="text-align: center;">No Records Found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

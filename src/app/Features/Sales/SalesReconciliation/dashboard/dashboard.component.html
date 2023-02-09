@@ -1,0 +1,137 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="white" type="ball-fussion">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+
+<div class="container-fluid pe-0 mt-3">
+  <div class="col-12">
+    <div class="d-flex justify-content-center">
+      <div class="gross-tbl table-responsive ">
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2">{{StoreName}}</th>
+              <th colspan="4" style=" border-right: 2px solid #e0e1e2;">Transaction</th>
+              <th colspan="4" style=" border-right: 2px solid #e0e1e2;">Accounting</th>
+              <th colspan="4" style=" border-right: 2px solid #e0e1e2;">Difference</th>
+            </tr>
+            <tr>
+              <th>{{CurrentDate | date: 'MMMM - yyyy'}}</th>
+              <th>Units</th>
+              <th>Front Gross</th>
+              <th>Back Gross</th>
+              <th>Total Gross</th>
+
+              <th>Units</th>
+              <th>Front Gross</th>
+              <th>Back Gross</th>
+              <th>Total Gross</th>
+
+              <th>Units</th>
+              <th>Front Gross</th>
+              <th>Back Gross</th>
+              <th>Total Gross</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="SRData.length > 0; else NoSRdata">
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr class="title" *ngFor="let SR of SRData; let i=index"
+                [ngClass]="{'sub-title': SR.Lable2 == 'Finalized in Accounting'|| SR.Lable2 == 'Not Finalized in Accounting'}">
+                <td (click)=" openMenu(SR)" style="cursor: pointer;"><span class="dlrship">
+                    {{(SR.Lable2 == "" || SR.Lable2 == null ? '-' :(SR.Lable2 == 'NewTotal' ? 'New':(SR.Lable2 ==
+                    'UsedTotal' ? 'Used': SR.Lable2)))}}
+                    <!-- {{SR.Lable2}} -->
+                  </span>
+
+                <td [ngClass]="{ negative: !inTheGreen(SR.Sale_Units)}"><span>{{
+                    SR.Sale_Units == 0 || SR.Sale_Units == null ? '-' :
+                    SR.Sale_Units | number}}</span></td>
+                <td [ngClass]="{ negative: !inTheGreen(SR.Sale_Frontgross)}"><span>{{
+                    SR.Sale_Frontgross == 0 ? '-' :
+                    SR.Sale_Frontgross | currency: 'USD':'symbol':'1.0-0'}}</span></td>
+
+                <td [ngClass]="{ negative: !inTheGreen(SR.Sale_Backgross)}"><span>{{ SR.Sale_Backgross
+                    == 0 ? '-' : SR.Sale_Backgross | currency:
+                    'USD':'symbol':'1.0-0'}}</span></td>
+                <td [ngClass]="{ negative: !inTheGreen(SR.Sale_Totalgross)}"><span>{{ SR.Sale_Totalgross
+                    == 0 ? '-' : SR.Sale_Totalgross | currency:
+                    'USD':'symbol':'1.0-0'}}</span></td>
+
+
+                <td [ngClass]="{ negative: !inTheGreen(SR.Acct_Units)}"><span>{{ SR.Acct_Units ==
+                    0 ? '-' : SR.Acct_Units | number}}</span></td>
+
+                <td [ngClass]="{ negative: !inTheGreen(SR.Acct_Frontgross)}"><span>{{ SR.Acct_Frontgross
+                    == 0 ? '-' : SR.Acct_Frontgross | currency:
+                    'USD':'symbol':'1.0-0'}}</span></td>
+                <td [ngClass]="{ negative: !inTheGreen(SR.Acct_Backgross)}"><span>{{ SR.Acct_Backgross == 0
+                    ? '-' : SR.Acct_Backgross | currency:
+                    'USD':'symbol':'1.0-0'}}</span></td>
+                <td [ngClass]="{ negative: !inTheGreen(SR.Acct_Totalgross)}"><span>{{ SR.Acct_Totalgross == 0
+                    ? '-' : SR.Acct_Totalgross | currency:
+                    'USD':'symbol':'1.0-0'}}</span></td>
+
+
+                <td [ngClass]="{ negative: !inTheGreen(SR.Diff_Units)}"><span>{{
+                    SR.Diff_Units == 0 ? '-' :
+                    SR.Diff_Units | number}}</span></td>
+                <td [ngClass]="{ negative: !inTheGreen(SR.Diff_Frontgross)}"><span>{{
+                    SR.Diff_Frontgross == 0 ? '-' :
+                    SR.Diff_Frontgross | currency: 'USD':'symbol':'1.0-0'}}</span></td>
+                <td [ngClass]="{ negative: !inTheGreen(SR.Diff_Backgross)}"><span>{{
+                    SR.Diff_Backgross == 0 ? '-' :
+                    SR.Diff_Backgross | currency: 'USD':'symbol':'1.0-0'}}</span></td>
+                <td [ngClass]="{ negative: !inTheGreen(SR.Diff_Totalgross)}"><span>{{
+                    SR.Diff_Totalgross == 0 ? '-' :
+                    SR.Diff_Totalgross | currency: 'USD':'symbol':'1.0-0'}}</span></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </ng-container>
+            <ng-template #NoSRdata>
+              <tr style="background-color: #fff;">
+                <td colspan="13"
+                  style="text-align: center;font-size: 14px;background: transparent !important;color: black; display: revert;">
+                  <label>No Data Found</label>
+                </td>
+              </tr>
+            </ng-template>
+          <tbody>
+
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

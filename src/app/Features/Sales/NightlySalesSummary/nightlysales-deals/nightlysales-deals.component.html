@@ -1,0 +1,191 @@
+<div class="container-fluid d-flex justify-content-center align-items-center">
+  <div class="gross-popup">
+    <div class="header d-flex align-items-center">
+      <h5 class="title m-0 ms-2">
+        <img src="" alt=""> <span class="slash">//</span>DEAL DETAILS
+      </h5>
+      <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i class="fa-solid fa-xmark"></i> </a>
+    </div>
+
+    <div class="content">
+      <div class="container" *ngFor="let item of DealesDetailedData">
+        <div class="row">
+          <div class="button3">
+            <ul>
+              <li><a style="width: auto;">{{item.AS_DealerName}}</a></li>
+              <li><a>deal#: &nbsp;{{item['Deal #']}}</a></li>
+              <li><a style="background:#ed1b24;color: white;">Status:&nbsp; {{item.FIWIPSTATUS}}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 mt-20">
+            <div class="sales-tbl table-responsive">
+              <table>
+                <thead>
+                  <tr class="SGtitle">
+                    <th>Purchase Unit</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="sub-title">
+                    <td>VIN:</td>
+                    <td>{{item.VIN}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>VEHICLE:</td>
+                    <td>{{item.Vehicle}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>DEAL TYPE:</td>
+                    <td>{{item.DealType}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>DATE:</td>
+                    <td>{{item.Date | date: 'MM/dd/yyyy'}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>SOLD AMOUNT:</td>
+                    <td>{{item['Sold Amt']}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>CUSTOMER:</td>
+                    <td>{{item.Customer}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>SALES PERSON:</td>
+                    <td>{{item['Sales Person']}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>SALES MANAGER:</td>
+                    <td>{{item['Sales Mgr']}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-6 mt-20" *ngIf="Trade1">
+            <div class="sales-tbl table-responsive">
+              <table>
+                <thead>
+                  <tr class="SGtitle">
+                    <th>TRADE UNIT</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="sub-title">
+                    <td>MAKE:</td>
+                    <td>{{item.Trade1Make}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>MODEL:</td>
+                    <td>{{item.Trade1Model}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>VIN:</td>
+                    <td>{{item.Trade1VIN}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>MILAGE:</td>
+                    <td>{{item.Trade1mileage}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>PAYOFF:</td>
+                    <td>{{item.Trade1payoff}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-6 mt-20" *ngIf="Trade2">
+            <div class="sales-tbl table-responsive">
+              <table>
+                <tbody>
+                  <tr class="sub-title">
+                    <td>MAKE:</td>
+                    <td>{{item.Trade2Make}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>MODEL:</td>
+                    <td>{{item.Trade2Model}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>VIN:</td>
+                    <td>{{item.Trade2VIN}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>MILAGE:</td>
+                    <td>{{item.Trade2mileage}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>PAYOFF:</td>
+                    <td>{{item.Trade2payoff}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-6 mt-20">
+            <div class="sales-tbl table-responsive">
+              <table>
+                <thead>
+                  <tr class="SGtitle">
+                    <th>Finance Details</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="sub-title">
+                    <td>FRONT GROSS:</td>
+                    <td>{{item.FEG}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>BACK GROSS:</td>
+                    <td>{{item.BEG}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>DEAL TYPE:</td>
+                    <td>{{item.DealType}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>AMOUNT FINANCED:</td>
+                    <td>{{item['Financed Amt']}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>LENDER:</td>
+                    <td>{{item.Lender}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>INTREST RATE:</td>
+                    <td>{{item.Interest}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>TERM:</td>
+                    <td>{{item.Term}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>MONTHLY:</td>
+                    <td>{{item.Monthly}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>SERVICE CONTRACT:</td>
+                    <td>{{item.VSC}}</td>
+                  </tr>
+                  <tr class="sub-title">
+                    <td>FINANCE MANAGER:</td>
+                    <td>{{item['Finance Mgr']}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="text-align: center;" *ngIf="NoData">
+        <label>No Data Found</label>
+      </div>
+    </div>
+  </div>
+</div>

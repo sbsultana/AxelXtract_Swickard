@@ -1,0 +1,1355 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="white" type="ball-fussion">
+  <p style="font-size: 20px; color: white">Loading..</p>
+</ngx-spinner>
+
+<div class="container-fluid">
+  <div class="col-12">
+    <div class="row">
+      <div class="button">
+        <ul>
+          <!-- <button type="button" id="XLSX" (click)="exportAsXLSX_123()" >XLSX</button> -->
+
+          <li (click)="headerselection('ALL')" *ngIf="Filter=='Accounts'"
+            [ngClass]="{'bg-color':selectedheadertab.indexOf('ALL')>=0, 'bg-color-wt':selectedheadertab.indexOf('ALL')<0}">
+            <a>ALL</a>
+          </li>
+
+          <li (click)="headerselection('GP')" *ngIf="Filter=='Accounts'"
+            [ngClass]="{'bg-color':selectedheadertab.indexOf('GP')>=0, 'bg-color-wt':selectedheadertab.indexOf('GP')<0}">
+            <a>Gross Accounts</a>
+          </li>
+
+          <li (click)="headerselection('Expense')" *ngIf="Filter=='Accounts'"
+            [ngClass]="{'bg-color':selectedheadertab.indexOf('Expense')>=0, 'bg-color-wt':selectedheadertab.indexOf('Expense')<0}">
+            <a>Expense Accounts</a>
+          </li>
+
+          <li (click)="headerselection('Asset')" *ngIf="Filter=='Accounts'"
+            [ngClass]="{'bg-color':selectedheadertab.indexOf('Asset')>=0, 'bg-color-wt':selectedheadertab.indexOf('Asset')<0}">
+            <a>Asset Accounts</a>
+          </li>
+
+          <li (click)="headerselection('Liability')" *ngIf="Filter=='Accounts'"
+            [ngClass]="{'bg-color':selectedheadertab.indexOf('Liability')>=0, 'bg-color-wt':selectedheadertab.indexOf('Liability')<0}">
+            <a>Liability Accounts</a>
+          </li>
+
+          <li (click)="headerselection('Equity')" *ngIf="Filter=='Accounts'"
+            [ngClass]="{'bg-color':selectedheadertab.indexOf('Equity')>=0, 'bg-color-wt':selectedheadertab.indexOf('Equity')<0}">
+            <a>Owner's Equity Accounts</a>
+          </li>
+
+          <li (click)="headerselection('FIP')" *ngIf="Filter=='FI'"
+            [ngClass]="{'bg-color':selectedheadertab.indexOf('FIP')>=0, 'bg-color-wt':selectedheadertab.indexOf('FIP')<0}">
+            <a>F&I Products</a>
+          </li>
+
+          <li (click)="headerselection('L')" *ngIf="Filter=='L'"
+            [ngClass]="{'bg-color':selectedheadertab.indexOf('L')>=0, 'bg-color-wt':selectedheadertab.indexOf('L')<0}">
+            <a>Lenders</a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex acct">
+          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="row d-flex justify-content-center align-items-center">
+              <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 vl pe-0">
+                <div class="form-group acc-name d-flex align-items-center">
+                  <!-- <input type="Search" class="form-control Search" placeholder="Search" [(ngModel)]="searchText"
+                                  [ngModelOptions]="{standalone: true}"> -->
+                  <input type="text" class="form-control Search" placeholder="Search" #myInput [(ngModel)]="searchText"
+                    (ngModelChange)="searchFilter()">
+                  <span *ngIf="searchText.length>0"
+                    style="position: relative;left: -20px;font-weight: 500;font-size: 0.7rem;color: #2b91f0;cursor: pointer;"
+                    (click)="clearFilter()">X</span>
+                </div>
+              </div>
+
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 vl">
+                <div class="row acc-btn">
+                  <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4">
+                    <button type="button" class="btn  w-100" (click)="StatusFiltering('M')"
+                      [ngClass]="{'bg-color':statusFilter.indexOf('M')>=0, 'bg-color-wt':statusFilter.indexOf('M')<0}">Mapped</button>
+                  </div>
+                  <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4">
+                    <button class="active" type="button" class="btn w-100" (click)="StatusFiltering('N')"
+                      [ngClass]="{'bg-color':statusFilter.indexOf('N')>=0, 'bg-color-wt':statusFilter.indexOf('N')<0}">Unmapped</button>
+                  </div>
+                  <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4">
+                    <button type="button" class="btn w-100" (click)="StatusFiltering('D')"
+                      [ngClass]="{'bg-color':statusFilter.indexOf('D')>=0, 'bg-color-wt':statusFilter.indexOf('D')<0}">Ignore</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 vl">
+                <div class="row acc-bal d-flex align-items-center">
+                  <!-- <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8 pe-0"><h6 class="m-0">Hide Zero Balance Accounts?</h6> </div>
+                               <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 ps-0"><button type="button" class="btn btn-primary active w-100">Yes</button></div>
+                               <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 ps-0"><button type="button" class="btn in-active w-100">No</button></div> -->
+                </div>
+              </div>
+
+              <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4">
+                <div class="row acc-date">
+                  <!-- <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 pe-0" >
+                              <button type="button" class="btn w-100 bg-color" (click)="bulkEdit(Bulk,'E','','B','')" [ngClass]="{'disabled': Bulk == true, 'enabled' : Bulk == false }"  *ngIf="statusFilter.indexOf('N')>=0 && NoData==false  && AccountingMapping.length>1 && selectedheadertab.indexOf('FIP') < 0 && selectedheadertab.indexOf('L')< 0 ">Bulk Edit</button>
+                          </div> -->
+                  <!-- (click)="bulkEdit(Bulk,'M','','S',am,'unmappedMapAccount')" -->
+                  <div class="col-xxl-3 col-xl-2 col-lg-2 col-md-2 pe-0">
+                    <button type="button" class="btn active w-100"
+                      (click)="bulkEdit(Bulk,'M','','B','','unmappedMapAccount')" data-bs-toggle="modal"
+                      data-bs-target="#warningmessage" [ngClass]="{'disabled': Bulk == false, 'enabled' : Bulk == true}"
+                      *ngIf="statusFilter.indexOf('N')>=0 && NoData==false &&  selectedheadertab.indexOf('FIP') < 0 && selectedheadertab.indexOf('L')< 0 ">
+                      Bulk Mapping</button>
+                  </div>
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 pe-0">
+                    <button type="button" class="btn active w-100" (click)="bulkIgnore(Bulk,'M','','B','')"
+                      data-bs-toggle="modal" data-bs-target="#ignorewarnmsg"
+                      [ngClass]="{'disabled': ignorebtn == false, 'enabled' : ignorebtn == true}"
+                      *ngIf="statusFilter.indexOf('N')>=0 && NoData==false &&  selectedheadertab.indexOf('FIP') < 0 && selectedheadertab.indexOf('L')< 0 ">
+                      Ignore</button>
+                  </div>
+
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 pe-0">
+                    <button type="button" class="btn active w-100" (click)="bulkEdit(Bulk,'M','','B','','BulkRevert')"
+                      data-bs-toggle="modal" data-bs-target="#BulkRevertwarnmsg"
+                      [ngClass]="{'disabled': Bulk == false, 'enabled' : Bulk == true}"
+                      *ngIf="statusFilter.indexOf('D')>=0 &&  selectedheadertab.indexOf('FIP') < 0 && selectedheadertab.indexOf('L')< 0 ">
+                      Bulk Revert</button>
+                  </div>
+
+                  <div class="col-xxl-5 col-xl-6 col-lg-6 col-md-6">
+                    <div class="acc-select">
+                      <select class="form-select _dropdwn" (change)="StoreFilter($event)" [(ngModel)]="selectedStore">
+                        <option value="0">All</option>
+                        <option *ngFor="let s of stores" [value]="s.CORA_ACCT_CODE">{{s.DEALER_NAME}}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="row" id="Account Mapping" *ngIf="selectedheadertab.indexOf('L')>=0">
+      <div class="col-12">
+        <div class="acct-tbl ">
+          <table>
+            <thead>
+              <tr>
+                <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Lender Name in DMS</th>
+                <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Lender Name </th>
+                <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Lender Type </th>
+                <th style="border-right: none;box-shadow: inset 0 -5px 0 #2d91f1;">Lender Category </th>
+                <th style="border-right: none;"> <span style="display: none;">Standard Mapping </span></th>
+                <th style="border-right: none;"><span style="display: none;">MTD Amount </span></th>
+                <th><span style="display: none;">YTD Amount </span></th>
+                <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Action</th>
+                <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Ignore</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ld of LendersData  " [ngStyle]="{'color': ld.STATUS == 'N'? 'red' : 'black' }">
+                <td>{{ ld.DMS_Lender_Text == null ? '-' : ld.DMS_Lender_Text}}</td>
+                <td>{{ ld.LenderName == null ? '-' : ld.LenderName}}</td>
+                <td>{{ ld.LenderType == null ? '-' : ld.LenderType}}</td>
+                <td style="border-right: none;">{{ ld.Category == null ? '-' : ld.Category}}</td>
+                <td style="border-right: none;"><span style="display: none;"> </span></td>
+                <td style="border-right: none;"><span style="display: none;"></span></td>
+                <td><span style="display: none;"></span></td>
+
+                <td>
+                  <div *ngIf="ld.STATUS == 'M'" class="btn _btn" (click)="openLenders(MapAccountTemp,ld,'EditL')">
+                    <span>Edit Mapping</span>
+                    <!-- (click)="EditMapping(i,'E')" -->
+                  </div>
+                  <div class="btn _btnred" *ngIf="ld.STATUS == 'N'" (click)="openLenders(MapAccountTemp,ld,'MapL')">
+                    <span>Map Account</span>
+                    <!-- (click)="EditMapping('A','M')"  -->
+                  </div>
+                </td>
+                <!-- <td><div class="btn _btn" >Edit Mapping</div></td> -->
+                <td>
+                  <div class="btn _btn">Ignore</div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="NoData && (LendersData | filter:searchText).length == '0'">
+              <tr>
+                <td colspan="2"></td>
+                <td colspan="6"> No Records Found!!!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" id="Account Mapping" *ngIf="selectedheadertab.indexOf('FIP')>=0">
+      <div class="col-12">
+        <div class="acct-tbl ">
+          <table>
+            <thead>
+              <tr>
+                <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Product Name in DMS</th>
+                <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Product Code </th>
+                <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Product Type </th>
+                <th style="border-right: none;box-shadow: inset 0 -5px 0 #2d91f1;">Product Category </th>
+                <th style="border-right: none;"> <span style="display: none;">Standard Mapping </span></th>
+                <th style="border-right: none;"><span style="display: none;">MTD Amount </span></th>
+                <th style="border-right: none;"><span style="display: none;">YTD Amount </span></th>
+                <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Action</th>
+                <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Ignore</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let FI of FIProductsData ;let i=index"
+                [ngStyle]="{'color': FI.Status == 'N'? 'red' : 'black' }">
+                <td>{{ FI.weowedesc == null ? '-' : FI.weowedesc}}</td>
+                <td>{{ FI.weowecode == null ? '-' : FI.weowecode}}</td>
+                <td>
+                  <span *ngIf="i != selecteditem"> {{ FI.Type == null ? '-' : FI.Type }}</span>
+                  <div class="acc-select" *ngIf="i==selecteditem">
+                    <select class="form-select _dropdwn">
+                      <option>Select</option>
+                      <option *ngFor="let pt of ProductDropDownType" [selected]="pt.PT_NAME==FI.Type"
+                        [value]="pt.PT_NAME">{{pt.PT_NAME}}
+                    </select>
+                  </div>
+
+                </td>
+                <td style="border-right: none;">
+                  <span *ngIf="i != selecteditem"> {{ FI.Category == null ? '-' : FI.Category }}</span>
+                  <div class="acc-select" *ngIf="i==selecteditem">
+                    <select class="form-select _dropdwn">
+                      <option>Select</option>
+                      <option *ngFor="let pc of ProductDropDownCategory" [selected]="pc.PC_NAME==FI.Category"
+                        [value]="pc.PC_ID">{{pc.PC_NAME}}
+                    </select>
+                  </div>
+
+                </td>
+                <td style="border-right: none;"><span style="display: none;">&nbsp; </span></td>
+                <td style="border-right: none;"><span style="display: none;">&nbsp;</span></td>
+                <td><span style="display: none;"></span></td>
+                <td>
+                  <div *ngIf="FI.Status == 'M'" class="btn _btn" (click)="openMapAccount(MapAccountTemp,FI,'EditFIP')">
+                    <span>Edit Mapping</span>
+                    <!-- (click)="EditMapping(i,'E')" -->
+                  </div>
+                  <div class="btn _btnred" *ngIf="FI.Status == 'N'"
+                    (click)="openMapAccount(MapAccountTemp,FI,'MapFIP')"><span>Map Account</span>
+                    <!-- (click)="EditMapping('A','M')"  -->
+                  </div>
+                </td>
+                <!-- <td><div *ngIf="i!=selecteditem" class="btn _btn"  (click)="EditMapping(i,'E')"  ><span >Edit Mapping</span>
+                                      (click)="EditMapping(i,'E')"
+                                  </div>
+                                      <div class="btn _btnred" *ngIf="i==selecteditem" (click)="EditMapping('A','M')" ><span>Map Account</span>
+                                          (click)="EditMapping('A','M')"
+                                      </div>
+                                  </td> -->
+                <td>
+                  <div class="btn _btn">Ignore</div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="NoData && (FIProductsData | filter:searchText).length == '0'">
+              <tr>
+                <td colspan="2"></td>
+                <td colspan="6"> No Records Found!!!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" id="Account Mapping"
+      *ngIf="selectedheadertab.indexOf('Expense')>=0 || selectedheadertab.indexOf('Asset')>=0 || selectedheadertab.indexOf('Liability')>=0 || selectedheadertab.indexOf('Equity')>=0 || selectedheadertab.indexOf('GP')>=0 || selectedheadertab.indexOf('ALL')>=0">
+      <div class="col-12">
+        <div class="acct-tbl ">
+          <table>
+            <thead>
+              <tr style="border-right: none;box-shadow: inset 0 -5px 0 #2d91f1;">
+                <th class="sel_all" *ngIf="statusFilter.indexOf('N')>=0 && NoData==false "
+                  style="width: 11% !important;">Select All&nbsp;<input type="checkbox" id="symbols"
+                    (change)="collectBulkEditvalues($event,'','All')"></th>
+                <th>Store Code</th>
+                <th>Account Description </th>
+                <th>Account #</th>
+                <th *ngIf="statusFilter.indexOf('M')>=0" style="padding: 10px 10px;">Activity/<br>Balance</th>
+                <th *ngIf="statusFilter.indexOf('M')>=0">Acct Details </th>
+                <th>Account Type</th>
+                <th *ngIf="statusFilter.indexOf('M')>=0">Operational Area</th>
+                <th *ngIf="statusFilter.indexOf('M')>=0">Dept</th>
+                <th *ngIf="statusFilter.indexOf('N')>=0">Standard Mapping</th>
+                <th *ngIf="statusFilter.indexOf('N')>=0">YTD Amount</th>
+                <th *ngIf="statusFilter.indexOf('M')>=0">Sub Dept</th>
+                <th *ngIf="statusFilter.indexOf('M')>=0">Sub Dept Details </th>
+                <th *ngIf="statusFilter.indexOf('M')>=0">Financial Category </th>
+                <!-- <th >YTD Amount</th> -->
+                <th>Map Status</th>
+                <th *ngIf="statusFilter.indexOf('D')<0">Action</th>
+                <th *ngIf="statusFilter.indexOf('D')<0">Ignore</th>
+                <th *ngIf="statusFilter.indexOf('D')>=0">Revert</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let am of AccountingMapping  "
+                [ngStyle]="{'color': statusFilter.indexOf('N')>=0? '#ff0000' : 'black' }">
+                <td *ngIf="statusFilter.indexOf('N')>=0 && NoData==false" style="text-align: center;"><input
+                    type="checkbox" id="symbols" [checked]="am.state" (change)="collectBulkEditvalues($event,am,'I')">
+                </td>
+                <td>
+                  <span *ngIf="am.storecode !=''" style="white-space: nowrap;" title="{{am.StoreName}}">{{ am.storecode
+                    == null ? '-' :
+                    am.storecode}}</span>
+                  <!-- <span *ngIf="am.Cora_Acct_Code !=''">{{  am.Cora_Acct_Code == null ? '-' : am.Cora_Acct_Code}}</span> -->
+                </td>
+                <!-- <td *ngIf="am.Cora_Acct_Code !=''">{{  am.Cora_Acct_Code == null ? '-' : am.Cora_Acct_Code}}</td> -->
+                <td>{{ am.AccountDescription == null ? '-' : am.AccountDescription}}</td>
+                <td>
+                  <span *ngIf="am.AccountNumber !=''" style="white-space: nowrap;">{{ am.AccountNumber == null ? '-' :
+                    am.AccountNumber}}</span>
+                  <!-- <span *ngIf="am.Acctnum !=''">{{  am.Acctnum == null ? '-' :  am.Acctnum}}</span> -->
+                </td>
+                <td *ngIf="statusFilter.indexOf('M')>=0"> {{am.type == null || am.type == undefined || am.type == "" ?
+                  '-' : ' ' }}
+                  {{ am.type == "Activity" ? 'ACT' : ''}}
+                  {{ am.type == "Balance" ? 'BAL' : ''}} </td>
+                <td *ngIf="statusFilter.indexOf('M')>=0">{{am.accounttypedetail == null || am.accounttypedetail ==
+                  undefined || am.accounttypedetail == "" ?
+                  '-' : am.accounttypedetail}}</td>
+                <td>{{ am.AccountType == null ? '-' : am.AccountType}}</td>
+                <td *ngIf="statusFilter.indexOf('M')>=0">{{am.DeptType == null || am.DeptType == undefined ||
+                  am.DeptType == "" ? '-' : am.DeptType}}</td>
+                <td *ngIf="statusFilter.indexOf('M')>=0">{{am.Department == null || am.Department == undefined ||
+                  am.Department == "" ? '-' : am.Department}}
+                </td>
+                <th *ngIf="statusFilter.indexOf('N')>=0"> {{am.StandardMapping == null || am.StandardMapping ==
+                  undefined || am.StandardMapping == "" ? '-' : am.StandardMapping}} </th>
+                <th *ngIf="statusFilter.indexOf('N')>=0">-</th>
+                <td *ngIf="statusFilter.indexOf('M')>=0">{{am.Subtype == null || am.Subtype == undefined || am.Subtype
+                  == "" ? '-' : am.Subtype}} </td>
+                <td *ngIf="statusFilter.indexOf('M')>=0">{{am.SubtypeDetail == null || am.SubtypeDetail == undefined ||
+                  am.SubtypeDetail == "" ? '-' :
+                  am.SubtypeDetail}} </td>
+                <td *ngIf="statusFilter.indexOf('M')>=0">{{am.Fin_Summary == null || am.Fin_Summary == undefined ||
+                  am.Fin_Summary == "" ? '-' :
+                  am.Fin_Summary}} </td>
+                <!-- <td>-</td> -->
+                <!-- <td>-</td> -->
+                <!-- <td>{{ am.StandardMapping == null ? '-' : am.StandardMapping}}</td> -->
+                <!-- <td></td> -->
+                <td>{{ am.Status == null ? '-' : ' '}}
+                  {{ am.Status == "M" ? 'Y' : ''}}
+                  {{ am.Status == "N" ? 'N' : ''}}
+                </td>
+                <td [ngClass]="{'disable': Bulk ==true}" *ngIf="statusFilter.indexOf('D')<0">
+                  <div *ngIf="am.Status == 'M'" class="btn _btn"
+                    (click)="bulkEdit('','M','','S',am,'MappedEditMapping')" data-bs-toggle="modal"
+                    data-bs-target="#warningmessage">
+                    <!-- <span>Edit Mapping</span> -->
+                    <img src="../../../../../assets//images/Action.png">
+                    <!-- (click)="EditMapping(i,'E')" -->
+                  </div>
+                  <div class="btn _btnred" *ngIf="am.Status == 'N'"
+                    (click)="bulkEdit(Bulk,'M','','S',am,'unmappedMapAccount')" data-bs-toggle="modal"
+                    data-bs-target="#warningmessage"><span>Map Account</span>
+                    <!-- (click)="openMapAccount(MapAccountTemp,am,'EditCMN')" -->
+                    <!-- (click)="EditMapping('A','M')"  -->
+                  </div>
+                </td>
+                <!-- 'disable':  am.IgnoreStatus == 'D' -->
+                <td [ngClass]="{'disable': ignorebtn ==true}" *ngIf="statusFilter.indexOf('D')<0">
+                  <div class="btn _btn" (click)="bulkIgnore(Bulk,'M','','S',am)" data-bs-toggle="modal"
+                    data-bs-target="#ignorewarnmsg"
+                    [ngClass]="{'_btn':statusFilter.indexOf('M')>=0, '_btnred':statusFilter.indexOf('M')<0 }"
+                    style="border:none">
+                    <!-- Ignore -->
+                    <img src="../../../../../assets/images/Trash.png">
+                  </div>
+                </td>
+                <!-- <td *ngIf="statusFilter.indexOf('D')>=0">
+                    <div class="btn _btn"  (click)="bulkEdit(Bulk,'M','','S',am,'BulkRevert')" data-bs-toggle="modal" data-bs-target="#revert">
+                      Revert</div>
+                  </td> -->
+
+                <td [ngClass]="{'disable': ignorebtn ==true}" *ngIf="statusFilter.indexOf('D')>=0">
+                  <!-- (click)="revertopen(revert,am)" #revert before adding check boxes event -->
+                  <div class="btn _btn" (click)="bulkEdit(Bulk,'M','','S',am,'BulkRevert')" data-bs-toggle="modal"
+                    data-bs-target="#BulkRevertwarnmsg">
+                    Revert</div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="NoData && (AccountingMapping | filter:searchText).length == '0'">
+              <tr>
+                <td colspan="2"></td>
+                <td colspan="6"> No Records Found</td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="Pagination==true">
+      <div class="col-12">
+        <div class="d-flex">
+          <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="row d-flex ">
+              <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 vl"></div>
+              <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 vl"></div>
+              <div class="col-xxl-1 col-xl-1 col-lg-1 col-md-1 vl"></div>
+              <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 vl">
+                <div class="row acc-date" style="float: right;padding-right: 15px;">
+                  <div class="col-xxl-7 col-xl-7 col-lg-7 col-md-7" [ngClass]="{'disable': PageCount==1}"
+                    title="Previous">
+                    <div class="form-group" style="cursor: pointer;" (click)="Prev()">
+                      <!-- <span style="font-size: 1.5rem;cursor: pointer;">&lt;</span> <span>Previous</span> -->
+                      <i class="fa-solid fa-arrow-left"></i>
+
+                    </div>
+                  </div>
+                  <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3" [ngClass]="{'disable': LastCount==false}"
+                    title="Next" style="padding-left: 0px;">
+                    <div class="form-group" style="cursor: pointer;" (click)="Next()">
+                      <!-- <span>Next</span><span style="font-size: 1.5rem;cursor: pointer;">&gt;</span>  -->
+
+                      <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #MapAccountTemps let-modal>
+  <!-- for F&I products -->
+  <div class="container-fluid" *ngIf="selectedheadertab.indexOf('FIP')>=0">
+    <div class="col-12">
+      <div class="row" id="Account Mapping">
+        <div class="col-12">
+          <div class="acct-tbl " style="border-radius: 15px;">
+            <div class="header d-flex align-items-center">
+              <h5 class="title m-0 ms-2">
+                <img src="" alt=""> <span class="slash">//</span>MAP ACCOUNT
+              </h5>
+              <a type="button" class="close-btn ms-auto me-2" (click)="oncloseMapAccount()"><i
+                  class="fa-solid fa-xmark"></i> </a>
+            </div>
+            <div style="background-color: #f5f9f7;">
+              <table>
+                <thead style="background-color: #f5f9f7;">
+                  <tr>
+                    <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Product Name in DMS</th>
+                    <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Product Code </th>
+                    <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Product Type </th>
+                    <th style="border-right: none;box-shadow: inset 0 -5px 0 #2d91f1;">Product Category </th>
+                  </tr>
+                </thead>
+                <tbody style="background-color: #f5f9f7;">
+                  <tr>
+                    <!-- <td> <input type="text" class="form-control" style="padding: 0.275rem 0.75rem;"  [(ngModel)]="selectedAccountDetail.weowedesc"> </td> -->
+
+                    <td>{{ selectedAccountDetail.weowedesc == null ? '-' : selectedAccountDetail.weowedesc}}</td>
+                    <td>{{ selectedAccountDetail.weowecode == null ? '-' : selectedAccountDetail.weowecode}}</td>
+                    <td>
+                      <div class="acc-select">
+                        <select class="form-select _dropdwn" (change)="OnProductDropDownTypeChange($event)">
+                          <option>Select</option>
+                          <option *ngFor="let pt of ProductDropDownType"
+                            [selected]="pt.PT_ID==selectedAccountDetail.Type" [value]="pt.PT_ID">{{pt.PT_NAME}}
+                        </select>
+                      </div>
+                    </td>
+                    <td style="border-right: none;">
+                      <div class="acc-select">
+                        <select class="form-select _dropdwn" (change)="OnProductDropDownCategoryChange($event)">
+                          <option>Select</option>
+                          <option *ngFor="let pc of ProductDropDownCategory"
+                            [selected]="pc.PC_ID==selectedAccountDetail.Category" [value]="pc.PC_ID">{{pc.PC_NAME}}
+                        </select>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style="padding-top: 60px;">
+                <div class="col-12 d-flex justify-content-center">
+                  <button type="submit" class="btn btn-primary ms-1"
+                    (click)="MapAccountSave(selectedAccountDetail)">Save</button>
+                </div>
+                <br>
+                <div class="col-12 d-flex justify-content-center">
+                  <button type="submit" class="btn btn-cancel ms-1" (click)="MapAccountCancel()">Cancel</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- for GA,EA,AA,LA,OEA -->
+  <div class="row" id="Account Mapping"
+    *ngIf="selectedheadertab.indexOf('Expense')>=0 || selectedheadertab.indexOf('Asset')>=0 || selectedheadertab.indexOf('Liability')>=0 || selectedheadertab.indexOf('Equity')>=0 || selectedheadertab.indexOf('GP')>=0">
+    <div class="col-12">
+      <div class="acct-tbl " style="border-radius: 15px;">
+        <div class="header d-flex align-items-center">
+          <h5 class="title m-0 ms-2">
+            <img src="" alt=""> <span class="slash">//</span>MAP ACCOUNT
+          </h5>
+          <a type="button" class="close-btn ms-auto me-2" (click)="oncloseMapAccount()"><i
+              class="fa-solid fa-xmark"></i> </a>
+        </div>
+        <div style="background-color: #f5f9f7;">
+          <table>
+            <thead style="background-color: #f5f9f7;">
+              <tr style="border-right: none;box-shadow: inset 0 -5px 0 #2d91f1;">
+
+                <th>Store Name </th>
+                <th>Account Description </th>
+                <th>Account #</th>
+                <!-- <th >Map Status </th> -->
+                <th>Account Type</th>
+                <th> Standard Mapping </th>
+                <th>YTD Amount </th>
+              </tr>
+            </thead>
+            <tbody style="background-color: #f5f9f7;">
+              <tr>
+                <td>{{ selectedAccountDetail.StoreName == null ? '-' : selectedAccountDetail.StoreName}}</td>
+                <td>
+                  {{ selectedAccountDetail.AccountDescription == null ? '-' : selectedAccountDetail.AccountDescription}}
+                </td>
+                <td>{{ selectedAccountDetail.Account == null ? '-' : selectedAccountDetail.Account}}</td>
+                <td *ngIf="selectedAccountDetail.Status=='M'">
+                  {{ selectedAccountDetail.AccountType == null ? '-' : selectedAccountDetail.AccountType}}</td>
+
+                <td *ngIf="selectedAccountDetail.Status=='N'">
+                  <div class="acc-select StandardMapping">
+                    <select class="form-select _dropdwn" (change)="OnChange($event.target.value,'AT')"
+                      [(ngModel)]="accounttype">
+                      <option [value]="0">Select</option>
+                      <option *ngFor="let at of Accounttype" [value]="at.acct_type">{{at.acct_type}}
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="acc-select StandardMapping">
+                    <label> Department </label>
+                    <select class="form-select _dropdwn" [(ngModel)]="department">
+                      <option [value]="0">Select</option>
+                      <option *ngFor="let pt of Department" [value]="pt.Acc_Dept">{{pt.Acc_Dept}}
+                    </select>
+                  </div>
+                  <div class="acc-select StandardMapping">
+                    <label> Subtype </label>
+                    <select class="form-select _dropdwn" [(ngModel)]="subtype"
+                      (change)="OnChange($event.target.value,'ST','STCHANGE')">
+                      <option [value]="0">Select</option>
+                      <option *ngFor="let pt of Subtype" [value]="pt.Acc_Subtype">{{pt.Acc_Subtype}}
+                    </select>
+                  </div>
+                  <div class="acc-select StandardMapping">
+                    <label> Subtype Details </label>
+                    <select class="form-select _dropdwn" [(ngModel)]="subtypedetail">
+                      <option [value]="0">Select</option>
+                      <option *ngFor="let pt of SubtypeDetail" [value]="pt.Subtype_Detail">{{pt.Subtype_Detail}}
+                    </select>
+                  </div>
+                </td>
+                <td>-</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="padding-top: 60px;">
+            <div class="col-12 d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary ms-1"
+                (click)="MapAccountSave(selectedAccountDetail)">Save</button>
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+              <button type="submit" class="btn btn-cancel ms-1" (click)="MapAccountCancel()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- for L -->
+  <div class="row" id="Account Mapping" *ngIf="selectedheadertab.indexOf('L')>=0">
+    <div class="col-12">
+      <div class="acct-tbl " style="border-radius: 15px;">
+        <div class="header d-flex align-items-center">
+          <h5 class="title m-0 ms-2">
+            <img src="" alt=""> <span class="slash">//</span>MAP ACCOUNT
+          </h5>
+          <a type="button" class="close-btn ms-auto me-2" (click)="oncloseMapAccount()"><i
+              class="fa-solid fa-xmark"></i> </a>
+        </div>
+        <div style="background-color: #f5f9f7;">
+          <table>
+            <thead style="background-color: #f5f9f7;">
+              <tr>
+                <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Lender Name in DMS</th>
+                <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Lender Name </th>
+                <th style="box-shadow: inset 0 -5px 0 #2d91f1;">Lender Type </th>
+                <th style="border-right: none;box-shadow: inset 0 -5px 0 #2d91f1;">Lender Category </th>
+                <!-- <th style="border-right: none;"> <span style="display: none;">Standard Mapping </span></th>
+                          <th style="border-right: none;"><span style="display: none;">MTD Amount </span></th>
+                          <th><span style="display: none;">YTD Amount  </span></th> -->
+              </tr>
+            </thead>
+            <tbody style="background-color: #f5f9f7;">
+              <tr>
+                <!-- <td>  <input type="text" class="form-control" style="padding: 0.275rem 0.75rem;"  [(ngModel)]="selectedAccountDetail.DMS_Lender_Text"></td> -->
+
+                <td>{{ selectedAccountDetail.DMS_Lender_Text == null ? '-' : selectedAccountDetail.DMS_Lender_Text}}
+                </td>
+                <td>
+                  <div class="acc-select">
+                    <select class="form-select _dropdwn" (change)="OnLenderNameChange($event.target.value)">
+                      <option>Select</option>
+                      <option *ngFor="let pt of lenders" [selected]="pt.AL_NAME==selectedAccountDetail.LenderName"
+                        [value]="pt.AL_ID">{{pt.AL_NAME}}
+                    </select>
+                  </div>
+                </td>
+                <!-- <td>{{ selectedAccountDetail.LenderName == null ? '-' :  selectedAccountDetail.LenderName}}</td> -->
+                <!-- <td> <div class="acc-select">
+                              <select class="form-select _dropdwn"  >
+                               <option >Select</option>
+                              <option [selected]="pt.LT_ID==selectedAccountDetail.LenderType" [value]="lenderId.LT_ID">{{pt.Type}}
+                                </select>
+                               </div> </td> -->
+                <td>{{ lenderselected[0]?.Type == null ? '-' : lenderselected[0]?.Type}}</td>
+                <td style="border-right: none;">
+                  {{ lenderselected[0]?.Ctaegory == null ? '-' : lenderselected[0]?.Ctaegory}}</td>
+                <!-- <td>{{ selectedAccountDetail?.LenderType == null ? '-' :  selectedAccountDetail?.LenderType}}</td> -->
+                <!-- <td style="border-right: none;">{{ selectedAccountDetail?.Category == null ? '-' :  selectedAccountDetail?.Category}}</td> -->
+                <!-- <td> <div class="acc-select">
+                              <select class="form-select _dropdwn"  >
+                               <option >Select</option>
+                              <option *ngFor="let pt of LenderDropDownCategory" [selected]="pt.LC_ID==selectedAccountDetail.Category" [value]="pt.LC_ID">{{pt.LC_NAME}}
+                                </select>
+                               </div> </td> -->
+              </tr>
+            </tbody>
+          </table>
+          <div style="padding-top: 60px;">
+            <div class="col-12 d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary ms-1"
+                (click)="MapAccountSave(selectedAccountDetail)">Save</button>
+            </div>
+            <!-- <br> -->
+            <div class="col-12 d-flex justify-content-center">
+              <button type="submit" class="btn btn-cancel ms-1" (click)="MapAccountCancel()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+
+<div class="modal fade bd-example-modal-lg" id="warningmessage" tabindex="-1" aria-labelledby="contModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="width: auto;padding-top: 2%;">
+    <div class="modal-content">
+      <div class="modal-body lg">
+        <div class="row" id="Account Mapping"
+          *ngIf="selectedheadertab.indexOf('Expense')>=0 || selectedheadertab.indexOf('Asset')>=0 || selectedheadertab.indexOf('Liability')>=0 || selectedheadertab.indexOf('Equity')>=0 || selectedheadertab.indexOf('GP')>=0 || selectedheadertab.indexOf('ALL')>=0">
+          <div class="col-12">
+            <div class="acct-tbl " style="border-radius: 15px;">
+              <div class="header d-flex align-items-center">
+                <h5 class="title m-0 ms-2">
+                  <img src="" alt=""> <span class="slash">//</span>MAP ACCOUNT
+                </h5>
+                <a type="button" class="close-btn ms-auto me-2" data-bs-dismiss="modal" aria-label="Close"><i
+                    class="fa-solid fa-xmark"></i> </a>
+              </div>
+              <div class="col-6"
+                style="background-color: #f5f9f7;margin:3% 25% !important;border:2px solid #2d91f1;border-radius:10px;max-height:200px;overflow:auto;">
+                <table>
+                  <thead style="background-color: #f5f9f7;">
+                    <tr style="border-right: none;box-shadow: inset 0 -5px 0 #2d91f1;">
+
+                      <th>Store Name</th>
+                      <th>Account Description </th>
+                      <!-- <th>Account Type</th> -->
+                      <th>Account #</th>
+                      <th *ngIf="bulkEditRecords.length>1"></th>
+
+                    </tr>
+                  </thead>
+                  <tbody style="background-color: #f5f9f7;">
+                    <tr *ngFor="let Bulk of bulkEditRecords let i=index">
+                      <td>{{ Bulk.StoreName == null ? '-' : Bulk.StoreName}}</td>
+                      <td>{{ Bulk.AccountDescription == null ? '-' : Bulk.AccountDescription}}</td>
+                      <!-- <td style="text-align: center;">{{  Bulk.AccountType == null ? '-' : Bulk.AccountType}}</td> -->
+                      <td>{{ Bulk.Account == null ? '-' : Bulk.Account}}</td>
+                      <td *ngIf="bulkEditRecords.length>1">
+                        <div class="col-3 d-flex" style="padding-left: 2rem;">
+
+                          <!-- <i class="fa fa-trash" style="color: black;"   (click)="removeignore(i,'map')"></i> -->
+                          <button type="submit" class="btn btn-primary ms-1" style="width: 72px;"
+                            (click)="removeignore(i,'map')">Remove</button>
+                        </div>
+                      </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div style="background-color: #f5f9f7;">
+                <table>
+                  <thead style="background-color: #f5f9f7;">
+                    <tr style="border-right: none;box-shadow: inset 0 -5px 0 #2d91f1;">
+                      <th>Account </th>
+                      <th>Department</th>
+                      <!-- <th>Account</th> -->
+                      <th>Financial Summary</th>
+                    </tr>
+                  </thead>
+                  <tbody style="background-color: #f5f9f7;">
+                    <tr>
+                      <td>
+
+                        <div style=" padding-top: 2px !important">
+                          <label class="StandardMapping">
+                            <span *ngIf="actbal==''" style="color: red;">*</span>
+                            &nbsp; Activity/Balance</label><br>
+                          <div class="acc-select">
+                            <input type="radio" value="Activity" [(ngModel)]="actbal">&nbsp;
+                            <label for="SM_DisplayStatus">Activity</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" value="Balance" [(ngModel)]="actbal">&nbsp;
+                            <label for="SM_DisplayStatus">Balance</label>
+                          </div>
+                        </div>
+                        <br>
+                        <div>
+                          <label class="StandardMapping"><span
+                              *ngIf="(selectedaccounttypedetail=='0' && Aselectedaccounttypedetail==false)||(Dselectedaccounttypedetail=='' && Aselectedaccounttypedetail==true) "
+                              style="color: red;">*</span>Account Type Detail
+                            <span class="AddIcon col-5" style="display: none;">
+                              <a *ngIf="Aselectedaccounttypedetail==false"><i class="fa fa-plus-circle" style="font-size:13px ;color:#2a91f0 ;padding-left: 5px;
+                                            padding-top: 2px;" (click)="AddTextBox('ATD')"></i></a>
+                              <a *ngIf="Aselectedaccounttypedetail==true"><i class="fa fa-minus-circle" style="font-size:13px ;color:#2a91f0 ;padding-left: 5px;
+                                            padding-top: 2px;" (click)="DelTextBox('ATD')"></i></a>
+                            </span>
+                          </label>
+                          <div *ngIf="Aselectedaccounttypedetail==true">
+                            <input type="text" class="form-control textbox" [(ngModel)]="Dselectedaccounttypedetail">
+                          </div>
+                          <div class="acc-select" *ngIf="Aselectedaccounttypedetail==false">
+                            <select class="form-select _dropdwn" style="width:75% !important"
+                              [(ngModel)]="selectedaccounttypedetail"
+                              (change)="OnChange('AT','A','',$event.target.value,'','','AE')">
+                              <option [value]="0"> Select</option>
+                              <option *ngFor="let atd of Accounttypedetail" [value]="atd.Acc_Type_Detail">
+                                {{atd.Acc_Type_Detail}}
+                            </select>
+                          </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div>
+                          <label class="StandardMapping"> <span *ngIf="accounttype=='0' "
+                              style="color: red;">*</span>&nbsp;Account
+                            Type
+                          </label>
+                          <div class="acc-select">
+                            <select class="form-select _dropdwn" style="width:75% !important" [(ngModel)]="accounttype"
+                              (change)="OnChange('OA','DC',$event.target.value,selectedaccounttypedetail,'','','')">
+                              <option [value]="0" disabled>Select</option>
+                              <option *ngFor="let at of Accounttype" [value]="at.Acc_Type">{{at.Acc_Type}}
+                            </select>
+                          </div>
+                        </div>
+                        <br>
+                        <br>
+                        <!-- *ngIf="(departmenttype=='0'&&Adepartmenttype==false )||(Ddepartmenttype==''&& Adepartmenttype==true)" -->
+                        <div>
+                          <label class="StandardMapping"> <span *ngIf="departmenttype=='0'"
+                              style="color: red;">*</span>&nbsp;Operational Area
+                            <span class="AddIcon col-5" style="display: none;">
+                              <a *ngIf="Adepartmenttype==false"><i class="fa fa-plus-circle" style="font-size:13px ;color:#2a91f0 ;padding-left: 6px;
+                                                padding-top: 2px;" (click)="AddTextBox('DC')"></i></a>
+                              <a *ngIf="Adepartmenttype==true"><i class="fa fa-minus-circle" style="font-size:13px ;color:#2a91f0 ;padding-left: 6px;
+                                                padding-top: 2px;" (click)="DelTextBox('DC')"></i></a>
+                            </span>
+                          </label>
+
+                          <div *ngIf="Adepartmenttype==true">
+                            <input type="text" class="form-control textbox" [(ngModel)]="Ddepartmenttype">
+                          </div>
+                          <div class="acc-select" *ngIf="Adepartmenttype==false">
+                            <select class="form-select _dropdwn" style="width:75% !important"
+                              [(ngModel)]="departmenttype">
+                              <option [value]="0">Select</option>
+                              <option *ngFor="let dt of Departmenttype" [value]="dt.Dept_Type">{{dt.Dept_Type}}
+                            </select>
+                          </div>
+                        </div>
+                      </td>
+
+
+                      <td>
+
+                        <div>
+                          <label class="StandardMapping"> <span
+                              *ngIf="(department=='0'&&Adepartmenttype==false )||(Ddepartmenttype==''&& Adepartmenttype==true)"
+                              style="color: red;">*</span>&nbsp;Department
+                            <span class="AddIcon col-5" style="display: none;">
+                              <a *ngIf="Adepartment==false"><i class="fa fa-plus-circle" style="font-size:13px ;color:#2a91f0 ;padding-left: 6px;
+                                                    padding-top: 2px;" (click)="AddTextBox('D')"></i></a>
+                              <a *ngIf="Adepartment==true"><i class="fa fa-minus-circle" style="font-size:13px ;color:#2a91f0 ;padding-left: 6px;
+                                                    padding-top: 2px;" (click)="DelTextBox('D')"></i></a>
+                            </span>
+                          </label>
+                          <div *ngIf="Adepartment==true">
+                            <input type="text" class="form-control textbox" [(ngModel)]="Ddepartment">
+                          </div>
+                          <div class="acc-select" *ngIf="Adepartment==false">
+                            <select class="form-select _dropdwn" style="width:75% !important" [(ngModel)]="department"
+                              (change)="OnChange('ST','S',accounttype,selectedaccounttypedetail,$event.target.value,'','','')">
+                              <option [value]="0">Select</option>
+                              <option *ngFor="let d of Department" [value]="d.Department">{{d.Department}}
+                            </select>
+                          </div>
+                        </div>
+                        <br>
+                        <br>
+
+                        <div>
+
+                          <label class="StandardMapping"> <span
+                              *ngIf="(subtype=='0'&&Asubtype==false)||(Dsubtype==''&& Asubtype==true)"
+                              style="color: red;">*</span>
+                            &nbsp;Sub Type &nbsp;
+                            <span class="AddIcon col-5" style="display: none;">
+                              <a *ngIf="Asubtype==false"><i class="fa fa-plus-circle" style="font-size:13px ;color:#2a91f0 ;padding-left: 6px;
+                                                  padding-top: 2px;" (click)="AddTextBox('ST')"></i></a>
+                              <a *ngIf="Asubtype==true"><i class="fa fa-minus-circle" style="font-size:13px ;color:#2a91f0 ;padding-left: 6px;
+                                                  padding-top: 2px;" (click)="DelTextBox('ST')"></i></a>
+                            </span>
+
+                          </label>
+                          <div *ngIf="Asubtype==true">
+                            <input type="text" class="form-control textbox" [(ngModel)]="Dsubtype">
+                          </div>
+                          <div class="acc-select" *ngIf="Asubtype==false">
+                            <select class="form-select _dropdwn" style="width:75% !important" [(ngModel)]="subtype"
+                              (change)="OnChange('STD','SC',accounttype,selectedaccounttypedetail,department,$event.target.value,'')">
+                              <option [value]="0">Select</option>
+                              <option *ngFor="let pt of Subtype" [value]="pt.Subtype">{{pt.Subtype}}
+                            </select>
+                          </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div>
+                          <label class="StandardMapping"><span
+                              *ngIf="(subtypedetail=='0'&&Asubtypedetail==false )||(Dsubtypedeta==''&& Asubtypedetail==true)"
+                              style="color: red;">*</span>&nbsp;Sub Type Detail
+                            <span class="AddIcon col-5" style="display: none;">
+                              <a *ngIf="Asubtypedetail==false"><i class="fa fa-plus-circle" style="font-size:13px ;color:#2a91f0 ;padding-left: 6px;
+                    padding-top: 2px;" (click)="AddTextBox('STD')"></i></a>
+                              <a *ngIf="Asubtypedetail==true"><i class="fa fa-minus-circle" style="font-size:13px ;color:#2a91f0 ;padding-left: 6px;
+                    padding-top: 2px;" (click)="DelTextBox('STD')"></i></a>
+                            </span>
+                          </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <div *ngIf="Asubtypedetail==true">
+                            <input type="text" class="form-control textbox" [(ngModel)]="Dsubtypedetail">
+                          </div>
+                          <div class="acc-select" *ngIf="Asubtypedetail==false">
+                            <select class="form-select _dropdwn" style="width:75% !important"
+                              [(ngModel)]="subtypedetail">
+                              <option [value]="0">Select</option>
+                              <option *ngFor="let pt of SubtypeDetail" [value]="pt.Subtype_Detail">
+                                {{pt.Subtype_Detail}}
+                            </select>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+
+
+                        <div>
+                          <label class="StandardMapping"> <span
+                              *ngIf=" (Financialsummary.length> 0 && financialsummary=='0' && Afinancialsummary==false)||(Financialsummary.length> 0 &&Dfinancialsummary==''&&Afinancialsummary==true)"
+                              style="color: red;">*</span>&nbsp;Financial Summary
+                            <span class="AddIcon col-5" style="display: none;">
+                              <a *ngIf="Afinancialsummary==false"><i class="fa fa-plus-circle" style="font-size:13px ;color:#2a91f0 ;padding-left: 6px;
+                                                padding-top: 2px;" (click)="AddTextBox('F')"></i></a>
+                              <a *ngIf="Afinancialsummary==true"><i class="fa fa-minus-circle" style="font-size:13px ;color:#2a91f0 ;padding-left: 6px;
+                                                padding-top: 2px;" (click)="DelTextBox('F')"></i></a>
+                            </span>
+                          </label>
+                          <div *ngIf="Afinancialsummary==true">
+                            <input type="text" class="form-control textbox" [(ngModel)]="Dfinancialsummary">
+                          </div>
+                          <div class="acc-select" *ngIf="Afinancialsummary==false">
+                            <select class="form-select _dropdwn" style="width:75% !important"
+                              [(ngModel)]="financialsummary">
+                              <option [value]="0">Select</option>
+                              <option *ngFor="let fs of Financialsummary" [value]="fs.Fin_summary">
+                                {{fs.Fin_summary}}
+                            </select>
+
+
+                          </div>
+                        </div>
+
+
+                        <!-- <label class="StandardMapping"> <span
+                            *ngIf="departmentbody=='0'"
+                            style="color: red;">*</span>
+                          &nbsp;Department Body
+
+                        </label>
+
+                        <div class="acc-select" >
+                          <select class="form-select _dropdwn" style="width:75% !important" [(ngModel)]="departmentbody"
+                            (change)="OnChange($event.target.value,'DB')">
+                            <option [value]="0">Select</option>
+                            <option *ngFor="let db of Departmentbody" [value]="db.Dept_Body">
+                              {{db.Dept_Body}}
+                          </select>
+                        </div> -->
+
+                        <!-- <div  style=" padding-top: 2px !important">
+                                <label class="StandardMapping">
+
+                                &nbsp; Body Shop</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div  class="acc-select">
+                                <input type="radio" value="Yes" [(ngModel)]="departmentbody" >&nbsp;
+                                <label for="SM_DisplayStatus">Yes</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="radio" value="No" [(ngModel)]="departmentbody"  >&nbsp;
+                                <label for="SM_DisplayStatus">No</label>
+                              </div>
+                            </div> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div style="padding-top: 60px;">
+                  <div class="col-12 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary ms-1"
+                      (click)="BulkMapAccountSave(Alert,confirm)">Save</button>
+                  </div>
+                  <!-- <br> -->
+                  <div class="col-12 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-cancel ms-1" id="close" data-bs-dismiss="modal"
+                      aria-label="Close">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="BulkRevertwarnmsg" tabindex="-1" aria-labelledby="contModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="width: auto;padding-top: 2%;">
+    <div class="modal-content">
+      <div class="modal-body lg">
+        <div class="row"
+          *ngIf="selectedheadertab.indexOf('Expense')>=0 || selectedheadertab.indexOf('Asset')>=0 || selectedheadertab.indexOf('Liability')>=0 || selectedheadertab.indexOf('Equity')>=0 || selectedheadertab.indexOf('GP')>=0 ||selectedheadertab.indexOf('ALL')>=0">
+          <div class="col-12">
+            <div class="acct-tbl " style="border-radius: 15px;">
+              <div class="header d-flex align-items-center">
+                <h5 class="title m-0 ms-2">
+                  <img src="" alt=""> <span class="slash">//</span>BULK REVERT
+                </h5>
+                <a type="button" class="close-btn ms-auto me-2" data-bs-dismiss="modal" aria-label="Close"><i
+                    class="fa-solid fa-xmark"></i> </a>
+              </div>
+              <div class="col-6"
+                style="background-color: #f5f9f7;margin:3% 25% !important;border:2px solid #2d91f1;border-radius:10px;max-height:200px;overflow:auto;">
+                <table>
+                  <thead style="background-color: #f5f9f7;">
+                    <tr style="border-right: none;box-shadow: inset 0 -5px 0 #2d91f1;">
+
+                      <th>Store Name</th>
+                      <th>Account Description </th>
+                      <th>Account Type</th>
+                      <th>Account #</th>
+                      <th *ngIf="bulkEditRecords.length>1"></th>
+                      <!-- <th >Map Status </th> -->
+                      <!-- <th>Account Type</th>
+                                      <th> Standard Mapping </th>
+                                      <th>YTD Amount </th> -->
+                    </tr>
+                  </thead>
+                  <tbody style="background-color: #f5f9f7;">
+                    <tr *ngFor="let Bulk of bulkEditRecords let i=index">
+                      <td>{{ Bulk.StoreName == null ? '-' : Bulk.StoreName}}</td>
+                      <td>{{ Bulk.AccountDescription == null ? '-' : Bulk.AccountDescription}}</td>
+                      <td style="text-align: center;">{{ Bulk.AccountType == null ? '-' : Bulk.AccountType}}</td>
+                      <td>{{ Bulk.Account == null ? '-' : Bulk.Account}}</td>
+                      <td *ngIf="bulkEditRecords.length>1">
+                        <div class="col-2 d-flex" style="padding-left: 2rem;">
+
+                          <!-- <i class="fa fa-trash" style="color: black;"   (click)="removeignore(i,'map')"></i> -->
+                          <button type="submit" class="btn btn-primary ms-1" style="width: 72px;"
+                            (click)="removeignore(i,'ignore')">Remove</button>
+                        </div>
+                      </td>
+                      <!-- <td >{{  Bulk.AccountType == null ? '-' :  Bulk.AccountType}}</td>
+                                    <td>-</td>
+                                      <td>-</td> -->
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+
+              <div style="padding-top: 60px;">
+                <div class="col-12 d-flex justify-content-center">
+                  <button type="submit" class="btn btn-primary ms-1"
+                    (click)="BulkMapAccountSave('','','BulkRevert',bulkrevertconfirmtemp)">Save</button>
+                </div>
+                <!-- <br> -->
+                <div class="col-12 d-flex justify-content-center">
+                  <button type="submit" class="btn btn-cancel ms-1" id="closethree" data-bs-dismiss="modal"
+                    aria-label="Close">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="ignorewarnmsg" tabindex="-1" aria-labelledby="contModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="width: auto;padding-top: 2%;">
+    <div class="modal-content">
+      <div class="modal-body lg">
+        <div class="row" id="ignorewarnmsg"
+          *ngIf="selectedheadertab.indexOf('Expense')>=0 || selectedheadertab.indexOf('Asset')>=0 || selectedheadertab.indexOf('Liability')>=0 || selectedheadertab.indexOf('Equity')>=0 || selectedheadertab.indexOf('GP')>=0 ||selectedheadertab.indexOf('ALL')>=0">
+          <div class="col-12">
+            <div class="acct-tbl " style="border-radius: 15px;">
+              <div class="header d-flex align-items-center">
+                <h5 class="title m-0 ms-2">
+                  <img src="" alt=""> <span class="slash">//</span>IGNORE
+                </h5>
+                <a type="button" class="close-btn ms-auto me-2" data-bs-dismiss="modal" aria-label="Close"><i
+                    class="fa-solid fa-xmark"></i> </a>
+              </div>
+              <div class="col-6"
+                style="background-color: #f5f9f7;margin:3% 25% !important;border:2px solid #2d91f1;border-radius:10px;max-height:200px;overflow:auto;">
+                <table>
+                  <thead style="background-color: #f5f9f7;">
+                    <tr style="border-right: none;box-shadow: inset 0 -5px 0 #2d91f1;">
+
+                      <th>Store Name </th>
+                      <th>Account Description </th>
+                      <th>Account Type</th>
+                      <th>Account #</th>
+                      <th *ngIf="bulkEditRecords.length>1"></th>
+                      <!-- <th >Map Status </th> -->
+                      <!-- <th>Account Type</th>
+                                      <th> Standard Mapping </th>
+                                      <th>YTD Amount </th> -->
+                    </tr>
+                  </thead>
+                  <tbody style="background-color: #f5f9f7;">
+                    <tr *ngFor="let Bulk of bulkEditRecords let i=index">
+                      <td>{{ Bulk.StoreName == null ? '-' : Bulk.StoreName}} </td>
+                      <td>{{ Bulk.AccountDescription == null ? '-' : Bulk.AccountDescription}}</td>
+                      <td style="text-align: center;">{{ Bulk.AccountType == null ? '-' : Bulk.AccountType}}</td>
+                      <td>{{ Bulk.Account == null ? '-' : Bulk.Account}}</td>
+                      <td *ngIf="bulkEditRecords.length>1">
+                        <div class="col-2 d-flex" style="padding-left: 2rem;">
+
+                          <!-- <i class="fa fa-trash" style="color: black;" (click)="removeignore(i,'ignore')"></i> -->
+                          <button type="submit" class="btn btn-primary ms-1" style="width: 72px;"
+                            (click)="removeignore(i,'ignore')">Remove</button>
+                        </div>
+                      </td>
+                      <!-- <td >{{  Bulk.AccountType == null ? '-' :  Bulk.AccountType}}</td>
+                                    <td>-</td>
+                                      <td>-</td> -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div style="background-color: #f5f9f7;">
+                <div style="padding-top: 60px;">
+                  <div class="col-12 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary ms-1"
+                      (click)="BulkIgnoreSave(Ignoreconfirm)">Ignore</button>
+                  </div>
+                  <!-- <br> -->
+                  <div class="col-12 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-cancel ms-1" id="closeone" data-bs-dismiss="modal"
+                      aria-label="Close">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #Alert let-modal>
+
+  <!-- <span style="font-size: medium;padding: 12px;background-color: rgb(196, 40, 40);"  (click)="MapAccountCancel()">&nbsp;&nbsp;asfdsgfdhg</span> -->
+  <div class="row" id="Account Mapping" style="width: 33%;margin-left: 33%;
+                padding-top: 18%;"
+    *ngIf="selectedheadertab.indexOf('Expense')>=0 || selectedheadertab.indexOf('Asset')>=0 || selectedheadertab.indexOf('Liability')>=0 || selectedheadertab.indexOf('Equity')>=0 || selectedheadertab.indexOf('GP')>=0 ||selectedheadertab.indexOf('ALL')>=0">
+    <div class="col-12">
+      <div class="acct-tbl " style="border-radius: 15px;border:1px solid  #2b91f0">
+        <div class="header d-flex align-items-center">
+          <h5 class="title m-0 ms-2">
+            <img src="" alt=""> <span class="slash">//</span>Warnings
+          </h5>
+          <a type="button" class="close-btn ms-auto me-2" (click)="onclose()"><i class="fa-solid fa-xmark"></i> </a>
+        </div>
+        <!-- <div  class="col-6"style="background-color: #f5f9f7;margin:3% 25% !important;border:2px solid #2d91f1;border-radius:10px;max-height:200px;overflow:auto;">
+
+                          </div> -->
+
+
+        <div style="background-color: white;text-align: left;padding-left: 67px;">
+
+          <div style="padding-top: 10px;">
+            <div style="color:red"
+              *ngIf="selectedaccounttypedetail=='0' && submitted==true && Aselectedaccounttypedetail==false ">
+              Select Account Type Detail
+            </div>
+            <div style="color:red;" *ngIf="accounttype=='0' && submitted==true">
+              Select Account Type
+            </div>
+
+
+
+            <div style="color:red" *ngIf="departmenttype=='0' && submitted==true &&Adepartmenttype==false">
+              Select Operational Area
+            </div>
+            <div style="color:red" *ngIf="department=='0' && submitted==true&& Adepartment==false">
+              Select Department
+            </div>
+
+            <div style="color:red" *ngIf="actbal=='' && submitted==true  ">
+              Select Activity/Balance
+            </div>
+
+            <div style="color:red" *ngIf="subtype=='0' && submitted==true &&Asubtype==false">
+              Select Subtype
+            </div>
+            <div style="color:red" *ngIf="subtypedetail=='0' && submitted==true&& Asubtypedetail==false">
+              Select SubtypeDetail
+            </div>
+            <div style="color:red"
+              *ngIf="financialsummary=='0' && submitted==true&& Financialsummary.length>0 &&Afinancialsummary==false">
+              Select Financial Summary
+            </div>
+
+
+
+            <div style="color:red"
+              *ngIf="Dselectedaccounttypedetail=='' && submitted==true && Aselectedaccounttypedetail==true ">
+              Enter Account Type Detail
+            </div>
+
+            <div style="color:red" *ngIf="Ddepartment=='' && submitted==true&& Adepartment==true">
+              Enter Department
+            </div>
+            <div style="color:red" *ngIf="Ddepartmenttype=='' && submitted==true &&Adepartmenttype==true">
+              Enter Operational Area
+            </div>
+
+
+
+            <div style="color:red" *ngIf="Dsubtype=='' && submitted==true &&Asubtype==true">
+              Enter Subtype
+            </div>
+            <div style="color:red" *ngIf="Dsubtypedetail=='' && submitted==true&& Asubtypedetail==true">
+              Enter SubtypeDetail
+            </div>
+            <div style="color:red"
+              *ngIf="Dfinancialsummary=='' && submitted==true && Financialsummary.length>0 && Afinancialsummary==true">
+              Enter Financial Summary
+            </div>
+
+            <br>
+            <br>
+            <div class="col-12 d-flex justify-content-center" style="padding-right:80px ;">
+              <button type="submit" class="btn btn-primary ms-1" (click)="MapAccountCancel()" style="width: fit-content;
+                                 height: 35px;  color: #fff;  text-align: center;
+                                 border-radius: 25px;font-size: 0.9rem;font-family:Roboto; padding: 0 4rem;
+                                 margin-top: 1rem; border: none;margin-left: auto;">OK</button>
+            </div>
+            <br>
+
+            <!-- <br> -->
+            <!-- <div class="col-12 d-flex justify-content-center">
+                                 <button type="submit" class="btn btn-cancel ms-1" (click)="MapAccountCancel()">Cancel</button>
+                               </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #confirm let-modal>
+  <!-- <span style="font-size: medium;padding: 12px;background-color: rgb(196, 40, 40);"  (click)="MapAccountCancel()">&nbsp;&nbsp;asfdsgfdhg</span> -->
+  <div class="row" id="Account Mapping" style="width: 43%;margin-left: 28%;
+      padding-top: 20%;"
+    *ngIf="selectedheadertab.indexOf('Expense')>=0 || selectedheadertab.indexOf('Asset')>=0 || selectedheadertab.indexOf('Liability')>=0 || selectedheadertab.indexOf('Equity')>=0 || selectedheadertab.indexOf('GP')>=0 ||selectedheadertab.indexOf('ALL')>=0">
+    <div class="col-12">
+      <div class="acct-tbl " style="border-radius: 15px;border:1px solid  #2b91f0">
+        <div style="background-color: white;padding-left: 12px; padding-top: 10%;">
+
+          <div>
+            <p>Are You Sure Do You Want To Save This?</p>
+          </div>
+          <div>
+            <div class="col-12 d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary ms-1" (click)="save()">Save</button>
+            </div>
+          </div>
+          <div class="col-12 d-flex justify-content-center">
+            <button type="submit" class="btn btn-cancel ms-1" id="close" data-bs-dismiss="modal" aria-label="Close"
+              (click)="onclose()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #Ignoreconfirm let-modal>
+  <div class="row" id="Account Mapping" style="width: 43%;margin-left: 28%;
+      padding-top: 20%;"
+    *ngIf="selectedheadertab.indexOf('Expense')>=0 || selectedheadertab.indexOf('Asset')>=0 || selectedheadertab.indexOf('Liability')>=0 || selectedheadertab.indexOf('Equity')>=0 || selectedheadertab.indexOf('GP')>=0 ||selectedheadertab.indexOf('ALL')>=0">
+    <div class="col-12">
+      <div class="acct-tbl " style="border-radius: 15px;border:1px solid  #2b91f0">
+        <!-- <div class="header d-flex align-items-center">
+            <h5 class="title m-0 ms-2">
+              <img src="" alt=""> <span class="slash">//</span>Condirm
+            </h5>
+            <!-- <a type="button" class="close-btn ms-auto me-2" (click)="onclose()"><i class="fa-solid fa-xmark"></i> </a> -->
+        <!-- </div> -->
+        <!-- <div  class="col-6"style="background-color: #f5f9f7;margin:3% 25% !important;border:2px solid #2d91f1;border-radius:10px;max-height:200px;overflow:auto;">
+
+                </div> -->
+
+
+        <div style="background-color: white;padding-left: 12px; padding-top: 10%;">
+
+          <div>
+            <p>Are You Sure Do You Want To Ignore This?</p>
+          </div>
+          <div>
+            <div class="col-12 d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary ms-1" (click)="Ignoresave()">Save</button>
+            </div>
+          </div>
+          <div class="col-12 d-flex justify-content-center">
+            <button type="submit" class="btn btn-cancel ms-1" id="close" data-bs-dismiss="modal" aria-label="Close"
+              (click)="onclose()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #revert let-modal>
+  <!-- <span style="font-size: medium;padding: 12px;background-color: rgb(196, 40, 40);"  (click)="MapAccountCancel()">&nbsp;&nbsp;asfdsgfdhg</span> -->
+  <div class="row" id="Account Mapping" style="width: 43%;margin-left: 28%;
+      padding-top: 20%;"
+    *ngIf="selectedheadertab.indexOf('Expense')>=0 || selectedheadertab.indexOf('Asset')>=0 || selectedheadertab.indexOf('Liability')>=0 || selectedheadertab.indexOf('Equity')>=0 || selectedheadertab.indexOf('GP')>=0 ||selectedheadertab.indexOf('ALL')>=0">
+    <div class="col-12">
+      <div class="acct-tbl " style="border-radius: 15px;border:1px solid  #2b91f0">
+        <div style="background-color: white;padding-left: 12px; padding-top: 10%;">
+
+          <div>
+            <p>Are You Sure Do You Want To Revert This? </p>
+          </div>
+          <div>
+            <div class="col-12 d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary ms-1" (click)="revertsave()">Save</button>
+            </div>
+          </div>
+          <div class="col-12 d-flex justify-content-center">
+            <button type="submit" class="btn btn-cancel ms-1" id="close" data-bs-dismiss="modal" aria-label="Close"
+              (click)="onclose()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #bulkrevertconfirmtemp let-modal>
+  <!-- <span style="font-size: medium;padding: 12px;background-color: rgb(196, 40, 40);"  (click)="MapAccountCancel()">&nbsp;&nbsp;asfdsgfdhg</span> -->
+  <div class="row" id="bulkrevertconfirmtemp" style="width: 43%;margin-left: 28%;
+      padding-top: 20%;"
+    *ngIf="selectedheadertab.indexOf('Expense')>=0 || selectedheadertab.indexOf('Asset')>=0 || selectedheadertab.indexOf('Liability')>=0 || selectedheadertab.indexOf('Equity')>=0 || selectedheadertab.indexOf('GP')>=0||selectedheadertab.indexOf('ALL')>=0">
+    <div class="col-12">
+      <div class="acct-tbl " style="border-radius: 15px;border:1px solid  #2b91f0">
+        <div style="background-color: white;padding-left: 12px; padding-top: 10%;">
+
+          <div>
+            <p>Are You Sure Do You Want To Revert This? </p>
+          </div>
+          <div>
+            <div class="col-12 d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary ms-1" (click)="bulkrevertsave()">Save</button>
+            </div>
+          </div>
+          <div class="col-12 d-flex justify-content-center">
+            <button type="submit" class="btn btn-cancel ms-1" id="close" data-bs-dismiss="modal" aria-label="Close"
+              (click)="onclose()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- <button id="validation" [hidden]='true' data-bs-toggle="modal" data-bs-target="#alert" > </button> -->

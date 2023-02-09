@@ -1,0 +1,177 @@
+<div class="container-fluid d-flex justify-content-center align-items-center">
+    <div class="gross-popup">
+        <div class="header d-flex align-items-center">
+            <h5 class="title m-0 ms-2">
+                <img src="" alt=""> <span class="slash">//</span>{{SRDetails.STORE_NAME}}
+            </h5>
+            <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i class="fa-solid fa-xmark"></i> </a>
+        </div>
+        <div class="loading">
+            <div class="loader" *ngIf="spinnerLoader"></div>
+        </div>
+
+
+        <div class="content" [ngStyle]="{'height': spinnerLoader == true ? '240px' : '' }">
+            <div class="d-flex" style="width: 100%;">
+                <div class="deal-tbl" (mouseenter)="updateCurrentElement('scrollOne')"
+                    (scroll)="updateVerticalScroll($event)" #scrollOne>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Deal #</th>
+                                <th>Date</th>
+                                <th>Customer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let SRD of SRSalesPersonDetails">
+                                <td>
+                                    {{ (SRD.DealNo == 0 || SRD.DealNo == null || SRD.DealNo == undefined ? '-' :
+                                    SRD.DealNo ) }}
+                                </td>
+                                <td>
+                                    {{ (SRD.Date == 0 || SRD.Date == null || SRD.Date == undefined ? '-' :
+                                    SRD.Date | date:'MM.dd.yyyy' ) }}
+                                </td>
+                                <td title="{{SRD.Customer}}" style="cursor: default;"> {{(SRD.Customer == undefined ||
+                                    SRD.Customer == null ? '--' : (
+                                    (SRD.Customer.toString() | slice:0:20) +
+                                    (SRD.Customer.toString().length > 20 ? '...' : '') ))}}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="gross-tbl-scroll" (mouseenter)="updateCurrentElement('scrollTwo')"
+                    (scroll)="updateVerticalScroll($event)" #scrollTwo>
+                    <table class="table table-borderless gross-tbl">
+                        <thead>
+                            <tr>
+                                <th colspan="4" style=" border-right: 2px solid #edf1f4;">Transaction</th>
+                                <th colspan="4" style=" border-right: 2px solid #edf1f4;">Accounting</th>
+                                <th colspan="4" style=" border-right: 2px solid #edf1f4;">Difference</th>
+                            </tr>
+                            <tr>
+                                <th class="Main_td">Units</th>
+                                <th class="Main_td">Front Gross</th>
+                                <th class="Main_td">Back Gross</th>
+                                <th class="Main_td">Total Gross</th>
+
+                                <th class="Main_td">Units</th>
+                                <th class="Main_td">Front Gross</th>
+                                <th class="Main_td">Back Gross</th>
+                                <th class="Main_td">Total Gross</th>
+
+                                <th class="Main_td">Units</th>
+                                <th class="Main_td">Front Gross</th>
+                                <th class="Main_td">Back Gross</th>
+                                <th class="Main_td">Total Gross</th>
+                            </tr>
+                            <!-- <tr>
+                  <td class="Main_td">Gross</td>
+                  <td class="Main_td">Gross</td>
+                  <td class="Main_td">Gross</td>
+                  <td class="Main_td">1</td>
+                  <td class="Main_td">2</td>
+                  <td class="Main_td">Mgr.</td>
+                  <td class="Main_td">Mgr.</td>
+                  <td class="Main_td">Reserve</td>
+                  <td class="Main_td">Count</td>
+                  <td style="display: none;">Product 1</td>
+                  <td style="display: none;">Product 2</td>
+                  <td>VSC</td>
+                  <td>Exec Shield </td>
+                  <td>Max  Shield</td>
+                  <td>GAP </td>
+                  <td>PWC</td>
+                  <td>Maintenance Plan </td>
+                  <td>Lease Care</td>
+                  <td>Total Care </td>
+                  <td>Clear Shield </td>
+                </tr> -->
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let SRD of SRSalesPersonDetails">
+                                <td>
+                                    {{ (SRD.Sale_Units == 0 || SRD.Sale_Units == null || SRD.Sale_Units == undefined ?
+                                    '-' :
+                                    SRD.Sale_Units | number) }}
+                                </td>
+                                <td>
+                                    {{ (SRD.Sale_Frontgross == 0 || SRD.Sale_Frontgross == null || SRD.Sale_Frontgross
+                                    == undefined ? '-' : SRD.Sale_Frontgross |
+                                    currency:'USD':'symbol':'1.0-0' ) }}
+                                </td>
+                                <td>
+                                    {{ (SRD.Sale_Backgross == 0 || SRD.Sale_Backgross == null || SRD.Sale_Backgross ==
+                                    undefined ? '-' :
+                                    SRD.Sale_Backgross | currency:'USD':'symbol':'1.0-0' ) }}
+                                </td>
+                                <td>
+                                    {{ (SRD.Sale_Totalgross == 0 || SRD.Sale_Totalgross == null || SRD.Sale_Totalgross
+                                    == undefined ? '-' :
+                                    SRD.Sale_Totalgross | currency:'USD':'symbol':'1.0-0' ) }}
+                                </td>
+
+
+                                <td>
+                                    {{ (SRD.Acct_Units == 0 || SRD.Acct_Units == null || SRD.Acct_Units == undefined ?
+                                    '-' :
+                                    SRD.Acct_Units | number ) }}
+                                </td>
+                                <td>
+                                    {{ (SRD.Acct_Frontgross == 0 || SRD.Acct_Frontgross == null || SRD.Acct_Frontgross
+                                    == undefined ? '-' : SRD.Acct_Frontgross |
+                                    currency:'USD':'symbol':'1.0-0' ) }}
+                                </td>
+                                <td>
+                                    {{ (SRD.Acct_Backgross == 0 || SRD.Acct_Backgross == null || SRD.Acct_Backgross ==
+                                    undefined ? '-' :
+                                    SRD.Acct_Backgross | currency:'USD':'symbol':'1.0-0' ) }}
+                                </td>
+                                <td>
+                                    {{ (SRD.Acct_Totalgross == 0 || SRD.Acct_Totalgross == null || SRD.Acct_Totalgross
+                                    == undefined ? '-' :
+                                    SRD.Acct_Totalgross | currency:'USD':'symbol':'1.0-0' ) }}
+                                </td>
+
+
+                                <td>
+                                    {{ (SRD.Diff_Units == 0 || SRD.Diff_Units == null || SRD.Diff_Units == undefined ?
+                                    '-' :
+                                    SRD.Diff_Units | number ) }}
+                                </td>
+                                <td>
+                                    {{ (SRD.Diff_Frontgross == 0 || SRD.Diff_Frontgross == null || SRD.Diff_Frontgross
+                                    == undefined ? '-' : SRD.Diff_Frontgross |
+                                    currency:'USD':'symbol':'1.0-0' ) }}
+                                </td>
+                                <td>
+                                    {{ (SRD.Diff_Backgross == 0 || SRD.Diff_Backgross == null || SRD.Diff_Backgross ==
+                                    undefined ? '-' :
+                                    SRD.Diff_Backgross | currency:'USD':'symbol':'1.0-0' ) }}
+                                </td>
+                                <td>
+                                    {{ (SRD.Diff_Totalgross == 0 || SRD.Diff_Totalgross == null || SRD.Diff_Totalgross
+                                    == undefined ? '-' :
+                                    SRD.Diff_Totalgross | currency:'USD':'symbol':'1.0-0' ) }}
+                                </td>
+
+                                <!-- CLEARSHIELD_Dollar -->
+                                <div class="loader" style="margin-top: 30%;margin-left: 30%;" *ngIf="spinnerLoadersec">
+                                </div>
+
+                            </tr>
+                            <tr *ngIf="NoData">
+                                <td colspan="12">No Data Found!!!</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

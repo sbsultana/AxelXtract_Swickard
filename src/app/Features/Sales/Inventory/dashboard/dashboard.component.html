@@ -1,0 +1,532 @@
+<ngx-spinner  bdColor="rgba(51,51,51,0.8)"  size="medium"  color="white"  type="ball-fussion">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>
+<!-- <app-header></app-header>
+<div class="Refresh">Updated: 06/08/22 07:35 AM<img src="../../../assets/images/refresh_icon.png" alt=""> </div> -->
+<div class="container-fluid pe-0 mt-1" style="display: none;">
+    <div class="col-12">
+        <div class="d-flex" >
+            <div class="gross-tbl table-responsive">
+            <table>
+                <thead style="cursor: pointer;" (click)="openMenu()" >
+                    <tr>
+                        <th rowspan="2">{{FromDate |date:'MMMM'}}</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">{{FromDate |date:'dd'}}-{{ToDate |date:'dd'}}, {{FromDate | date:'yyyy'}}</th>
+                    </tr>
+                </thead>
+                <!-- <br><br> -->
+                <tbody *ngFor="let SalesInfo of SalesData; let i=index" >
+                    <tr class="title" [id]="'D_'+i" >
+                        <td>
+                            <span style="float: left; margin-right: .5rem; color: #363b4f;" (click)="expandorcollapse(i,$event,SalesInfo.Dealer,SalesInfo)" [id]="'D_'+i">{{SalesInfo.Dealer}}</span>
+                       
+                            <span [id]="'D_'+i" title="{{SalesInfo.Name}}" (click)="expandorcollapse(i,$event,SalesInfo.Dealer,SalesInfo)"
+                            > {{(SalesInfo.DealerName == undefined ? '--' : ( (SalesInfo.DealerName.toString() | slice:0:22) +
+                            (SalesInfo.DealerName.toString().length > 22 ? '...' : '') ))}} </span>
+                        </td>
+                    </tr>
+        
+                    <tr class="sub-title" *ngIf="SalesInfo.New.length>0" [id]="'DN_'+i" [ngClass]="{'hidden': SalesInfo.Dealer === '+'}">
+                        <td>  
+                            <span style="float: left; margin-right: 0.8rem; color: #363b4f;" (click)="expandorcollapse(i,$event,SalesInfo.NewDealer,SalesInfo)" [id]="'DN_'+i" [ngClass]="{'disable': SalesInfo.DealerName === 'Reports Total'}">{{SalesInfo.NewDealer}}</span>
+                         <span (click)="expandorcollapse(i,$event,SalesInfo.NewDealer,SalesInfo)" [id]="'DN_'+i">  NEW </span>                        
+                        </td>
+                    </tr>
+                    <tr *ngFor="let NewUser of SalesInfo.Newbysalesperson" [id]="'DNS_'+i" [ngClass]="{'hidden': SalesInfo.Dealer === '+' || SalesInfo.NewDealer === '+' }">
+                        <td (click)="openDetails(NewUser,SalesInfo, 'N')"> 
+                            <span style="margin-right: 1.5rem;"></span>
+                            <span title="{{NewUser.spname}}">{{(NewUser.spname == undefined ? '--' : ( (NewUser.spname.toString() | slice:0:15) +
+                                (NewUser.spname.toString().length > 15 ? '...' : '') ))}}</span>
+                            <!-- <span>  {{(NewUser.spname == undefined ? '-' : NewUser.spname)}} </span> -->
+                        </td>
+                    </tr>
+                   
+                    <tr class="sub-title" *ngIf="SalesInfo.Used.length>0" [id]="'DU_'+i" [ngClass]="{'hidden': SalesInfo.Dealer === '+'}">
+                        <td>
+                            <span style="float: left; margin-right: 0.8rem; color: #363b4f;" (click)="expandorcollapse(i,$event,SalesInfo.UsedDealer,SalesInfo)" [id]="'DU_'+i" [ngClass]="{'disable': SalesInfo.DealerName === 'Reports Total'}">{{SalesInfo.UsedDealer}}</span>                            
+                        <span (click)="expandorcollapse(i,$event,SalesInfo.UsedDealer,SalesInfo)" [id]="'DU_'+i">    USED</span>
+                        </td> 
+                    </tr>
+                    <tr *ngFor="let UsedUser of SalesInfo.Usedbysalesperson" [id]="'DUS_'+i" [ngClass]="{'hidden':  SalesInfo.Dealer === '+' || SalesInfo.UsedDealer === '+'}">
+                        <td (click)="openDetails(UsedUser,SalesInfo, 'U')">
+                           <span style="margin-right: 1.5rem;"></span>
+                           <span title="{{UsedUser.spname}}">{{(UsedUser.spname == undefined ? '--' : ( (UsedUser.spname.toString() | slice:0:15) +
+                            (UsedUser.spname.toString().length > 15 ? '...' : '') ))}}</span>
+                           <!-- <span> {{(UsedUser.spname == undefined ? '-' : UsedUser.spname)}} </span> -->
+                           </td>
+                    </tr>
+                    <tbody>
+                </table>
+            </div>
+            <div class="sec-tbl table-responsive">
+                <table>
+                    <thead *ngIf="SalesData.length>0 ;">
+                        <tr>
+                            <th rowspan="2"></th>
+                            <th colspan="5" style="border-right: 2px solid #e0e1e2;">Units</th>
+                            <th colspan="5" style="border-right: 2px solid #e0e1e2;">Front Gross</th>
+                            <th colspan="5" style="border-right: 2px solid #e0e1e2;">Back Gross</th>
+                            <th colspan="5" style="border-right: 2px solid #e0e1e2;">Total Gross</th>
+                            
+                        </tr>
+                        <tr>
+                            <th id="DataHead1"></th>
+                            <th id="DataHead2">MTD</th>
+                            <th id="DataHead3">Pace</th>
+                            <th id="DataHead4">Target</th>
+                            <th id="DataHead5">+/-</th>
+                            <th id="DataHead6">Per Day</th>
+                    
+                            <th id="DataHead7">MTD</th>
+                            <th id="DataHead8">Pace</th>
+                            <th id="DataHead9">Target</th>
+                            <th id="DataHead10">+/-</th>
+                            <th id="DataHead11">PVR</th>
+                    
+                            <th id="DataHead12">MTD</th>
+                            <th id="DataHead13">Pace</th>
+                            <th id="DataHead14">Target</th>
+                            <th id="DataHead15">+/-</th>
+                            <th id="DataHead16">PVR</th>
+                    
+                            <th id="DataHead17">MTD</th>
+                            <th id="DataHead18">Pace</th>
+                            <th id="DataHead19">Target</th>
+                            <th id="DataHead20">+/-</th>
+                            <th id="DataHead21">PVR</th>
+             
+                        </tr>
+                    </thead>
+                    <!-- <br><br> -->
+                    <tbody *ngFor="let SalesInfo of SalesData; let i=index">
+                        <tr  
+                        [ngClass]="{'title' : i % 2 == 0 , 'titleOdd' : i % 2 != 0 , 'Selectedrow': SalesInfo.Dealer === '-', 'divBold': SalesInfo.DealerName === 'Reports Total'}"
+                        [id]="'DV_'+i">
+                            <td id="DataBody1"> <span>&nbsp;</span></td>
+                            <td id="DataBody2">{{ SalesInfo.dealcount == 0 ? '-' : SalesInfo.dealcount  | number}}</td>
+                            <td id="DataBody3">{{ SalesInfo.Pace == 0 ? '-' : SalesInfo.Pace  | number}}</td>
+                            <td id="DataBody4">{{ SalesInfo.Target == 0 ? '-' : SalesInfo.Target  | number}}</td>
+                            <td id="DataBody5" [ngClass]="{ negative: !inTheGreen(SalesInfo.Diff)}">{{ SalesInfo.Diff == 0 ? '-' : SalesInfo.Diff  | number}}</td>
+                            <td id="DataBody6">{{ SalesInfo.PerDay == 0 ? '-' : SalesInfo.PerDay | number:'1.1-2'}}</td>
+                            <td id="DataBody7" [ngClass]="{ negative: !inTheGreen(SalesInfo.totalfrontgross)}"> {{ (SalesInfo.totalfrontgross == 0 ? '-' : SalesInfo.totalfrontgross |currency:'USD':'symbol':'1.0-0') }}</td>
+                            <td id="DataBody8" [ngClass]="{ negative: !inTheGreen(SalesInfo.FrontGrossPace)}">{{ (SalesInfo.FrontGrossPace == 0 ? '-' : SalesInfo.FrontGrossPace  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td id="DataBody9" [ngClass]="{ negative: !inTheGreen(SalesInfo.FrontGrossTarget)}"> {{ (SalesInfo.FrontGrossTarget == 0 ? '-' : SalesInfo.FrontGrossTarget |currency:'USD':'symbol':'1.0-0') }}</td>
+                            <td id="DataBody10" [ngClass]="{ negative: !inTheGreen(SalesInfo.FrontGrossTargetdiff)}">{{ (SalesInfo.FrontGrossTargetdiff == 0 ? '-' : SalesInfo.FrontGrossTargetdiff  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td id="DataBody11" [ngClass]="{ negative: !inTheGreen(SalesInfo.FrontGrossPVR)}">{{ (SalesInfo.FrontGrossPVR == 0 ? '-' : SalesInfo.FrontGrossPVR  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                            <td id="DataBody12" [ngClass]="{ negative: !inTheGreen(SalesInfo.BackGrossTotal)}">{{ (SalesInfo.BackGrossTotal == 0 ? '-' : SalesInfo.BackGrossTotal  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td id="DataBody13" [ngClass]="{ negative: !inTheGreen(SalesInfo.BackGrossPace)}">{{ (SalesInfo.BackGrossPace == 0 ? '-' : SalesInfo.BackGrossPace  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td id="DataBody14" [ngClass]="{ negative: !inTheGreen(SalesInfo.BackGrossTarget)}">{{ (SalesInfo.BackGrossTarget == 0 ? '-' : SalesInfo.BackGrossTarget  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td id="DataBody15" [ngClass]="{ negative: !inTheGreen(SalesInfo.BackGrossTargetdiff)}">{{ (SalesInfo.BackGrossTargetdiff == 0 ? '-' : SalesInfo.BackGrossTargetdiff  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td id="DataBody16" [ngClass]="{ negative: !inTheGreen(SalesInfo.BackGrossPVR)}">{{ (SalesInfo.BackGrossPVR == 0 ? '-' : SalesInfo.BackGrossPVR  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                            <td id="DataBody17" [ngClass]="{ negative: !inTheGreen(SalesInfo.TotalGross)}">{{ (SalesInfo.TotalGross == 0 ? '-' : SalesInfo.TotalGross  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td id="DataBody18" [ngClass]="{ negative: !inTheGreen(SalesInfo.TotalGrossPace)}">{{ (SalesInfo.TotalGrossPace == 0 ? '-' : SalesInfo.TotalGrossPace  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td id="DataBody19" [ngClass]="{ negative: !inTheGreen(SalesInfo.TotalGrossTarget)}">{{ (SalesInfo.TotalGrossTarget == 0 ? '-' : SalesInfo.TotalGrossTarget  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td id="DataBody20" [ngClass]="{ negative: !inTheGreen(SalesInfo.TotalGrossTargetdiff)}">{{ (SalesInfo.TotalGrossTargetdiff == 0 ? '-' : SalesInfo.TotalGrossTargetdiff  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td id="DataBody21" [ngClass]="{ negative: !inTheGreen(SalesInfo.TotalGrossPVR)}">{{ (SalesInfo.TotalGrossPVR == 0 ? '-' : SalesInfo.TotalGrossPVR  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                        </tr>
+            
+                        <tr class="sub-title" *ngFor="let new of SalesInfo.New" [id]="'DVN_'+i" [ngClass]="{'hidden': SalesInfo.Dealer === '+'}">
+                            <td>&nbsp;</td>
+                            <td>{{new.newcount}}</td>
+                            <td>{{new.PaceNew}}</td>
+                            <td>{{new.NewTarget}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.NewTargetDiff)}">{{new.NewTargetDiff}}</td>
+                            <td id="DataBody6">{{ new.Newperday == 0 ? '-' : new.Newperday | number:'1.1-2'}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.FrontGrossNew)}">{{ (new.FrontGrossNew == 0 ? '-' : new.FrontGrossNew  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.FrontGrosspaceNew)}">{{ (new.FrontGrosspaceNew == 0 ? '-' : new.FrontGrosspaceNew  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.NewFrontGrossTarget)}">{{ (new.NewFrontGrossTarget == 0 ? '-' : new.NewFrontGrossTarget  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.NewFrontGrossTargetdiff)}">{{ (new.NewFrontGrossTargetdiff == 0 ? '-' : new.NewFrontGrossTargetdiff  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.FrontGrossPVRNew)}">{{ (new.FrontGrossPVRNew == 0 ? '-' : new.FrontGrossPVRNew  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            
+                            <td [ngClass]="{ negative: !inTheGreen(new.BackGrossNew)}">{{ (new.BackGrossNew == 0 ? '-' : new.BackGrossNew  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.BackGrossPaceNew)}">{{ (new.BackGrossPaceNew == 0 ? '-' : new.BackGrossPaceNew  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.NewBackGrossTarget)}">{{ (new.NewBackGrossTarget == 0 ? '-' : new.NewBackGrossTarget  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.NewBackGrossTargetdiff)}">{{ (new.NewBackGrossTargetdiff == 0 ? '-' : new.NewBackGrossTargetdiff  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.BackGrossPVRNew)}">{{ (new.BackGrossPVRNew == 0 ? '-' : new.BackGrossPVRNew  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                            <td [ngClass]="{ negative: !inTheGreen(new.TotalGrossNew)}">{{ (new.TotalGrossNew == 0 ? '-' : new.TotalGrossNew  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.TotalGrossPaceNew)}">{{ (new.TotalGrossPaceNew == 0 ? '-' : new.TotalGrossPaceNew  | currency:'USD':'symbol':'1.0-0' )}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.NewGrossTarget)}">{{ (new.NewGrossTarget == 0 ? '-' : new.NewGrossTarget  | currency:'USD':'symbol':'1.0-0' )}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.NewTotalGrossTarget)}">{{ (new.NewTotalGrossTarget == 0 ? '-' : new.NewTotalGrossTarget  | currency:'USD':'symbol':'1.0-0' )}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(new.TotalGrossPVRNew)}">{{ (new.TotalGrossPVRNew == 0 ? '-' : new.TotalGrossPVRNew  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                        </tr>
+                        <tr *ngFor="let Nsp of SalesInfo.Newbysalesperson" [id]="'DVNS_'+i" 
+                        [ngClass]="{'hidden': SalesInfo.Dealer === '+' || SalesInfo.NewDealer === '+','odd': SalesInfo.Newbysalesperson.indexOf(Nsp)%2 == 0, 'even': SalesInfo.Newbysalesperson.indexOf(Nsp)%2 > 0}">
+                            <td>&nbsp;</td>
+                            
+                            <td>{{Nsp.newcountbySP}}</td>
+                            <td>{{Nsp.pacenewcountbySP}}</td>
+                            <td>{{Nsp.Target == '-' ? '' : Nsp.Target}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(Nsp.Diff)}">{{Nsp.Diff == '-' ? '' : Nsp.Diff}}</td>
+                            <td id="DataBody6">{{ Nsp.newbySPPerDay == 0 ? '-' : Nsp.newbySPPerDay | number:'1.1-2'}}</td>
+
+                            <td [ngClass]="{ negative: !inTheGreen(Nsp.FrontGrossNewbySP)}">{{ (Nsp.FrontGrossNewbySP == 0 ? '-' : Nsp.FrontGrossNewbySP  | currency:'USD':'symbol':'1.0-0' )}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(Nsp.FrontGrosspacenewbySP)}">{{ (Nsp.FrontGrosspacenewbySP == 0 ? '-' : Nsp.FrontGrosspacenewbySP  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td></td>
+                            <td></td>
+                            <td [ngClass]="{ negative: !inTheGreen(Nsp.FrontGrossPVRnewbySP)}">{{ (Nsp.FrontGrossPVRnewbySP == 0 ? '-' : Nsp.FrontGrossPVRnewbySP  | currency:'USD':'symbol':'1.0-0') }}</td>
+
+                            <td [ngClass]="{ negative: !inTheGreen(Nsp.BackGrossNewbySP)}">{{ (Nsp.BackGrossNewbySP == 0 ? '-' : Nsp.BackGrossNewbySP  | currency:'USD':'symbol':'1.0-0' )}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(Nsp.BackGrossPaceNewbySP)}">{{ (Nsp.BackGrossPaceNewbySP == 0 ? '-' : Nsp.BackGrossPaceNewbySP  | currency:'USD':'symbol':'1.0-0' )}}</td>
+                            <td></td>
+                            <td></td>
+                            <td [ngClass]="{ negative: !inTheGreen(Nsp.BackGrossPVRNewbySP)}">{{ (Nsp.BackGrossPVRNewbySP == 0 ? '-' : Nsp.BackGrossPVRNewbySP  | currency:'USD':'symbol':'1.0-0' )}}</td>
+
+                            <td [ngClass]="{ negative: !inTheGreen(Nsp.TotalGrossNewbySP)}">{{(Nsp.TotalGrossNewbySP == 0 ? '-' : Nsp.TotalGrossNewbySP  | currency:'USD':'symbol':'1.0-0' )}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(Nsp.TotalGrossPaceNewbySP)}">{{ (Nsp.TotalGrossPaceNewbySP == 0 ? '-' : Nsp.TotalGrossPaceNewbySP  | currency:'USD':'symbol':'1.0-0' )}}</td>
+                            <td></td>
+                            <td></td>
+                            <td [ngClass]="{ negative: !inTheGreen(Nsp.TotalGrossPVRNewbySP)}">{{ (Nsp.TotalGrossPVRNewbySP == 0 ? '-' : Nsp.TotalGrossPVRNewbySP  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <!-- <td></td> -->
+                        </tr>
+                        <tr class="sub-title" *ngFor="let used of SalesInfo.Used" [id]="'DVU_'+i" [ngClass]="{'hidden': SalesInfo.Dealer === '+'}">
+                            <td>&nbsp;</td>
+                            <td>{{used.usedcount}}</td>
+                            <td>{{used.paceusedcount}}</td>
+                            <td>{{used.UsedTarget == '-' ? '' : used.UsedTarget}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(used.Diff)}">{{used.UsedTargetDiff == '-' ? '' : used.UsedTargetDiff}}</td>
+                            <td id="DataBody6">{{ used.UsedPerDay == 0 ? '-' : used.UsedPerDay | number:'1.1-2'}}</td>
+
+                            <td [ngClass]="{ negative: !inTheGreen(used.FrontGrossUsed)}">{{ (used.FrontGrossUsed == 0 ? '-' : used.FrontGrossUsed  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(used.FrontGrosspaceUsed)}">{{ (used.FrontGrosspaceUsed == 0 ? '-' : used.FrontGrosspaceUsed  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(used.UsedFrontGrossTarget)}">{{ (used.UsedFrontGrossTarget == 0 ? '-' : used.UsedFrontGrossTarget  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(used.UsedFrontGrossTargetdiff)}">{{ (used.UsedFrontGrossTargetdiff == 0 ? '-' : used.UsedFrontGrossTargetdiff  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(used.FrontGrossPVRused)}">{{ (used.FrontGrossPVRused == 0 ? '-' : used.FrontGrossPVRused  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                           
+                            <td [ngClass]="{ negative: !inTheGreen(used.BackGrossUsed)}">{{ (used.BackGrossUsed == 0 ? '-' : used.BackGrossUsed  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(used.BackGrossPaceUsed)}">{{ (used.BackGrossPaceUsed == 0 ? '-' : used.BackGrossPaceUsed  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(used.UsedBackGrossTarget)}">{{ (used.UsedBackGrossTarget == 0 ? '-' : used.UsedBackGrossTarget  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(used.UsedBackGrossTargetdiff)}">{{ (used.UsedBackGrossTargetdiff == 0 ? '-' : used.UsedBackGrossTargetdiff  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(used.BackGrossPVRUsed)}">{{ (used.BackGrossPVRUsed == 0 ? '-' : used.BackGrossPVRUsed  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                            <td [ngClass]="{ negative: !inTheGreen(used.TotalGrossUsed)}">{{(used.TotalGrossUsed == 0 ? '-' : used.TotalGrossUsed  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(used.TotalGrossPaceUsed)}">{{ (used.TotalGrossPaceUsed == 0 ? '-' : used.TotalGrossPaceUsed  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(used.UsedTotalBackGrossTarget)}">{{ (used.UsedTotalBackGrossTarget == 0 ? '-' : used.UsedTotalBackGrossTarget  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(used.UsedTotalBackGrossTargetdiff)}">{{ (used.UsedTotalBackGrossTargetdiff == 0 ? '-' : used.UsedTotalBackGrossTargetdiff  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(used.TotalGrossPVRUsed)}">{{ (used.TotalGrossPVRUsed == 0 ? '-' : used.TotalGrossPVRUsed  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                        </tr>
+                        <tr *ngFor="let usp of SalesInfo.Usedbysalesperson" [id]="'DVUS_'+i" [ngClass]="{'hidden': SalesInfo.Dealer === '+' || SalesInfo.UsedDealer === '+','odd': SalesInfo.Usedbysalesperson.indexOf(usp)%2 == 0, 'even': SalesInfo.Usedbysalesperson.indexOf(usp)%2 > 0}">
+                            <td>&nbsp;</td>
+                            
+                            <td>{{usp.usedcountbySP}}</td>
+                            <td>{{usp.paceusedcountbySP}}</td> 
+                            <td></td>
+                            <td></td>
+                            <td id="DataBody6">{{ usp.usedBySPPerDay == 0 ? '-' : usp.usedBySPPerDay | number:'1.1-2'}}</td>
+
+                            <td [ngClass]="{ negative: !inTheGreen(usp.FrontGrossusedbySP)}">{{ (usp.FrontGrossusedbySP == 0 ? '-' : usp.FrontGrossusedbySP  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(usp.FrontGrosspaceusedbySP)}">{{ (usp.FrontGrosspaceusedbySP == 0 ? '-' : usp.FrontGrosspaceusedbySP  | currency:'USD':'symbol':'1.0-0' )}}</td>
+                            <td></td>
+                            <td></td>
+                            <td [ngClass]="{ negative: !inTheGreen(usp.FrontGrossPVRUsedbySP)}">{{ (usp.FrontGrossPVRUsedbySP == 0 ? '-' : usp.FrontGrossPVRUsedbySP  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                            <td [ngClass]="{ negative: !inTheGreen(usp.BackGrossUsedbySP)}">{{ (usp.BackGrossUsedbySP == 0 ? '-' : usp.BackGrossUsedbySP  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(usp.BackGrossPaceUsedbySP)}">{{ (usp.BackGrossPaceUsedbySP == 0 ? '-' : usp.BackGrossPaceUsedbySP  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td></td>
+                            <td></td>
+                            <td [ngClass]="{ negative: !inTheGreen(usp.BackGrossPVRUsedbySP)}">{{ (usp.BackGrossPVRUsedbySP == 0 ? '-' : usp.BackGrossPVRUsedbySP  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                            <td [ngClass]="{ negative: !inTheGreen(usp.TotalGrossUsedbySP)}">{{ (usp.TotalGrossUsedbySP == 0 ? '-' : usp.TotalGrossUsedbySP  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(usp.TotalGrossPaceUsedbySP)}">{{ (usp.TotalGrossPaceUsedbySP == 0 ? '-' : usp.TotalGrossPaceUsedbySP  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td></td>
+                            <td></td>
+                            <td [ngClass]="{ negative: !inTheGreen(usp.TotalGrossPVRUsedbySP)}">{{ (usp.TotalGrossPVRUsedbySP == 0 ? '-' : usp.TotalGrossPVRUsedbySP  | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                           
+                        </tr>
+                        <tbody>
+                            <tbody *ngIf="NoData">
+                                <tr><td colspan="11">No Records Found!!!</td></tr>
+                            </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="container-fluid pe-0 mt-1">
+    <div class="col-12">
+        <div class="d-flex">
+            <div class="gross-tbl table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2">&nbsp;</th>
+                    </tr> 
+                    <tr>
+                        <th rowspan="2">Group</th>
+                    </tr> 
+                </thead>
+                <tbody>
+                    <tr class="title">
+                        <td>Audi of <span>Scottsdale</span></td>
+                    </tr>
+                    <tr class="sub-title">
+                        <td><span>NEW</span></td>
+                    </tr>
+                    <tr>
+                        <td>AUDI</td>
+                    </tr>
+                    
+
+
+                    <tr class="sub-title">
+                        <td><span>USED</span></td>
+                    </tr>
+                    <tr>
+                        <td>BMW</td>
+                    </tr>
+                    <tr>
+                        <td>DODGE</td>
+                    </tr>
+                    <tr>
+                        <td>CADILLAC</td>
+                    </tr>
+                    <tr>
+                        <td>FORD</td>
+                    </tr>
+                  
+                    <tbody>
+                </table>
+            </div>
+            <div class="sec-tbl table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2"></th>
+                            <th colspan="1">&nbsp;</th>
+                            <th colspan="3" style="border-right: 2px solid #e0e1e2;">Price</th>
+                            <th colspan="5" style="border-right: 2px solid #e0e1e2;">Total Cost(GL)</th>
+                            <th colspan="1">&nbsp;</th>
+                            <th colspan="5" style="border-right: 2px solid #e0e1e2;">Average Costs</th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2"></th>
+                            <th>Units</th>
+
+                            <th>List Price</th>
+                            <th>Internet Price</th>
+                            <th>Units w/o Internet Price</th>
+
+                            <th>Vehicle Cost</th>
+                            <th>Recon Cost</th>
+                            <th>Other Cost</th>
+                            <th>Inventory Cost</th>
+                            <th>Units w/$0 Cost</th>
+                            
+                            <th>Potential Gross</th>
+
+                            <th>Vehicle Cost</th>
+                            <th>Recon Cost</th>
+                            <th>Other Cost</th>
+                            <th>Inventory Cost</th>
+                          
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="title">
+                            <td><span>&nbsp;</span></td>
+                            <td>349</td>
+                            <td>$132</td>
+                            <td>75.2%</td>
+
+                            <td>$97,500</td>
+                            <td>$3,400</td>
+                            <td>$75,000</td>
+                            <td class="divRed">$16,000</td>
+                            <td>$90,000</td>
+                            <td>$10,000</td>
+                            
+                            <td>$20,000</td>
+                            <td>$40,000</td>
+                            <td >$90,000</td>
+                            <td class="divRed">-$50,000</td>
+                            
+
+                            <td>$20,000</td>
+                            <td></td>
+                        </tr>
+             
+                        <tr class="even">
+                            <td></td>
+                            <td>135</td>
+                            <td>$124</td>
+                            <td>75.2%</td>
+
+                            <td>$78,000</td>
+                            <td>$900</td>
+                            <td>$60,000</td>
+                            <td class="divRed">-$40,000</td>
+                            <td>$26,000</td>
+                            <td>$14,000</td>
+                            
+                            <td>$20,000</td>
+                            <td>$40,000</td>
+                            <td>$26,000</td>
+                            <td class="divRed">-$14,000</td>
+                            
+
+                            <td>$20,000</td>
+                            <td></td>
+                        </tr>
+                        <tr class="odd">
+                            <td></td>
+                            <td>135</td>
+                            <td>$148</td>
+                            <td>75.2%</td>
+
+                            <td>$27,300</td>
+                            <td>$12,00</td>
+                            <td>$21,000</td>
+                            <td class="divRed">-$14,000</td>
+                            <td>$12,000</td>
+                            <td>$2,000</td>
+                            
+                            <td>$7,000</td>
+                            <td>$14,000</td>
+                            <td>$12,000</td>
+                            <td class="divRed">-$2,000</td>
+                            
+
+                            <td>$7,000</td>
+    
+                            <td></td>
+                        </tr>
+                   
+                        <tr >
+                            <td><span>&nbsp;</span></td>
+                            <td>245</td>
+                            <td>$122</td>
+                            <td>74.6%</td>
+
+                            <td>$117,000</td>
+                            <td>$2,500</td>
+                            <td>$90,000</td>
+                            <td class="divRed">-$100,000</td>
+                            <td>$110,000</td>
+                            <td>$10,000</td>
+                           
+                            <td>$35,000</td>
+                            <td>$70,000</td>
+                            <td>$110,000</td>
+                            <td class="divRed">-$40,000</td>
+
+                            <td>$35,000</td>
+                         
+                            <td></td>
+                        </tr>
+                      
+                        <tr class="even">
+                            <td></td>
+                            <td>1</td>
+                            <td>$119</td>
+                            <td>75.2%</td>
+
+                            <td>$78,000</td>
+                            <td>$900</td>
+                            <td>$60,000</td>
+                            <td>-</td>
+                            <td>$26,000</td>
+                            <td>$14,000</td>
+                            
+                            <td>$20,000</td>
+                            <td>$40,000</td>
+                            <td>$26,000</td>
+                            <td>-</td>
+                            
+
+                            <td>$20,000</td>
+                        
+                            <td></td>
+                        </tr>
+                        <tr class="odd">
+                            <td></td>
+                            <td>6</td>
+                            <td>$142</td>
+                            <td>75.2%</td>
+
+                            <td>$27,300</td>
+                            <td>$12,00</td>
+                            <td>$21,000</td>
+                            <td>-</td>
+                            <td>$12,000</td>
+                            <td>$2,000</td>
+                            
+                            <td>$7,000</td>
+                            <td>$14,000</td>
+                            <td>$12,000</td>
+                            <td>-</td>
+                            
+
+                            <td>$7,000</td>
+                         
+                            <td></td>
+                        </tr>
+             
+                        <tr class="even">
+                            <td></td>
+                            <td>11</td>
+                            <td>$113</td>
+                            <td>75.2%</td>
+
+                            <td>$50,700</td>
+                            <td>$1,000</td>
+                            <td>$39,000</td>
+                            <td>-</td>
+                            <td>$26,000</td>
+                            <td>$0</td>
+                            
+                            <td>$13,000</td>
+                            <td>$26,000</td>
+                            <td>$26,000</td>
+                            <td>-</td>
+                            
+
+                            <td>$13,000</td>
+                         
+                            <td></td>
+                        </tr>
+                        <tr class="odd">
+                            <td></td>
+                            <td>9</td>
+                            <td>$143</td>
+                            <td>75.2%</td>
+
+                            <td>$27,300</td>
+                            <td>$300</td>
+                            <td>$21,000</td>
+                            <td>-</td>
+                            <td>$14,000</td>
+                            <td>$0</td>
+                            
+                            <td>$7,000</td>
+                            <td>$14,000</td>
+                            <td>$14,000</td>
+                            <td>-</td>
+                            
+
+                            <td>$7,000</td>
+                   
+                            <td></td>
+                        </tr>
+        
+                        <tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

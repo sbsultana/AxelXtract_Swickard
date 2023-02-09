@@ -1,0 +1,97 @@
+.analyze{
+  width: 45%;
+
+  .header{
+  background: #ffffff;
+  border-radius: 20px 20px 0px 0px;
+  border-bottom: 2px solid #edf1f4;
+  position: relative;
+  padding: 0.7rem 2rem 0.7rem 4rem;
+
+
+  .close-btn{
+      color: #d4d4d4;
+      font-size: 1.2vw;
+      position: absolute;
+      right: 20px;
+  }
+
+  .title{
+  font-family: 'RobotoBold';
+  font-size: 1vw;
+  color: #444649;
+  line-height: 2rem;
+
+  .slash{
+  color: #33b3f3;
+  padding-right: 5px;
+          }
+
+      }
+  }
+
+.body{
+  background:#f5f9f9;
+  border-radius:0px 0px 20px 20px;
+  background-color: #f5f9f7;
+  padding: 3rem 4rem;
+  box-shadow: 0px 0px 10px 0px #ccc;
+
+  .numberCircle {
+      display: inline-block;
+      line-height: 0px;
+      border-radius: 50%;
+      border: 1px solid #33b3f3;
+      font-size: 0.9vw;
+      font-family: 'Roboto';
+      color:black;
+      span {
+      display: inline-block;
+      padding-top: 50%;
+      padding-bottom: 50%;
+      margin-left: 12px;
+      margin-right: 12px;
+    }
+    }
+
+    h4{
+      color: black;
+      font-size: 0.8vw;
+      font-family: 'RobotoBold';
+
+    }
+
+    h6{
+      color: rgb(85, 84, 84);
+      font-size: .9vw;
+      font-family: 'Roboto';
+    }
+
+    .btn-danger{
+      font-size: 1.5vw;
+      border-radius: 25px;
+      width: 100%;
+      line-height: 18px;
+      background: #fe0100;
+      font-family: 'Roboto';
+      cursor: default !important;
+    }
+
+    .btn-primary{
+      margin: 4rem 3.5rem 3rem 3.5rem;
+      border-radius: 25px;
+      width: 150px;
+      background-color:#2a91f1;
+      color: white;
+      font-family: 'Roboto';
+      font-size: 0.7vw;
+      border: none;
+      line-height: 20px;
+
+      .fa-plus{
+      font-size: 0.5vw;
+      vertical-align: middle;
+    }
+  }
+}
+}

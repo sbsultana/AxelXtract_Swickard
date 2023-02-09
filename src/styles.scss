@@ -1,0 +1,240 @@
+@font-face {
+    font-family: 'Gotham\ Book\ Regular';
+    src: url('assets/fonts/Gotham\ Book\ Regular.otf') format('otf'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('assets/fonts/Gotham\ Book\ Regular.otf') format('opentype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+  }
+  @font-face {
+    font-family: 'GothamMedium';
+    src: url('assets/fonts/GothamMedium.ttf') format('ttf'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('assets/fonts/GothamMedium.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+  }
+  @font-face {
+    font-family: 'Gotham\ Medium\ Regular';
+    src: url('assets/fonts/Gotham\ Medium\ Regular.ttf') format('ttf'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('assets/fonts/Gotham\ Medium\ Regular.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+  }
+  @font-face {
+    font-family: 'Gotham\ Bold';
+    src: url('assets/fonts/Gotham\ Bold.otf') format('otf'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('assets/fonts/Gotham\ Bold.otf') format('opentype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+  }
+  @font-face {
+    font-family: 'Gotham-Light';
+    src: url('assets/fonts/Gotham-Light.ttf') format('ttf'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('assets/fonts/Gotham-Light.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url('assets/fonts/Roboto-Regular.ttf') format('ttf'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('assets/fonts/Roboto-Regular.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+  }
+
+  @font-face {
+    font-family: 'RobotoBold';
+    src: url('assets/fonts/Roboto-Bold.ttf') format('ttf'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('assets/fonts/Roboto-Bold.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+  }
+
+  body{padding: 0; margin: 0; border: 0;font-family: 'Gotham\ Book\ Regular'; color: #000; background: #eaebec !important; font-size: .8rem; 
+    -webkit-font-smoothing: none !important;
+    -webkit-font-smoothing: subpixel-antialiased !important;
+    -webkit-font-smoothing: antialiased !important;
+    -webkit-font-smoothing: auto !important;
+    }
+
+    ::-webkit-scrollbar {
+
+      width: 5px;
+  
+      height:10px;
+  
+      background-color: #aaa;
+  
+    }
+  
+    ::-webkit-scrollbar-track {
+  
+      background: #ccc;
+  
+     // border:3px solid #fff;
+  
+  
+  
+    }
+  
+    ::-webkit-scrollbar-thumb {
+  
+        background: #2b91f0;
+  
+     //   border:3px solid #fff;
+  
+        -webkit-border-radius: 10px;
+  
+    }
+  
+      /* left */
+
+  ::-webkit-scrollbar-button:horizontal:start:decrement {
+    width: 20px;
+    background: url("assets/images/left.png") no-repeat center center #fff;
+    background-size: contain;
+    display: block;
+}
+
+/* right */
+::-webkit-scrollbar-button:horizontal:end:increment {
+  width: 20px;
+  background: url("assets/images/right.png") no-repeat center center #fff;
+  background-size: contain;
+  display: block;
+}
+
+button:focus,input:focus,textarea:focus,select:focus{box-shadow: none !important;}
+
+  .modal-dialog{
+    max-width: 80% !important;
+  }
+  .modal-content {
+   
+     background-color: transparent !important; 
+   
+}
+
+button.calendar, button.calendar:active {
+  width: 0.5rem;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAcCAYAAAAEN20fAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEUSURBVEiJ7ZQxToVAEIY/YCHGxN6XGOIpnpaEsBSeQC9ArZbm9TZ6ADyBNzAhQGGl8Riv4BLAWAgmkpBYkH1b8FWT2WK/zJ8ZJ4qiI6XUI3ANnGKWBnht2/ZBDRK3hgVGNsCd7/ui+JkEIrKtqurLpEWaphd933+IyI3LEIdpCYCiKD6HcuOa/nwOa0ScJEnk0BJg0UTUWJRl6RxCYEzEmomsIlPU3IPW+grIAbquy+q6fluy/28RIBeRMwDXdXMgXLj/B2uimRXpui4D9sBeRLKl+1N+L+t6RwbWrZliTTTr1oxYtzVWiTQAcRxvTX+eJMnlUDaO1vpZRO5NS0x48sIwfPc87xg4B04MCzQi8hIEwe4bl1DnFMCN2zsAAAAASUVORK5CYII=') !important;
+  background-repeat: no-repeat;
+  background-size: 23px;
+  background-position: center;
+  // margin-left: -80%;
+  // z-index: 2;
+  // position: relative;
+  top: 13%;
+  padding: 8px;
+  border: none;
+  margin-right: -18px;
+}
+
+/* Sortable table demo */
+
+th[sortable] {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+th[sortable].desc:before, th[sortable].asc:before {
+  content: '';
+  display: block;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAmxJREFUeAHtmksrRVEUx72fH8CIGQNJkpGUUmakDEiZSJRIZsRQmCkTJRmZmJgQE0kpX0D5DJKJgff7v+ru2u3O3vvc67TOvsdatdrnnP1Y///v7HvvubdbUiIhBISAEBACQkAICAEhIAQ4CXSh2DnyDfmCPEG2Iv9F9MPlM/LHyAecdyMzHYNwR3fdNK/OH9HXl1UCozD24TCvILxizEDWIEzA0FcM8woCgRrJCoS5PIwrANQSMAJX1LEI9bqpQo4JYNFFKRSvIgsxHDVnqZgIkPnNBM0rIGtYk9YOOsqgbgepRCfdbmFtqhFkVEDVPjJp0+Z6e6hRHhqBKgg6ZDCvYBygVmUoEGoh5JTRvIJwhJo1aUOoh4CLPMyvxxi7EWOMgnCGsXXI1GIXlZUYX7ucU+kbR8NW8lh3O7cue0Pk32MKndfUxQFAwxdirk3fHappAnc0oqDPzDfGTBrCfHP04dM4oTV8cxr0SVzH9FF07xD3ib6xCDE+M+aUcVygtWzzbtGX2rPBrEUYfecfQkaFzYi6HjVnGBdtL7epqAlc1+jRdAap74RrnPc4BCijttY2tRcdN0g17w7HqZrXhdJTYAuS3hd8z+vKgK3V1zWPae0mZDMykadBn1hTQBLnZNwVrJpSe/NwEeDsEwCctEOsJTsgxLvCqUl2ACftEGvJDgjxrnBqkh3ASTvEWrIDQrwrnJpkB3DSDrGW7IAQ7wqnJtkBnLRztejXXVu4+mxz/nQ9jR1w5VB86ejLTFcnnDwhzV+F6T+CHZlx6THSjn76eyyBIOPHyDakhBAQAkJACAgBISAEhIAQYCLwC8JxpAmsEGt6AAAAAElFTkSuQmCC') no-repeat;
+  background-size: 22px;
+  width: 22px;
+  height: 22px;
+  float: left;
+  margin-left: -22px;
+}
+
+th[sortable].desc:before {
+  transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+}
+
+/* Filtering table demo */
+ngbd-table-filtering span.ngb-highlight {
+  background-color: yellow;
+}
+
+/* Complete table demo */
+ngbd-table-complete span.ngb-highlight {
+  background-color: yellow;
+}
+
+ngb-carousel .picsum-img-wrapper {
+  position: relative;
+  height: 0;
+  padding-top: 55%; /* Keep ratio for 900x500 images */
+}
+
+ngb-carousel .picsum-img-wrapper>img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.form-group.hidden {
+  width: 0;
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+.custom-day {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  display: inline-block;
+  height: 2rem;
+  width: 2rem;
+}
+.custom-day.focused {
+  background-color: #e6e6e6;
+}
+.custom-day.range, .custom-day:hover {
+  background-color: rgb(2, 117, 216);
+  color: white;
+}
+.custom-day.faded {
+  background-color: rgba(2, 117, 216, 0.5);
+}
+.theme-green .bs-datepicker-head {
+  background-color:#2a91f0;
+}
+.theme-green .bs-datepicker-body table td span.selected, .theme-green .bs-datepicker-body table td.selected span, .theme-green .bs-datepicker-body table td span[class*=select-]:after, .theme-green .bs-datepicker-body table td[class*=select-] span:after {
+  background-color: #2a91f0;
+}
+
+
+.multiselect-dropdown .dropdown-btn .selected-item {
+  white-space: nowrap;
+  max-width: 35% !important;
+  font-family: 'Roboto' !important;
+  overflow: hidden !important;
+}
+
+.multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
+ margin-top: -4px !important;
+}
+
+.multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret::before {
+ position: relative;
+ right: 0;
+ top: 65%;
+ color: #2a91f0 !important;
+ margin-top: 4px;
+ border-style: solid;
+ border-width: 8px 8px 0;
+ border-color: #2a91f0 transparent !important;
+ content: "";
+}
+
+.multiselect-dropdown .dropdown-btn .dropdown-multiselect--active .dropdown-multiselect__caret {
+ transform: rotateZ(180deg) !important;
+ top: 0px;
+}
+
+.multiselect-dropdown .dropdown-btn {
+ font-size: small !important;
+ line-height: 1.0 !important;
+ font-family: 'Roboto' !important;
+ border-radius: 30px !important;
+ color: #858585 !important ;
+ background-color: #ffffff !important;
+ border: 1px solid #d4e1e7 !important;
+
+}
+.modal-content{
+  border: none !important;
+}
+
+

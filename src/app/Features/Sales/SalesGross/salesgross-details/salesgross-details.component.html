@@ -1,0 +1,266 @@
+<div class="container-fluid d-flex justify-content-center align-items-center">
+  <div class="gross-popup">
+    <div class="header d-flex align-items-center">
+      <h5 class="title m-0 ms-2">
+        <img src="" alt=""> <span class="slash">//</span>{{ this.Salesdetails[0].userName}}
+      </h5>
+      <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i class="fa-solid fa-xmark"></i> </a>
+    </div>
+
+    <div class="loader" style="margin-top: 5%;margin-left: 30%;" *ngIf="spinnerLoader"></div>
+
+    <div class="content" [ngStyle]="{'height': spinnerLoader == true ? '240px' : '' }">
+      <div class="d-flex" style="width: 100%;">
+        <div class="deal-tbl" (mouseenter)="updateCurrentElement('scrollOne')" (scroll)="updateVerticalScroll($event)"
+          #scrollOne>
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th>Deal #</th>
+                <th>Stock #</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Deal Type</th>
+                <th style="text-align:center !important ">VIN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let det of SalesPersonDetails">
+                <td>
+                  {{ (det.dealid == 0 || det.dealid == null || det.dealid == undefined ? '-' : det.dealid ) }}
+                </td>
+                <td>
+                  {{ (det.Stock == 0 || det.Stock == null || det.Stock == undefined ? ' - ' : det.Stock ) }}
+                </td>
+                <td>
+                  {{ (det.contractdate == 0 || det.contractdate == null || det.contractdate == undefined ? '-' :
+                  det.contractdate | date:'MM.dd.yyyy' ) }}
+                </td>
+                <td title="{{det.customername}}" style="cursor: default;"> {{(det.customername == undefined ||
+                  det.customername == null ? '--' : (
+                  (det.customername.toString() | slice:0:13) +
+                  (det.customername.toString().length > 13 ? '...' : '') ))}}</td>
+                <td>
+                  {{ ( det.ad_dealtype == null || det.ad_dealtype == undefined ? '-' : det.ad_dealtype ) }}
+                </td>
+                <td style="padding-right: .8rem !important;">
+                  {{ (det.vin == 0 || det.vin == null || det.vin == undefined ? '-' : det.vin ) }}
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="gross-tbl-scroll" (mouseenter)="updateCurrentElement('scrollTwo')"
+          (scroll)="updateVerticalScroll($event)" #scrollTwo>
+          <table class="table table-borderless gross-tbl">
+            <thead>
+              <tr>
+                <th>Front
+                  <!-- <br> Gross -->
+                </th>
+                <th>Back
+                  <!-- <br> Gross -->
+                </th>
+                <th>Total
+                  <!-- <br> Gross -->
+                </th>
+                <th>SP
+                  <!-- <br> 1 -->
+                </th>
+                <th>SP
+                  <!-- <br> 2 -->
+                </th>
+                <th>F&I
+                  <!-- <br> Mgr. -->
+                </th>
+                <th>Desk
+                  <!-- <br> Mgr. -->
+                </th>
+                <th>Fin.
+                  <!-- <br> Reserve -->
+                </th>
+                <th>Product
+                  <!-- <br> Count -->
+                </th>
+                <th colspan="2" style="display: none;">Service Contract
+                  <!-- <br>
+                  <div class="d-flex justify-content-between product">
+                    <span>Product 1</span>
+                    <span>Product 2</span>
+                  </div> -->
+                </th>
+
+                <th colspan="2">
+                  <!-- <br>
+                  <div class="d-flex justify-content-between product">
+                    <span>VSC</span>
+                    <span>Exec Shield</span>
+                  </div> -->
+                </th>
+
+                <th colspan="2">
+                  <!-- <br>
+                  <div class="d-flex justify-content-between product">
+                    <span>Max Shield</span>
+                    <span>GAP</span>
+                  </div> -->
+                </th>
+
+                <th colspan="2">
+                  <!-- <br>
+                  <div class="d-flex justify-content-between product">
+                    <span>PWC</span>
+                    <span>Maintenance Plan</span>
+                  </div> -->
+                </th>
+
+                <th colspan="3">
+                  <!-- <br>
+                  <div class="d-flex justify-content-between product">
+                    <span>Lease Care</span>
+                    <span>Total Care</span>
+                    <span>Clear Shield</span>
+                  </div> -->
+                </th>
+              </tr>
+              <tr style="text-align: initial;">
+                <td class="Main_td">Gross</td>
+                <td class="Main_td">Gross</td>
+                <td class="Main_td">Gross</td>
+                <td class="Main_td">1</td>
+                <td class="Main_td">2</td>
+                <td class="Main_td">Mgr.</td>
+                <td class="Main_td">Mgr.</td>
+                <td class="Main_td">Reserve</td>
+                <td class="Main_td">Count</td>
+                <td style="display: none;">Product 1</td>
+                <td style="display: none;">Product 2</td>
+                <td>VSC</td>
+                <td>Exec Shield </td>
+                <td>Max Shield</td>
+                <td>GAP </td>
+                <td>PWC</td>
+                <td>Maintenance Plan </td>
+                <td>Lease Care</td>
+                <td>Total Care </td>
+                <td>Clear Shield </td>
+
+
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let det of SalesPersonDetails">
+                <td style="text-align: right !important;">
+                  {{ (det.frontgross == 0 || det.frontgross == null || det.frontgross == undefined ? '-' :
+                  det.frontgross | currency:'USD':'symbol':'1.0-0' ) }}
+                </td>
+                <td style="text-align: right !important;">
+                  {{ (det.backgross == 0 || det.backgross == null || det.backgross == undefined ? '-' : det.backgross |
+                  currency:'USD':'symbol':'1.0-0' ) }}
+                </td>
+                <td style="text-align: right !important;">
+                  {{ (det.totalgross == 0 || det.totalgross == null || det.totalgross == undefined ? '-' :
+                  det.totalgross | currency:'USD':'symbol':'1.0-0' ) }}
+                </td>
+                <td title="{{det.salesperson1}}"
+                  style="cursor: default;white-space: nowrap;text-align: left !important;"> {{(det.salesperson1 ==
+                  null || det.salesperson1 == undefined ? '' : (
+                  (det.salesperson1.toString() | slice:0:1) +
+                  (det.salesperson1.toString().length > 1 ? '.' : '') ))}}
+                  {{(det.salesperson1 == null || det.salesperson1 == undefined ? '' : det.salesperson1.toString() |
+                  slice: det.salesperson1.indexOf(' ')+1 )}}
+                </td>
+                <td title="{{det.salesperson2}}"
+                  style="cursor: default;white-space: nowrap;text-align: left !important;"> {{(det.salesperson2 ==
+                  null || det.salesperson2 == undefined ? '' : (
+                  (det.salesperson2.toString() | slice:0:1) +
+                  (det.salesperson2.toString().length > 1 ? '.' : '') ))}}
+                  {{(det.salesperson2 == null || det.salesperson2 == undefined ? '' : det.salesperson2.toString() |
+                  slice: det.salesperson2.toString().indexOf(' ')+1 )}}</td>
+                <td title="{{det.fimanager}}" style="cursor: default;white-space: nowrap;text-align: left !important;">
+                  {{(det.fimanager == null ||
+                  det.fimanager == undefined ? '' : (
+                  (det.fimanager.toString() | slice:0:1) +
+                  (det.fimanager.toString().length > 1 ? '.' : '') ))}}
+                  {{(det.fimanager == null || det.fimanager == undefined ? '' : det.fimanager.toString() | slice:
+                  det.fimanager.indexOf(' ')+1 )}}</td>
+                <td title="{{det.salesmanager}}"
+                  style="cursor: default;white-space: nowrap;text-align: left !important;">{{(det.salesmanager ==
+                  null || det.salesmanager == undefined ? '' : (
+                  (det.salesmanager.toString() | slice:0:1) +
+                  (det.salesmanager.toString().length > 1 ? '.' : '') ))}}
+                  {{(det.salesmanager == null || det.salesmanager == undefined ? '' : det.salesmanager.toString() |
+                  slice: det.salesmanager.indexOf(' ')+1 )}}</td>
+                <td>-</td>
+                <td style="display: none;">
+                  {{ (det.productcount == 0 || det.productcount == null || det.productcount == undefined ? '-' :
+                  det.productcount | number ) }}
+                </td>
+                <td style="display: none;">
+                  {{ (det.servicecontractP1 == 0 || det.servicecontractP1 == null || det.servicecontractP1 == undefined
+                  ? '-' : det.servicecontractP1 | currency:'USD':'symbol':'1.0-0' ) }}
+                </td>
+                <td style="text-align: right !important;">
+                  {{ (det.serviceContractP2 == 0 || det.serviceContractP2 == null || det.serviceContractP2 == undefined
+                  ? '-' : det.serviceContractP2 | currency:'USD':'symbol':'1.0-0' ) }}
+
+                </td>
+                <td style="text-align: right !important;"> {{ (det.VSC_Dollar == 0 || det.VSC_Dollar == null ||
+                  det.VSC_Dollar == undefined
+                  ? '-' : det.VSC_Dollar | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                <td style="text-align: right !important;"> {{ (det.Exec_Shield_Dollar == 0 || det.Exec_Shield_Dollar ==
+                  null || det.Exec_Shield_Dollar ==
+                  undefined
+                  ? '-' : det.Exec_Shield_Dollar | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                <td style="text-align: right !important;">{{ (det.MaxSHIELD_Dollar == 0 || det.MaxSHIELD_Dollar == null
+                  || det.MaxSHIELD_Dollar == undefined
+                  ? '-' : det.MaxSHIELD_Dollar | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                <td style="text-align: right !important;"> {{ (det.GAP_Dollar == 0 || det.GAP_Dollar == null ||
+                  det.GAP_Dollar == undefined
+                  ? '-' : det.GAP_Dollar | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                <td style="text-align: right !important;">{{ (det.principle_VSC_Dollar == 0 || det.principle_VSC_Dollar
+                  == null || det.principle_VSC_Dollar ==
+                  undefined
+                  ? '-' : det.principle_VSC_Dollar | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                <td style="text-align: right !important;">{{ (det.MaintencePlan_Dollar == 0 || det.MaintencePlan_Dollar
+                  == null || det.MaintencePlan_Dollar ==
+                  undefined
+                  ? '-' : det.MaintencePlan_Dollar | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                <td style="text-align: right !important;">{{ (det.LEASECARE_Dollar == 0 || det.LEASECARE_Dollar == null
+                  || det.LEASECARE_Dollar == undefined
+                  ? '-' : det.LEASECARE_Dollar | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                <td style="text-align: right !important;">{{ (det.TOTALCARE_Dollar == 0 || det.TOTALCARE_Dollar == null
+                  || det.TOTALCARE_Dollar == undefined
+                  ? '-' : det.TOTALCARE_Dollar | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                <td style="text-align: right !important;">{{ (det.CLEARSHIELD_Dollar == 0 || det.CLEARSHIELD_Dollar ==
+                  null || det.CLEARSHIELD_Dollar ==
+                  undefined
+                  ? '-' : det.CLEARSHIELD_Dollar | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                <!-- CLEARSHIELD_Dollar -->
+                <div class="loader" style="margin-top: 30%;margin-left: 30%;" *ngIf="spinnerLoadersec"></div>
+
+              </tr>
+              <tr *ngIf="NoData">
+                <td colspan="7">No Data Found!!!</td>
+                <td colspan="8"></td>
+
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

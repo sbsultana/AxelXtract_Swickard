@@ -1,0 +1,183 @@
+<!-- <div *ngFor="let rg of stores" style="Selected:aliceblue">
+    <span (click)="region('Region','')">ALL</span>
+    <span (click)="region(rg.Region,rg)">{{rg.Region}}</span>
+</div>
+<br>
+<br>
+<div *ngFor="let rg of stores" style="Selected:aliceblue">
+    <div>
+        <span (click)="store('Store')">All</span>
+    </div>
+    <div *ngFor="let str of rg.Stores">
+        <span (click)="store(str.AS_ID)"
+            [ngClass]="{'color': selectedStores.indexOf(str.AS_ID.toString())>=0 ? 'Red' : 'black' }">{{str.AS_DEALERNAME}}</span>
+    </div>
+</div> -->
+
+
+<!-- ////////////////////////////////// REPORT PERIOD /////////////////////////////// -->
+
+<div class="container-fluid  d-flex justify-content-start align-items-center mt-4">
+    <div class="col-lg-12 position-relative">
+        <div class="row">
+            <div class="col-lg-2 col-xl-3 col-xxl-2">
+                <div class="reports-controls">
+                    <div class="header">
+                        <h5 class="title m-0"><img src="" alt=""> <span class="slash">//</span>REPORT CONTROLS</h5>
+                        <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i
+                                class="fa-solid fa-xmark"></i> </a>
+                    </div>
+                    <div class="body">
+                        <div class="list-group">
+
+
+
+
+                            <a class="list-group-item list-group-item-action p-3 ps-4" (click)="Tabs('S')"
+                                [ngStyle]="{'background-color': tab == 'S' ? '#ecf0f3' : '#fff'}">
+                                <div class=" list-btn">
+                                    <div class="d-flex align-items-center justify-content-center row">
+                                        <div class="col-3"><img class="rpt-icon"
+                                                src="../../../../../assets/images/Stores.png" alt="">
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="text-start">
+                                                <h6 class="m-0 p-0">Stores</h6>
+                                                <p class="m-0 p-0">Choose the stores or groups for your report</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 m-auto text-end">
+                                            <img class="arrow-icon"
+                                                src="../../../../../assets/images/double-arrow-right.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+
+
+                            <a class="list-group-item list-group-item-action p-3 ps-4" (click)="Tabs('F')"
+                                [ngStyle]="{'background-color': tab == 'F' ? '#ecf0f3' : '#fff'}">
+                                <div class=" list-btn">
+                                    <div class="row d-flex align-items-center justify-content-center">
+                                        <div class="col-3"> <img class="rpt-icon"
+                                                src="../../../../../assets/images/Data-source.png" alt="">
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="text-start">
+                                                <h6 class="m-0 p-0">Filters</h6>
+                                                <p class="m-0 p-0">Choose additional filters for type and status of
+                                                    deals</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 m-auto text-end">
+                                            <img class="arrow-icon"
+                                                src="../../../../../assets/images/double-arrow-right.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="footer p-3 mb-2">
+                        <div class="text-center d-flex align-items-center ">
+                            <button type="button" class="btn btn-view mx-1" (click)="viewreport()">View Report</button>
+                            <button type="button" class="btn btn-save mx-1">Save to Favorites</button>
+                        </div>
+                        <div class="cancel-txt" (click)="close()"><a>Cancel</a></div>
+                    </div>
+                </div>
+            </div>
+            <!-- ////////////////////////////////// REPORT PERIOD /////////////////////////////// -->
+
+
+
+            <div class="col-lg-5" *ngIf="tab=='S'">
+                <div class="report-grouping">
+                    <div class="header text-center">
+                        <div class="row mt-2 align-items-center justify-content-center">
+                            <div class="col-5">
+                                <h5 class="m-0 p-0">Stores</h5>
+                            </div>
+
+
+                            <!-- <div class="col-4"><h6 class="m-0 p-0">Choose up to 3 Filters to Group Your Data</h6></div> -->
+                            <!-- <div class="col-3"><button type="button" class="btn report-btn ">Reset</button></div> -->
+                        </div>
+                        <a type="button" class="close-btn ms-auto me-2"><i class="fa-solid fa-xmark"
+                                (click)="close()"></i> </a>
+                    </div>
+                    <div class="body px-5 py-4">
+                        <div class="grouping-grid">
+                            <div class="loader" style="margin-top: 10%;margin-left: 20%;" *ngIf="spinnerLoader"></div>
+
+                            <button type="button" class="btn report-btn mb-10" (click)="individualStores(0,'')"
+                                [ngClass]="{'Selected':selectedStore.length == stores.length,'UnSelected':selectedStore.length != stores.length}">All
+                                Stores</button>
+                        </div><br>
+                        <div class="grouping-grid">
+
+                            <button type="button" class="btn report-btn" *ngFor="let s of stores"
+                                [ngClass]="{'Selected':selectedStore.indexOf( s.AS_ID)>=0,'UnSelected':selectedStore.indexOf(s.AS_ID)<0}"
+                                (click)="individualStores(s.AS_ID,s.CORA_ACCT_CODE)">{{s.DEALER_NAME}}</button>
+
+
+                            <!-- <button type="button" class="btn report-btn">Salesperson</button>
+                            <button type="button" class="btn report-btn">Sale Type</button>
+                            <button type="button" class="btn report-btn">Salesperson</button> -->
+                        </div>
+                    </div>
+                    <!-- <div class="footer p-3 mb-2">
+                        <div class="text-center d-flex align-items-center justify-content-center">
+                        <button type="button" class="btn btn-sm-save mx-2">Save</button>
+                        <div class="cancel-txt mb-2 mx-2"><a href="#" class="m-0 p-0">Cancel</a></div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+
+
+            <div class="col-lg-4" *ngIf="tab=='F'">
+                <div class="report-filters">
+                    <div class="header">
+                        <h5 class="title m-0"><img src="" alt="">Schedule</h5>
+                        <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i
+                                class="fa-solid fa-xmark"></i> </a>
+                    </div>
+                    <div class="body py-2">
+                        <div class="filter px-5">
+                            <div class="col-4">
+                                <h6 class="mt-2 p-0">Schedule:</h6>
+                            </div>
+                            <div class="col-8 report-grid">
+                                <div class="acc-select">
+                                    <!-- (change)="StoreFilter($event)" [(ngModel)]="selectedStore" -->
+                                    <select class="form-select _dropdwn" [(ngModel)]="selectedschedule"
+                                        (change)="schedulechange($event.target.value)">
+                                        <option value="0">Select</option>
+                                        <option *ngFor="let s of schedules" [value]="s.S_ID">{{s.S_NAME}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <div class="footer p-3 mb-2">
+                        <div class="text-center d-flex align-items-center justify-content-center">
+                        <button type="button" class="btn btn-sm-save mx-2">Save</button>
+                        <div class="cancel-txt mb-2 mx-2"><a href="#" class="m-0 p-0">Cancel</a></div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+</div>

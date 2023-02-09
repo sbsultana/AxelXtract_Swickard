@@ -1,0 +1,159 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="white" type="ball-fussion">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<div class="container-fluid pt-3 sub-title" id="ExpenseTrend">
+    <div class="col-12" style="width: 100%;">
+
+        <div class="d-flex justify-content-center">
+            <div class="gross-tbl table-responsive fs-tbl">
+                <table>
+                    <thead>
+                        <tr class="SGtitle" style="background-color: #2d91f1;">
+
+                        </tr>
+                        <tr class="SGtitle">
+                            <th *ngIf="XpenseTrendByStoreKeysMonth[24] !=''">
+                                <span class="strName" title="{{StoreName}}">Assets ({{CurrentDate | date:'MMM -
+                                    yyyy'}})</span>
+                            </th>
+                            <th *ngFor="let item of ExpenseTrendByStoreKeysMonth; let ioe = index;">
+                                <span>{{item}}</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="AllDatakeysMonth.length > 0; else NoETDealerData">
+                            <ng-container *ngFor="let item of ExpenseTrendByStoreMonth; let ioe_tr = index; ">
+                                <tr class="sub-title"
+                                    [ngClass]="{'colortitle': item.EBITDA_Symbol == '2','title': item.BSM_SubLableDetail == 'Cash and Cash Equivalents'
+                    || item.BSM_SubLableDetail == 'Accounts Receivable' || item.BSM_SubLableDetail == 'Vehicle Inventory',
+                    'title-head': item.BSM_SubLableDetail == 'Total','TitleHead': item.BSM_SubLableDetail == 'GrandTotal'}">
+
+                                    <td title="{{item.LABLE1}}">
+                                        <span>{{item.BSM_SubLableDetail}}</span>
+                                    </td>
+
+                                    <td *ngFor="let itemKey of AllDatakeysMonth; let ioe_td = index; "
+                                        style="text-align: end;">
+                                        <span [ngClass]="{ negative: !inTheGreen(item[itemKey])}">{{(itemKey == 'LABLE1'
+                                            ? item[itemKey] : (item[itemKey] == 0 ? '-' : (item[itemKey] == null ? '-' :
+                                            (item[itemKey] | currency : 'USD' : 'symbol' : '1.0-0'))))}}</span>
+                                </tr>
+
+
+                            </ng-container>
+                        </ng-container>
+                        <ng-template #NoETDealerData>
+                            <tr>
+                                <td colspan="24"
+                                    style="text-align: center;font-size: 14px;background: transparent !important;color: black; display: revert;">
+                                    <label>No Data Found</label>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid pt-3 sub-title" id="ExpenseTrend">
+    <div class="col-12" style="width: 100%;">
+        <div class="d-flex justify-content-center">
+            <div class="gross-tbl table-responsive fs-tbl">
+                <table>
+                    <thead>
+                        <tr class="SGtitle" style="background-color: #2d91f1;"></tr>
+                        <tr class="SGtitle">
+                            <th *ngIf="BSLByStoreKeysMonth[24] !=''">
+                                <span class="strName" title="{{StoreName}}">Liabilities ({{CurrentDate | date:'MMM -
+                                    yyyy'}})</span>
+                            </th>
+                            <th *ngFor="let item of BSL_StoreKeysMonth; let ioe = index;"> <span>{{item}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="BSL_AllDataKeysMonth.length > 0; else NoBSLData">
+                            <ng-container *ngFor="let item of BSL_LblyByStoreMonth; let ioe_tr = index; ">
+                                <tr class="sub-title"
+                                    [ngClass]="{'colortitle': item.EBITDA_Symbol == '2','title': item.BSM_SubLableDetail == 'Accounts Payable'
+                        || item.BSM_SubLableDetail == 'Accrued Liabilities' || item.BSM_SubLableDetail == 'Flooring',
+                        'title-head': item.BSM_SubLableDetail == 'Total','TitleHead': item.BSM_SubLableDetail == 'GrandTotal'}">
+
+                                    <td title="{{item.LABLE1}}">
+                                        <span>{{item.BSM_SubLableDetail}}</span>
+                                    </td>
+
+                                    <td *ngFor="let itemKey of BSL_AllDataKeysMonth; let ioe_td = index; "
+                                        style="text-align: end;">
+                                        <span [ngClass]="{ negative: !inTheGreen(item[itemKey])}">{{(itemKey == 'LABLE1'
+                                            ? item[itemKey] : (item[itemKey] == 0 ? '-' : (item[itemKey] == null ? '-' :
+                                            (item[itemKey] | currency : 'USD' : 'symbol' : '1.0-0'))))}}</span>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                        <ng-template #NoBSLData>
+                            <tr>
+                                <td colspan="24"
+                                    style="text-align: center;font-size: 14px;background: transparent !important;color: black; display: revert;">
+                                    <label>No Data Found</label>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid pt-3 sub-title" id="ExpenseTrend">
+    <div class="col-12" style="width: 100%;">
+        <div class="d-flex justify-content-center">
+            <div class="gross-tbl table-responsive fs-tbl">
+                <table>
+                    <thead>
+                        <tr class="SGtitle" style="background-color: #2d91f1;"></tr>
+                        <tr class="SGtitle">
+                            <th *ngIf="BSEByStoreKeysMonth[24] !=''">
+                                <span class="strName" title="{{StoreName}}">Equity ({{CurrentDate | date:'MMM -
+                                    yyyy'}})</span>
+                            </th>
+                            <th *ngFor="let item of BSE_StoreKeysMonth; let ioe = index;"> <span>{{item}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="BSE_AllDataKeysMonth.length > 0; else NoBSEData">
+                            <ng-container *ngFor="let item of BSE_EqtyByStoreMonth; let ioe_tr = index; ">
+                                <tr class="sub-title"
+                                    [ngClass]="{'colortitle': item.EBITDA_Symbol == '2','title-head': item.BSM_SubLableDetail == 'Total','TitleHead': item.BSM_SubLableDetail == 'GrandTotal'}">
+
+                                    <td title="{{item.LABLE1}}">
+                                        <span>{{item.BSM_SubLableDetail}}</span>
+                                    </td>
+
+                                    <td *ngFor="let itemKey of BSE_AllDataKeysMonth; let ioe_td = index; "
+                                        style="text-align: end;">
+                                        <span [ngClass]="{ negative: !inTheGreen(item[itemKey])}">{{(itemKey == 'LABLE1'
+                                            ? item[itemKey] : (item[itemKey] == 0 ? '-' : (item[itemKey] == null ? '-' :
+                                            (item[itemKey] | currency : 'USD' : 'symbol' : '1.0-0'))))}}</span>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                        <ng-template #NoBSEData>
+                            <tr>
+                                <td colspan="24"
+                                    style="text-align: center;font-size: 14px;background: transparent !important;color: black; display: revert;">
+                                    <label>No Data Found</label>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

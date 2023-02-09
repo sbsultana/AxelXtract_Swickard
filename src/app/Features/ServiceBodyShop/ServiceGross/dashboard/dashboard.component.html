@@ -1,0 +1,280 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="white" type="ball-fussion">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<!-- <app-header></app-header> -->
+<!-- {{updateDate}} -->
+
+
+<!-- <div class="Refresh">Updated: 06/08/22 07:35:56 am <img src="../../../assets/images/refresh_icon.png" alt=""> </div> -->
+<div class="container-fluid pe-0 mt-1">
+    <div class="col-12">
+        <div class="d-flex">
+            <div class="gross-tbl SrvcGross-tbl1 table-responsive" (mouseenter)="updateCurrentElement('scrollOne')"
+                (scroll)="updateVerticalScroll($event)" #scrollOne>
+                <table>
+                    <thead (click)="openMenu()">
+                        <tr>
+                            <th rowspan="2">{{FromDate |date:'MMMM'}} <span
+                                    *ngIf="(FromDate | date: 'MMMM') != (ToDate | date: 'MMMM')">- {{ToDate
+                                    |date:'MMMM'}} </span></th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">{{FromDate |date:'dd'}} <span
+                                    *ngIf="(FromDate | date: 'yyyy') != (ToDate | date: 'yyyy')">{{FromDate
+                                    |date:'yyyy'}}</span>
+                                - {{ToDate |date:'dd'}}<span
+                                    *ngIf="(FromDate | date: 'yyyy') != (ToDate | date: 'yyyy')">{{ToDate
+                                    |date:'yyyy'}}</span><span
+                                    *ngIf="(FromDate | date: 'yyyy') == (ToDate | date: 'yyyy')">, {{FromDate |
+                                    date:'yyyy'}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let ServiceInfo of ServiceData; let i=index">
+                        <tr class="title" [id]="'D_'+i"
+                            [ngClass]="{'disable' : ServiceInfo.data1 == undefined , 'divBold': ServiceInfo.data1 === 'REPORTS TOTAL'}">
+                            <td>
+                                <span style="float: left; margin-right: .5rem; color: #363b4f;"
+                                    (click)="expandorcollapse(i,$event,ServiceInfo.Dealer,ServiceInfo,'')"
+                                    [id]="'D_'+i">{{ServiceInfo.Dealer}}</span>
+
+                                <span [id]="'D_'+i"
+                                    title="{{(ServiceInfo.data1 == undefined ? 'Reports Total': ServiceInfo.data1)}}"
+                                    (click)="expandorcollapse(i,$event,ServiceInfo.Dealer,ServiceInfo)">
+                                    {{(ServiceInfo.data1 == undefined ? '-' : ( (ServiceInfo.data1.toString() |
+                                    slice:0:22) +
+                                    (ServiceInfo.data1.toString().length > 22 ? '...' : '') ))}} </span>
+                            </td>
+                        </tr>
+
+
+                        <tr *ngFor="let dt2 of ServiceInfo.Data2" [id]="'DNS_'+i"
+                            [ngClass]="{'hidden': ServiceInfo.Dealer === '+'  }">
+                            <td>
+                                <span style="margin-right: 1.5rem;"></span>
+                                <span title="{{dt2.data2}}" (click)="openDetails(dt2,ServiceInfo,'2')"> {{(dt2.data2 ==
+                                    undefined ? '--' : ( (dt2.data2.toString() | slice:0:15) +
+                                    (dt2.data2.toString().length > 15 ? '...' : '') ))}} </span>
+
+                            </td>
+                        </tr>
+
+
+                    <tbody>
+                        <!-- <tbody *ngIf="NoData">
+                            <tr><td colspan="1">&nbsp;</td></tr>
+                        </tbody> -->
+                </table>
+            </div>
+            <div class="sec-tbl SrvcGross-tbl2 table-responsive" (mouseenter)="updateCurrentElement('scrollTwo')"
+                (scroll)="updateVerticalScroll($event)" #scrollTwo>
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2"></th>
+                            <th colspan="5" style="border-right: 2px solid #e0e1e2;">Gross</th>
+                            <th colspan="4" style="border-right: 2px solid #e0e1e2;">Hours</th>
+                            <th colspan="4" style="border-right: 2px solid #e0e1e2;">Repair Orders</th>
+                            <th colspan="9" style="border-right: 2px solid #e0e1e2;">Performance</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th (click)="sort('Total_Gross')" style="cursor: pointer;">Total</th>
+                            <th (click)="sort('TotalGross_Pace')" style="cursor: pointer;">Pace</th>
+                            <th (click)="sort('Gross_Target')" style="cursor: pointer;">Target</th>
+                            <th (click)="sort('Diff')" style="cursor: pointer;">Diff</th>
+                            <th (click)="sort('Discount')" style="cursor: pointer;">Discounts</th>
+
+                            <th (click)="sort('Total_Hours')" style="cursor: pointer;">Total</th>
+                            <th (click)="sort('TotalHours_PACE')" style="cursor: pointer;">Pace</th>
+                            <th>Target</th>
+                            <th>Diff</th>
+
+
+                            <th (click)="sort('Repair_Orders')" style="cursor: pointer;">Total</th>
+                            <th (click)="sort('Total_ROPACE')" style="cursor: pointer;">Pace</th>
+                            <th>Target</th>
+                            <th>Diff</th>
+
+
+                            <th (click)="sort('Hours_per_RO')" style="cursor: pointer;">Hours/RO</th>
+                            <th (click)="sort('Sales_Per_RO')" style="cursor: pointer;">Sales/RO</th>
+                            <th (click)="sort('Parts_Per_RO')" style="cursor: pointer;">Parts/RO</th>
+                            <th (click)="sort('Average_RO')" style="cursor: pointer;">Avg RO</th>
+                            <th (click)="sort('ELR')" style="cursor: pointer;">ELR</th>
+                            <th (click)="sort('Retention')" style="cursor: pointer;">GP%</th>
+                            <th (click)="sort('MPI')" style="cursor: pointer;">MPI%</th>
+                            <!-- <th >Upsell%</th>
+                              <th >Upsell$</th> -->
+
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let ServiceInfo of ServiceData; let i=index">
+                        <tr [ngClass]="{'title' : i % 2 == 0 , 'titleOdd' : i % 2 != 0 , 'Selectedrow': ServiceInfo.Dealer === '-' , 'divBold': ServiceInfo.data1 === 'REPORTS TOTAL'}"
+                            [id]="'DV_'+i">
+                            <td id="DataBody1"> <span>&nbsp;</span></td>
+                            <td id="DataBody2" [ngClass]="{ negative: !inTheGreen(ServiceInfo.Total_Gross)}">{{
+                                ServiceInfo.Total_Gross == 0 || ServiceInfo.Total_Gross == null ? '-' :
+                                ServiceInfo.Total_Gross | currency:'USD':'symbol':'1.0-0'}}</td>
+                            <td id="DataBody3" [ngClass]="{ negative: !inTheGreen(ServiceInfo.TotalGross_Pace)}">{{
+                                ServiceInfo.TotalGross_Pace == 0 || ServiceInfo.TotalGross_Pace == null ||
+                                (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                ServiceInfo.TotalGross_Pace | currency:'USD':'symbol':'1.0-0'}}</td>
+                            <td id="DataBody4" [ngClass]="{ negative: !inTheGreen(ServiceInfo.Gross_Target)}">{{
+                                ServiceInfo.Gross_Target == 0 || ServiceInfo.Gross_Target == null ||
+                                (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                ServiceInfo.Gross_Target | currency:'USD':'symbol':'1.0-0'}}</td>
+                            <td id="DataBody5" [ngClass]="{ negative: !inTheGreen(ServiceInfo.Diff)}">{{
+                                ServiceInfo.Diff == 0 || ServiceInfo.Diff == null ||
+                                (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' : ServiceInfo.Diff |
+                                currency:'USD':'symbol':'1.0-0'}}</td>
+                            <td id="DataBody6">{{
+                                ServiceInfo.Discount == 0 || ServiceInfo.Discount == null ||
+                                (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' : ServiceInfo.Discount |
+                                currency:'USD':'symbol':'1.0-0'}}</td>
+                            <!-- |currency:'USD':'symbol':'1.0-0'  for above 3-->
+                            <td id="DataBody7" [ngClass]="{ negative: !inTheGreen(ServiceInfo.Total_Hours)}"> {{
+                                (ServiceInfo.Total_Hours == 0 || ServiceInfo.Total_Hours == null ? '-' :
+                                ServiceInfo.Total_Hours |number:'1.0-0') }}</td>
+                            <td id="DataBody8" [ngClass]="{ negative: !inTheGreen(ServiceInfo.TotalHours_PACE)}">{{
+                                (ServiceInfo.TotalHours_PACE == 0 || ServiceInfo.TotalHours_PACE == null ||
+                                (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                ServiceInfo.TotalHours_PACE |number:'1.0-0' ) }}</td>
+                            <td id="DataBody9" [ngClass]="{ negative: !inTheGreen(ServiceInfo.ROHours_Target)}"> {{
+                                (ServiceInfo.ROHours_Target == 0 || ServiceInfo.ROHours_Target == null ? '-' :
+                                ServiceInfo.ROHours_Target |number:'1.0-0') }}</td>
+                            <td id="DataBody10" [ngClass]="{ negative: !inTheGreen(ServiceInfo.HoursDiff)}"> {{
+                                (ServiceInfo.HoursDiff == 0 || ServiceInfo.HoursDiff == null ? '-' :
+                                ServiceInfo.HoursDiff |number:'1.0-0') }}</td>
+
+
+                            <td id="DataBody11" [ngClass]="{ negative: !inTheGreen(ServiceInfo.Repair_Orders)}">{{
+                                (ServiceInfo.Repair_Orders == 0 || ServiceInfo.Repair_Orders == null ? '-' :
+                                ServiceInfo.Repair_Orders |number:'1.0-0' ) }}</td>
+
+                            <td id="DataBody12" [ngClass]="{ negative: !inTheGreen(ServiceInfo.Total_ROPACE)}">{{
+                                (ServiceInfo.Total_ROPACE == 0 || ServiceInfo.Total_ROPACE == null ||
+                                (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                ServiceInfo.Total_ROPACE |number:'1.0-0' ) }}</td>
+                            <td id="DataBody13" [ngClass]="{ negative: !inTheGreen(ServiceInfo.RO_Target)}">{{
+                                (ServiceInfo.RO_Target == 0 || ServiceInfo.RO_Target == null ? '-' :
+                                ServiceInfo.RO_Target |number:'1.0-0' ) }}</td>
+
+                            <td id="DataBody14" [ngClass]="{ negative: !inTheGreen(ServiceInfo.ROCountDiff)}">{{
+                                (ServiceInfo.ROCountDiff == 0 || ServiceInfo.ROCountDiff == null ? '-' :
+                                ServiceInfo.ROCountDiff |number:'1.0-0' ) }}</td>
+
+
+
+                            <td id="DataBody15" [ngClass]="{ negative: !inTheGreen(ServiceInfo.Hours_per_RO)}">
+                                {{ServiceInfo.Hours_per_RO == 0 || ServiceInfo.Hours_per_RO == null ? '-' :
+                                ServiceInfo.Hours_per_RO |number:'1.2-2' }}</td>
+                            <td id="DataBody16" [ngClass]="{ negative: !inTheGreen(ServiceInfo.Sales_Per_RO)}">{{
+                                (ServiceInfo.Sales_Per_RO == 0 || ServiceInfo.Sales_Per_RO == null ? '-' :
+                                ServiceInfo.Sales_Per_RO |currency:'USD':'symbol':'1.0-0') }}</td>
+
+                            <td id="DataBody17" [ngClass]="{ negative: !inTheGreen(ServiceInfo.Parts_Per_RO)}">{{
+                                (ServiceInfo.Parts_Per_RO == 0 || ServiceInfo.Parts_Per_RO == null ? '-' :
+                                ServiceInfo.Parts_Per_RO |number:'1.1-1' ) }}</td>
+                            <td id="DataBody18" [ngClass]="{ negative: !inTheGreen(ServiceInfo.Average_RO)}">{{
+                                (ServiceInfo.Average_RO == 0 || ServiceInfo.Average_RO == null ? '-' :
+                                ServiceInfo.Average_RO |currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td id="DataBody19" [ngClass]="{ negative: !inTheGreen(ServiceInfo.ELR)}">{{
+                                (ServiceInfo.ELR == 0 || ServiceInfo.ELR == null ? '-' : ServiceInfo.ELR
+                                |currency:'USD':'symbol':'1.0-0' ) }}</td>
+                            <td id="DataBody9" [ngClass]="{ negative: !inTheGreen(ServiceInfo.Retention)}">{{
+                                (ServiceInfo.Retention == 0 || ServiceInfo.Retention == null ? '-' :
+                                ServiceInfo.Retention |number:'1.1-1' ) }}{{
+                                (ServiceInfo.Retention == 0 || ServiceInfo.Retention == null ? '' : '%'
+                                ) }}</td>
+                            <td id="DataBody10" [ngClass]="{ negative: !inTheGreen(ServiceInfo.MPI)}">{{
+                                (ServiceInfo.MPI == 0 || ServiceInfo.MPI == null ? '-' :
+                                ServiceInfo.MPI |number:'1.1-1' ) }}{{
+                                (ServiceInfo.MPI == 0 || ServiceInfo.MPI == null ? '' :
+                                '%' ) }}</td>
+                            <!-- <td id="DataBody9"> -</td>
+                            <td id="DataBody10" >-</td> -->
+                            <!-- |currency:'USD':'symbol':'1.0-0'  for last one -->
+                        </tr>
+
+
+                        <tr *ngFor="let dt2 of ServiceInfo.Data2" [id]="'DVN_'+i"
+                            [ngClass]="{'hidden': ServiceInfo.Dealer === '+'}">
+                            <td>&nbsp;</td>
+                            <td [ngClass]="{ negative: !inTheGreen(dt2.Total_Gross)}">{{dt2.Total_Gross == 0 ||
+                                dt2.Total_Gross == null ? '-' : dt2.Total_Gross |currency:'USD':'symbol':'1.0-0'}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(dt2.TotalGross_Pace)}">{{dt2.TotalGross_Pace == 0 ||
+                                dt2.TotalGross_Pace == null ||
+                                dt2.TotalGross_Pace == undefined ||
+                                (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' : dt2.TotalGross_Pace
+                                |currency:'USD':'symbol':'1.0-0'}}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>{{dt2.Discount == 0 ||
+                                dt2.Discount == null ? '-' : dt2.Discount |currency:'USD':'symbol':'1.0-0'}}</td>
+
+
+                            <td [ngClass]="{ negative: !inTheGreen(dt2.Total_Hours)}">{{ (dt2.Total_Hours == 0 ||
+                                dt2.Total_Hours == null ? '-' : dt2.Total_Hours |number:'1.0-0' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(dt2.TotalHours_PACE)}">{{ (dt2.TotalHours_PACE == 0
+                                ||
+                                dt2.TotalHours_PACE == null || dt2.TotalHours_PACE == undefined ||
+                                (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM')? '-' : dt2.TotalHours_PACE
+                                |number:'1.0-0' ) }}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td [ngClass]="{ negative: !inTheGreen(dt2.Repair_Orders)}">{{ (dt2.Repair_Orders == 0 ||
+                                dt2.Repair_Orders == null ? '-' : dt2.Repair_Orders |number:'1.0-0' ) }}</td>
+
+                            <td [ngClass]="{ negative: !inTheGreen(dt2.Total_ROPACE)}">{{ (dt2.Total_ROPACE == 0 ||
+                                dt2.Total_ROPACE ==
+                                null || dt2.Total_ROPACE == undefined ||
+                                (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' : dt2.Total_ROPACE
+                                |number:'1.0-0'
+                                ) }}</td>
+                            <td>-</td>
+                            <td>-</td>
+
+                            <td id="DataBody15" [ngClass]="{ negative: !inTheGreen(dt2.Hours_per_RO)}">
+                                {{dt2.Hours_per_RO == 0 || dt2.Hours_per_RO == null ? '-' : dt2.Hours_per_RO
+                                |number:'1.2-2' }}</td>
+
+                            <td [ngClass]="{ negative: !inTheGreen(dt2.Sales_Per_RO)}">{{ (dt2.Sales_Per_RO == 0 ||
+                                dt2.Sales_Per_RO == null ? '-' : dt2.Sales_Per_RO |currency:'USD':'symbol':'1.2-2' ) }}
+                            </td>
+
+                            <td [ngClass]="{ negative: !inTheGreen(dt2.Parts_Per_RO)}">{{ (dt2.Parts_Per_RO == 0 ||
+                                dt2.Parts_Per_RO == null ? '-' : dt2.Parts_Per_RO |number:'1.1-1' ) }}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(dt2.Average_RO)}">{{ (dt2.Average_RO == 0 ||
+                                dt2.Average_RO == null ? '-' : dt2.Average_RO |currency:'USD':'symbol':'1.0-0' )}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(dt2.ELR)}">{{ (dt2.ELR == 0 || dt2.ELR == null ? '-'
+                                : dt2.ELR |currency:'USD':'symbol':'1.0-0' )}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(dt2.Retention)}">{{ (dt2.Retention == 0 ||
+                                dt2.Retention == null ? '-'
+                                : dt2.Retention | number : '1.1-1' )}}{{ (dt2.Retention == 0 || dt2.Retention == null ?
+                                ''
+                                : '%' )}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(dt2.MPI)}">{{ (dt2.MPI == 0 || dt2.MPI == null ? '-'
+                                : dt2.MPI |number:'1.1-1' )}}
+                                {{ (dt2.MPI == 0 || dt2.MPI == null ? ''
+                                : '%' )}}
+                            </td>
+                            <!-- <td>-</td>
+                            <td>-</td> -->
+                        </tr>
+
+
+                    </tbody>
+
+
+                    <tbody *ngIf="NoData">
+                        <tr>
+                            <td colspan="12" style="font-size: small;font-weight: 600;">No Records
+                                Found</td>
+                            <td colspan="11"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

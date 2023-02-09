@@ -1,0 +1,281 @@
+<div [ngStyle]="{'position': CompleteComponentState == true? 'inherit' : 'fixed'}">
+    <ngx-spinner size="medium" color="white" type="ball-fussion">
+        <p style="font-size: 20px; color: white">Loading...</p>
+    </ngx-spinner>
+    <!-- <app-header></app-header> -->
+    <!-- <div class="Refresh">Updated: {{updateDate}} <img src="../../../assets/images/refresh_icon.png" alt=""> </div> -->
+
+    <div class="container-fluid pe-0 mt-1" id="Parts Gross"
+        [ngStyle]="{'pointer-events': CompleteComponentState == true? 'visible' : 'none'}">
+        <div class="col-12">
+            <div class="d-flex" style="margin-right: 8px;">
+
+
+                <div class="gross-tbl Salesgross-tbl1 table-responsive" (mouseenter)="updateCurrentElement('scrollOne')"
+                    (scroll)="updateVerticalScroll($event)" #scrollOne>
+                    <table>
+                        <thead style="cursor: pointer;">
+                            <tr>
+                                <th rowspan="2">{{FromDate |date:'MMMM'}} <span
+                                        *ngIf="(FromDate | date: 'MMMM') != (ToDate | date: 'MMMM')">- {{ToDate
+                                        |date:'MMMM'}} </span></th>
+                            </tr>
+                            <tr>
+                                <th rowspan="2">{{FromDate |date:'dd'}} <span
+                                        *ngIf="(FromDate | date: 'yyyy') != (ToDate | date: 'yyyy')">{{FromDate
+                                        |date:'yyyy'}}</span>
+                                    - {{ToDate |date:'dd'}}<span
+                                        *ngIf="(FromDate | date: 'yyyy') != (ToDate | date: 'yyyy')">{{ToDate
+                                        |date:'yyyy'}}</span><span
+                                        *ngIf="(FromDate | date: 'yyyy') == (ToDate | date: 'yyyy')">, {{FromDate |
+                                        date:'yyyy'}}</span></th>
+                            </tr>
+                        </thead>
+
+                        <tbody *ngFor="let PartsInfo of PartsData; let i=index">
+                            <tr class="title" [id]="'D_'+i" *ngIf="PartsData.length>0">
+                                <td>
+                                    <span style="float: left; margin-right: .5rem; color: #363b4f;"
+                                        (click)="expandorcollapse(i,$event,PartsInfo.Dealer,PartsInfo,'')"
+                                        [id]="'D_'+i">{{PartsInfo.Dealer}}</span>
+
+                                    <span [id]="'D_'+i" title="{{PartsInfo.data1}}"
+                                        (click)="expandorcollapse(i,$event,PartsInfo.Dealer,PartsInfo,'')">
+                                        {{(PartsInfo.data1 == undefined ? '--' : ( (PartsInfo.data1.toString() |
+                                        slice:0:26) +
+                                        (PartsInfo.data1.toString().length > 26 ? '...' : '') ))}} </span>
+                                </td>
+                            </tr>
+                            <ng-container *ngFor="let data2 of PartsInfo.Data2;let j=index">
+
+                                <tr [id]="'DN_'+i" [ngClass]="{'hidden': PartsInfo.Dealer === '+'  }">
+                                    <td>
+                                        <span style="float: left; margin-right: 0.8rem; color: #363b4f;" [id]="'DN_'+i"
+                                            [ngClass]="{'disable': PartsInfo.data1 === 'Reports Total' }">-</span>
+                                        <span [id]="'DN_'+i" (click)="openDetails(data2,PartsInfo,'2')"> {{data2.data2
+                                            == undefined ? '-' : data2.data2}} </span>
+                                    </td>
+                                </tr>
+                                <!--
+                           <tr style="font-size: .7rem!important;color: white !important; " *ngFor="let NewUser of data2.SubData" [id]="'DNS_'+i" [ngClass]="{'hidden': PartsInfo.Dealer === '+' || data2.data2sign === '+'  }">
+                        <td (click)="openDetails(NewUser,SalesInfo,'3')">
+                            <span style="margin-right: 1.5rem;"></span>
+                            <span title="{{NewUser.data3}}">{{(NewUser.data3 == undefined ? '--' : ( (NewUser.data3.toString() | slice:0:15) +
+                                (NewUser.data3.toString().length > 15 ? '...' : '') ))}}</span>
+
+                        </td>
+                    </tr>                  -->
+
+                            </ng-container>
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="sec-tbl Salesgross-tbl2 table-responsive" (mouseenter)="updateCurrentElement('scrollTwo')"
+                    (scroll)="updateVerticalScroll($event)" #scrollTwo>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="2"></th>
+                                <th colspan="6" style="border-right: 2px solid #e0e1e2;">Total Parts</th>
+                                <th colspan="4" style="border-right: 2px solid #e0e1e2;">Mechanical</th>
+                                <th colspan="4" style="border-right: 2px solid #e0e1e2;">Retail/Wholesale</th>
+                                <th colspan="3" style="border-right: 2px solid #e0e1e2;">Performance</th>
+
+                            </tr>
+                            <tr>
+                                <th></th>
+
+
+                                <th (click)="sort('Total_PartsSale')" style="cursor: pointer;">Sales</th>
+                                <th>Discounts</th>
+                                <th (click)="sort('Total_PartsGross')" style="cursor: pointer;">Gross</th>
+                                <th (click)="sort('Total_PartsGross_Pace')" style="cursor: pointer;">Pace</th>
+                                <th (click)="sort('Total_PartsGrossTarget')" style="cursor: pointer;">Target</th>
+                                <th (click)="sort('Total_PartsGross_Diff')" style="cursor: pointer;">Diff</th>
+
+
+                                <th (click)="sort('ServiceGross')" style="cursor: pointer;">Gross</th>
+                                <th (click)="sort('ServiceGross_Pace')" style="cursor: pointer;">Pace</th>
+                                <th (click)="sort('ServiceGross_Target')" style="cursor: pointer;">Target</th>
+                                <th (click)="sort('ServiceGross_Diff')" style="cursor: pointer;">Diff</th>
+
+
+                                <th (click)="sort('PartsGross')" style="cursor: pointer;">Gross</th>
+                                <th (click)="sort('PartsGross_Pace')" style="cursor: pointer;">Pace</th>
+                                <th (click)="sort('PartsGross_Target')" style="cursor: pointer;">Target</th>
+                                <th (click)="sort('PartsGross_Diff')" style="cursor: pointer;">Diff</th>
+
+                                <th (click)="sort('Parts_RO')" style="cursor: pointer;">Parts/RO</th>
+                                <th (click)="sort('Lost_PerDay')" style="cursor: pointer;">Lost/day</th>
+                                <th (click)="sort('Retention')" style="cursor: pointer;">GP%</th>
+                                <!-- <th></th> -->
+                            </tr>
+                        </thead>
+
+                        <tbody *ngFor="let PartsInfo of PartsData; let i=index" [ngClass]="{'hidden': NoData == true }">
+                            <tr [ngClass]="{'title' : i % 2 == 0 , 'titleOdd' : i % 2 != 0 , 'Selectedrow': PartsInfo.Dealer === '-', 'divBold': PartsInfo.data1 === 'Reports Total'  }"
+                                [id]="'DV_'+i">
+                                <td id="DataBody1"> <span>&nbsp;</span></td>
+
+                                <td id="DataBody5" [ngClass]="{ negative: !inTheGreen(PartsInfo.Total_PartsSale)}">
+                                    {{ PartsInfo.Total_PartsSale == 0 || PartsInfo.Total_PartsSale == null ? '' :
+                                    PartsInfo.Total_PartsSale | currency:'USD':'symbol':'1.0-0'}}
+                                </td>
+                                <td id="DataBody6">-</td>
+
+                                <td id="DataBody7" [ngClass]="{ negative: !inTheGreen(PartsInfo.Total_PartsGross)}"> {{
+                                    (PartsInfo.Total_PartsGross == 0 || PartsInfo.Total_PartsGross == null ? '-' :
+                                    PartsInfo.Total_PartsGross | currency:'USD':'symbol':'1.0-0') }}</td>
+                                <td id="DataBody7"
+                                    [ngClass]="{ negative: !inTheGreen(PartsInfo.Total_PartsGross_Pace)}"> {{
+                                    (PartsInfo.Total_PartsGross_Pace == 0 || PartsInfo.Total_PartsGross_Pace == null ||
+                                    (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM')? '-' :
+                                    PartsInfo.Total_PartsGross_Pace | currency:'USD':'symbol':'1.0-0') }}</td>
+
+                                <td id="DataBody7"
+                                    [ngClass]="{ negative: !inTheGreen(PartsInfo.Total_PartsGrossTarget)}"> {{
+                                    (PartsInfo.Total_PartsGrossTarget == 0 || PartsInfo.Total_PartsGrossTarget == null||
+                                    (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                    PartsInfo.Total_PartsGrossTarget | currency:'USD':'symbol':'1.0-0') }}</td>
+
+                                <td id="DataBody7"
+                                    [ngClass]="{ negative: !inTheGreen(PartsInfo.Total_PartsGross_Diff)}"> {{
+                                    (PartsInfo.Total_PartsGross_Diff == 0 || PartsInfo.Total_PartsGross_Diff == null||
+                                    (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                    PartsInfo.Total_PartsGross_Diff | currency:'USD':'symbol':'1.0-0') }}</td>
+
+                                <td id="DataBody10" [ngClass]="{ negative: !inTheGreen(PartsInfo.ServiceGross)}">
+                                    {{PartsInfo.ServiceGross == 0 || PartsInfo.ServiceGross == null ? '-' :
+                                    PartsInfo.ServiceGross | currency:'USD':'symbol':'1.0-0' }}
+                                </td>
+                                <td id="DataBody7" [ngClass]="{ negative: !inTheGreen(PartsInfo.ServiceGross_Pace)}"> {{
+                                    (PartsInfo.ServiceGross_Pace == 0 || PartsInfo.ServiceGross_Pace == null ||
+                                    (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM')? '-' :
+                                    PartsInfo.ServiceGross_Pace | currency:'USD':'symbol':'1.0-0') }}</td>
+
+                                <td id="DataBody7" [ngClass]="{ negative: !inTheGreen(PartsInfo.ServiceGross_Target)}">
+                                    {{ (PartsInfo.ServiceGross_Target == 0 || PartsInfo.ServiceGross_Target == null ||
+                                    (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM')? '-' :
+                                    PartsInfo.ServiceGross_Target | currency:'USD':'symbol':'1.0-0') }}</td>
+
+                                <td id="DataBody7" [ngClass]="{ negative: !inTheGreen(PartsInfo.ServiceGross_Diff)}"> {{
+                                    (PartsInfo.Total_PartsGross_Diff == 0 || PartsInfo.ServiceGross_Diff == null ||
+                                    (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM')? '-' :
+                                    PartsInfo.ServiceGross_Diff | currency:'USD':'symbol':'1.0-0') }}</td>
+
+                                <td id="DataBody14" [ngClass]="{ negative: !inTheGreen(PartsInfo.PartsGross)}">{{
+                                    (PartsInfo.PartsGross == 0 || PartsInfo.PartsGross == null ? '-' :
+                                    PartsInfo.PartsGross | currency:'USD':'symbol':'1.0-0' ) }}
+
+                                </td>
+                                <td id="DataBody7" [ngClass]="{ negative: !inTheGreen(PartsInfo.PartsGross_Pace)}"> {{
+                                    (PartsInfo.PartsGross_Pace == 0 || PartsInfo.PartsGross_Pace == null ||
+                                    (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM')? '-' :
+                                    PartsInfo.PartsGross_Pace | currency:'USD':'symbol':'1.0-0') }}</td>
+
+                                <td id="DataBody7" [ngClass]="{ negative: !inTheGreen(PartsInfo.PartsGross_Target)}"> {{
+                                    (PartsInfo.PartsGross_Target == 0 || PartsInfo.PartsGross_Target == null ||
+                                    (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                    PartsInfo.PartsGross_Target | currency:'USD':'symbol':'1.0-0') }}</td>
+
+                                <td id="DataBody7" [ngClass]="{ negative: !inTheGreen(PartsInfo.PartsGross_Diff)}"> {{
+                                    (PartsInfo.PartsGross_Diff == 0 || PartsInfo.PartsGross_Diff == null ||
+                                    (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM')? '-' :
+                                    PartsInfo.PartsGross_Diff | currency:'USD':'symbol':'1.0-0') }}</td>
+
+                                <td id="DataBody2">{{ PartsInfo.Parts_RO == 0 || PartsInfo.Parts_RO == null ? '-' :
+                                    PartsInfo.Parts_RO | number:'1.2-2'}}</td>
+                                <td id="DataBody3">{{ PartsInfo.Lost_PerDay == 0 || PartsInfo.Lost_PerDay == null ? '-'
+                                    : PartsInfo.Lost_PerDay | number:'1.2-2'}}</td>
+                                <td id="DataBody4">{{ PartsInfo.Retention == 0 || PartsInfo.Retention == null ? '-' :
+                                    PartsInfo.Retention | number:'1.1-1'}}{{ PartsInfo.Retention == 0 ||
+                                    PartsInfo.Retention == null ? '' :
+                                    '%'}}</td>
+
+                            </tr>
+                            <ng-container *ngFor="let data2 of PartsInfo.Data2;let j=index">
+                                <tr [id]="'DVN_'+i" [ngClass]="{'hidden': PartsInfo.Dealer === '+'  }">
+                                    <td>&nbsp;</td>
+
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.Total_PartsSale)}">{{
+                                        (data2.Total_PartsSale == 0 || data2.Total_PartsSale == null ? '-' :
+                                        data2.Total_PartsSale | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                    <td>-</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.Total_PartsGross)}">{{
+                                        (data2.Total_PartsGross == 0 || data2.Total_PartsGross == null ? '-' :
+                                        data2.Total_PartsGross | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+
+
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.Total_PartsGross_Pace)}">{{
+                                        (data2.Total_PartsGross_Pace == 0 || data2.Total_PartsGross_Pace == null ? '-' :
+                                        data2.Total_PartsGross_Pace | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.ServiceGross)}">{{ (data2.ServiceGross
+                                        == 0 || data2.ServiceGross == null ? '-' : data2.ServiceGross |
+                                        currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.ServiceGross_Pace)}">{{
+                                        (data2.ServiceGross_Pace == 0 || data2.ServiceGross_Pace == null ||
+                                        (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                        data2.ServiceGross_Pace | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.ServiceGross_Target)}">{{
+                                        (data2.ServiceGross_Target == 0 || data2.ServiceGross_Target == null ||
+                                        data2.ServiceGross_Target == '-' ||
+                                        (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                        data2.ServiceGross_Target | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.ServiceGross_Diff)}">{{
+                                        (data2.ServiceGross_Diff == 0 || data2.ServiceGross_Diff == null ||
+                                        data2.ServiceGross_Diff == '-' ||
+                                        (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                        data2.ServiceGross_Diff | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.PartsGross)}">{{ (data2.PartsGross == 0
+                                        || data2.PartsGross == null ? '-' : data2.PartsGross |
+                                        currency:'USD':'symbol':'1.0-0' )}}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.PartsGross_Pace)}">{{
+                                        (data2.PartsGross_Pace == 0 || data2.PartsGross_Pace == null ||
+                                        (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                        data2.PartsGross_Pace | currency:'USD':'symbol':'1.0-0' )}}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.PartsGross_Target)}">{{
+                                        (data2.PartsGross_Target == 0 || data2.PartsGross_Target == null ||
+                                        data2.PartsGross_Target == '-' ||
+                                        (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                        data2.PartsGross_Target | currency:'USD':'symbol':'1.0-0' )}}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.PartsGross_Diff)}">{{
+                                        (data2.PartsGross_Diff == 0 || data2.PartsGross_Diff == null ||
+                                        data2.PartsGross_Diff == '-' ||
+                                        (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                        data2.PartsGross_Diff | currency:'USD':'symbol':'1.0-0' )}}</td>
+
+                                    <td>{{data2.Parts_RO == 0 || data2.Parts_RO == null ? '-' : data2.Parts_RO |
+                                        number:'1.2-2'}}</td>
+                                    <td>{{data2.Lost_PerDay == 0 || data2.Lost_PerDay == null ? '-' : data2.Lost_PerDay
+                                        }}</td>
+                                    <td> {{data2.Retention == 0 || data2.Retention == null ? '-' : data2.Retention |
+                                        number:'1.1-1'}}{{data2.Retention == 0 || data2.Retention == null ? '' : '%'}}
+                                    </td>
+
+                                </tr>
+
+                            </ng-container>
+
+
+                        </tbody>
+                        <tbody *ngIf="NoData">
+                            <tr>
+                                <td colspan="11" style="color: black;">No Records Found</td>
+                                <td colspan="11"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

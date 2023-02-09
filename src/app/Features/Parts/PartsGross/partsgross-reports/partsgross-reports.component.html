@@ -1,0 +1,631 @@
+<!-- <div *ngFor="let rg of stores" style="Selected:aliceblue">
+    <span (click)="region('Region','')">ALL</span>
+    <span (click)="region(rg.Region,rg)">{{rg.Region}}</span>
+</div>
+<br>
+<br>
+<div *ngFor="let rg of stores" style="Selected:aliceblue">
+    <div>
+        <span (click)="store('Store')">All</span>
+    </div>
+    <div *ngFor="let str of rg.Stores">
+        <span (click)="store(str.AS_ID)"
+            [ngClass]="{'color': selectedStores.indexOf(str.AS_ID.toString())>=0 ? 'Red' : 'black' }">{{str.AS_DEALERNAME}}</span>
+    </div>
+</div> -->
+
+
+<!-- ////////////////////////////////// REPORT PERIOD /////////////////////////////// -->
+
+<div class="container-fluid  d-flex justify-content-start align-items-center mt-4">
+  <div class="col-lg-12 position-relative">
+    <div class="row">
+      <div class="col-lg-2 col-xl-3 col-xxl-2">
+        <div class="reports-controls">
+          <div class="header">
+            <h5 class="title m-0"><img src="" alt=""> <span class="slash">//</span>REPORT CONTROLS</h5>
+            <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i class="fa-solid fa-xmark"></i> </a>
+          </div>
+          <div class="body">
+            <div class="list-group">
+              <a class="list-group-item list-group-item-action p-3 ps-4" (click)="Tabs('G')"
+                [ngStyle]="{'background-color': tab == 'G' ? '#ecf0f3' : '#fff'}">
+                <div class=" list-btn">
+                  <div class="d-flex align-items-center justify-content-end row">
+                    <div class="col-3"> <img class="rpt-icon" src="../../../../../assets/images/Groupings.png" alt="">
+                    </div>
+                    <div class="col-7">
+                      <div class="text-start">
+                        <h6 class="m-0 p-0">Groupings</h6>
+                        <p class="m-0 p-0">Choose how you want to group your results</p>
+                      </div>
+                    </div>
+                    <div class="col-2 m-auto text-end">
+                      <img class="arrow-icon" src="../../../../../assets/images/double-arrow-right.png" alt="">
+                    </div>
+                  </div>
+                </div>
+              </a>
+
+              <a class="list-group-item list-group-item-action p-3 ps-4" (click)="Tabs('C')"
+                [ngStyle]="{'background-color': tab == 'C' ? '#ecf0f3' : '#fff'}">
+                <div class=" list-btn">
+                  <div class="d-flex align-items-center justify-content-center row">
+                    <div class="col-3"><img class="rpt-icon" src="../../../../../assets/images/calendar-icon.png"
+                        alt="">
+                    </div>
+                    <div class="col-7">
+                      <div class="text-start">
+                        <h6 class="m-0 p-0">Timeframe</h6>
+                        <p class="m-0 p-0">Choose the period or date range to report</p>
+                      </div>
+                    </div>
+                    <div class="col-2 m-auto text-end">
+                      <img class="arrow-icon" src="../../../../../assets/images/double-arrow-right.png" alt="">
+                    </div>
+                  </div>
+                </div>
+              </a>
+
+              <a class="list-group-item list-group-item-action p-3 ps-4" (click)="Tabs('S')"
+                [ngStyle]="{'background-color': tab == 'S' ? '#ecf0f3' : '#fff'}">
+                <div class=" list-btn">
+                  <div class="d-flex align-items-center justify-content-center row">
+                    <div class="col-3"><img class="rpt-icon" src="../../../../../assets/images/Stores.png" alt="">
+                    </div>
+                    <div class="col-7">
+                      <div class="text-start">
+                        <h6 class="m-0 p-0">Stores</h6>
+                        <p class="m-0 p-0">Choose the stores or groups for your report</p>
+                      </div>
+                    </div>
+                    <div class="col-2 m-auto text-end">
+                      <img class="arrow-icon" src="../../../../../assets/images/double-arrow-right.png" alt="">
+                    </div>
+                  </div>
+                </div>
+              </a>
+
+              <a class="list-group-item list-group-item-action p-3 ps-4" (click)="Tabs('T')"
+                [ngStyle]="{'background-color': tab == 'T' ? '#ecf0f3' : '#fff'}">
+                <div class=" list-btn">
+                  <div class="row d-flex align-items-center justify-content-center ">
+                    <div class="col-3"><img class="rpt-icon" src="../../../../../assets/images/team.png" alt="">
+                    </div>
+                    <div class="col-7">
+                      <div class="text-start">
+                        <h6 class="m-0 p-0">Teams</h6>
+                        <p class="m-0 p-0">Choose how you want to group your results</p>
+                      </div>
+                    </div>
+                    <div class="col-2 m-auto text-end">
+                      <img class="arrow-icon" src="../../../../../assets/images/double-arrow-right.png" alt="">
+                    </div>
+                  </div>
+                </div>
+              </a>
+
+              <a class="list-group-item list-group-item-action p-3 ps-4" (click)="Tabs('F')"
+                [ngStyle]="{'background-color': tab == 'F' ? '#ecf0f3' : '#fff'}">
+                <div class=" list-btn">
+                  <div class="row d-flex align-items-center justify-content-center">
+                    <div class="col-3"> <img class="rpt-icon" src="../../../../../assets/images/Data-source.png" alt="">
+                    </div>
+                    <div class="col-7">
+                      <div class="text-start">
+                        <h6 class="m-0 p-0">Filters</h6>
+                        <p class="m-0 p-0">Choose additional filters for type and status of
+                          deals</p>
+                      </div>
+                    </div>
+                    <div class="col-2 m-auto text-end">
+                      <img class="arrow-icon" src="../../../../../assets/images/double-arrow-right.png" alt="">
+                    </div>
+                  </div>
+                </div>
+              </a>
+
+            </div>
+          </div>
+          <div class="footer p-3 mb-2">
+            <div class="text-center d-flex align-items-center ">
+              <button type="button" class="btn btn-view mx-1" (click)="viewreport()">View Report</button>
+              <button type="button" class="btn btn-save mx-1 opacity-0">Save to Favorites</button>
+            </div>
+            <div class="cancel-txt" (click)="close()"><a>Cancel</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- ////////////////////////////////// REPORT PERIOD /////////////////////////////// -->
+      <div class="col-lg-5" *ngIf="tab=='G'">
+        <div class="report-grouping">
+          <div class="header text-center">
+            <div class="row mt-2 align-items-center justify-content-center">
+              <div class="col-5">
+                <h5 class="m-0 p-0">Available Groupings</h5>
+              </div>
+              <div class="col-4">
+                <h6 class="m-0 p-0">Choose up to 2 Filters to Group Your Data</h6>
+              </div>
+              <div class="col-3"><button type="button" class="btn report-btn " (click)="Reset()">Reset</button></div>
+            </div>
+            <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i class="fa-solid fa-xmark"></i> </a>
+          </div>
+          <div class="body px-5 py-4 ">
+            <div class="grouping-grid">
+              <button type="button" class="btn report-btn" *ngFor="let grp of dataGrouping;let i=index"
+                (click)='SelectedData(grp)' [ngClass]="{'disabled':grp.Active=='N'}"
+                [ngClass]="{'Selected':selectedDataGrouping.indexOf(grp)>=0,'UnSelected':selectedDataGrouping.indexOf(grp)<0,'disabled':grp.Active=='N'}">{{grp.ARG_LABEL}}
+                <span *ngIf="selectedDataGrouping.indexOf(grp)>=0" style="float:right">
+                  {{selectedDataGrouping.indexOf(grp)+1}}
+                </span>
+              </button>
+            </div>
+          </div>
+          <!-- <div class="footer p-3 mb-2">
+                      <div class="text-center d-flex align-items-center justify-content-center">
+                      <button type="button" class="btn btn-sm-save mx-2">Save</button>
+                      <div class="cancel-txt mb-2 mx-2"><a href="#" class="m-0 p-0">Cancel</a></div>
+                      </div>
+                  </div> -->
+        </div>
+      </div>
+      <div class="col-lg-5 " *ngIf="tab=='C'">
+        <div class="report-period">
+          <div class="header">
+            <h5 class="title m-0"><img src="" alt="">Report Period</h5>
+            <a type="button" class="close-btn ms-auto me-2"><i class="fa-solid fa-xmark" (click)="close()"></i> </a>
+          </div>
+          <div class="body px-5 py-4">
+            <div class="report-grid">
+              <button type="button" [ngClass]="{'Selected':DateType == 'MTD' }" class="btn report-btn"
+                (click)="SetDates('MTD')">MTD</button>
+              <button type="button" [ngClass]="{'Selected':DateType == 'QTD' }" class="btn report-btn"
+                (click)="SetDates('QTD')">QTD</button>
+              <button type="button" [ngClass]="{'Selected':DateType == 'YTD' }" class="btn report-btn"
+                (click)="SetDates('YTD')">YTD</button>
+              <button type="button" [ngClass]="{'Selected':DateType == 'LM' }" class="btn report-btn"
+                (click)="SetDates('LM')">Last Month</button>
+              <button type="button" [ngClass]="{'Selected':DateType == 'LY' }" class="btn report-btn"
+                (click)="SetDates('LY')">Last Year</button>
+              <button type="button" class="btn report-btn" (click)="opencalender()"
+                [ngClass]="{'Selected':DateType == 'C' }"><span *ngIf="!custom">Custom <img class="ps-2 fa-cal"
+                    src="../../../../../assets/images/calendar-icon.png" alt="" width="25px" height="20px"></span><span
+                  *ngIf="custom">{{FromDate | date:
+                  'MM/dd/yy' }} to {{ToDate | date: 'MM/dd/yy' }}</span></button>
+              <!-- <button type="button" class="btn report-btn">
+                          </button> -->
+
+
+            </div>
+            <input type="text" name="daterange" autocomplete="off" bsDaterangepicker [(ngModel)]="bsRangeValue"
+              (click)="SetDates('C')" #d="bsDaterangepicker"
+              [bsConfig]="{ rangeInputFormat : 'MM/DD/YYYY', dateInputFormat: 'MM.DD.YYYY', showWeekNumbers: false }"
+              id="DateOfBirth" [maxDate]="maxDate" (bsValueChange)="dateRangeCreated($event)" style="border: none;
+                      color: #fff;
+                      pointer-events: none;" />
+
+            <!-- <div class="col-lg-12 report-calendar mt-5">
+                          <div class="col-lg-6"></div>
+                          <div class="col-lg-6"></div>
+                      </div> -->
+          </div>
+          <!-- <div class="footer p-3 mb-2">
+                      <div class="text-center d-flex align-items-center justify-content-center">
+                          <button type="button" class="btn btn-sm-save mx-2">Save</button>
+                          <div class="cancel-txt mb-2 mx-2"><a class="m-0 p-0">Cancel</a></div>
+                      </div>
+                  </div> -->
+        </div>
+      </div>
+
+      <div class="col-lg-8 " *ngIf="tab=='S'">
+        <div class="report-stores">
+          <div class="header text-center">
+            <div class="row mt-2">
+              <div class="col-lg-3">Groups</div>
+              <div class="col-lg-3">Brands</div>
+              <div class="col-lg-3">Stores</div>
+              <div class="col-lg-3"></div>
+            </div>
+            <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i class="fa-solid fa-xmark"></i> </a>
+          </div>
+          <div class="body px-5 py-4">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="row grp-brands">
+                  <div class="col-lg-6">
+                    <button type="button" class="btn report-btn"
+                      [ngClass]="{'Selected':selectedstorevalues.length == stores.length,'UnSelected':selectedstorevalues.length != stores.length}">All
+                      Groups</button>
+                    <!-- <button type="button" class="btn report-btn"
+                                          *ngFor="let str of stores;let i=index"
+                                          (click)="storesSelection(str.Region,str)"
+                                          [ngClass]="{'Selected':selectedStoresRegions.indexOf(str.Region)>=0,'UnSelected':selectedStoresRegions.indexOf(str.Region)<0}">
+                                          {{str.Region}}</button> -->
+                    <!-- <button type="button" class="btn report-btn">Western Region</button>
+                                      <button type="button" class="btn report-btn">Southwest Region</button>
+                                      <button type="button" class="btn report-btn">Midwest Region</button>
+                                      <button type="button" class="btn report-btn">Northeast Region</button>
+                                      <button type="button" class="btn report-btn">Southeast Region</button> -->
+                  </div>
+
+                  <div class="col-lg-6">
+                    <button type="button" class="btn report-btn"
+                      [ngClass]="{'Selected':selectedstorevalues.length == stores.length,'UnSelected':selectedstorevalues.length != stores.length}">All
+                      Brands</button>
+                    <!-- <button type="button" class="btn report-btn">Acura</button>
+                                      <button type="button" class="btn report-btn">BMW</button>
+                                      <button type="button" class="btn report-btn">Chevrolet</button>
+                                      <button type="button" class="btn report-btn">Ferrari</button>
+                                      <button type="button" class="btn report-btn">Fiat</button>
+                                      <button type="button" class="btn report-btn">Ford</button>
+                                      <button type="button" class="btn report-btn">GMC</button>
+                                      <button type="button" class="btn report-btn">Jaguar</button>
+                                      <button type="button" class="btn report-btn">Lamborghini</button>
+                                      <button type="button" class="btn report-btn">Land Rover</button>
+                                      <button type="button" class="btn report-btn">Lexus</button>
+                                      <button type="button" class="btn report-btn">Lincoln</button>
+                                      <button type="button" class="btn report-btn">Maruti</button>
+                                      <button type="button" class="btn report-btn">Maserati</button>
+                                      <button type="button" class="btn report-btn">McLaren</button> -->
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-lg-6 stores">
+                <div class="col-lg-6 w-80">
+                  <button type="button" class="btn report-btn mb-10" (click)="allstores()"
+                    [ngClass]="{'Selected':selectedstorevalues.length == stores.length,'UnSelected':selectedstorevalues.length != stores.length}">All
+                    Stores</button>
+                </div>
+
+                <div class="stores-grid">
+                  <!-- <ng-container *ngFor="let rg of stores"> -->
+                  <!-- <button type="button" class="btn report-btn" *ngFor="let str of rg.Stores"
+                                          [ngClass]="{'Selected':selectedstorevalues.indexOf( str.AS_ID.toString())>=0,'UnSelected':selectedstorevalues.indexOf(str.AS_ID.toString())<0}"
+                                          (click)="individualStores(str,str.mainid,str.regionName)">{{str.AS_DEALERNAME}}</button> -->
+                  <button type="button" class="btn report-btn" *ngFor="let s of stores"
+                    [ngClass]="{'Selected':selectedstorevalues.indexOf( s.AS_ID)>=0,'UnSelected':selectedstorevalues.indexOf(s.AS_ID)<0}"
+                    (click)="individualStores(s)">{{s.DEALER_NAME}}</button>
+
+                  <!-- *ngFor="let s of stores" [value]="s.AS_ID">{{s.DEALER_NAME}} -->
+                  <!-- <button type="button" class="btn report-btn">Scarborough BMW</button>
+                                  <button type="button" class="btn report-btn">Wickerville Mercedes</button>
+                                  <button type="button" class="btn report-btn">Wilson Heights Toyota</button>
+                                  <button type="button" class="btn report-btn">Scottsdale Mercedes</button>
+                                  <button type="button" class="btn report-btn">Mimico Honda</button>
+                                  <button type="button" class="btn report-btn">Peoria Ford</button>
+                                  <button type="button" class="btn report-btn">Humber Volvo</button>
+                                  <button type="button" class="btn report-btn">Riverside Toyota</button>
+                                  <button type="button" class="btn report-btn">Richmond Toyota</button>
+                                  <button type="button" class="btn report-btn">Cave Creek Chevy</button>
+                                  <button type="button" class="btn report-btn">Newmarket KIA</button>
+                                  <button type="button" class="btn report-btn">Glendale BMW</button>
+                                  <button type="button" class="btn report-btn">Mercedes Benz of Pickering</button>
+                                  <button type="button" class="btn report-btn">Surrey Ford</button>
+                                  <button type="button" class="btn report-btn">BMW of phoenix</button>
+                                  <button type="button" class="btn report-btn">Pinnacle Honda</button>
+                                  <button type="button" class="btn report-btn">Armstrong Volvo</button>
+                                  <button type="button" class="btn report-btn">western Ford</button>
+                                  <button type="button" class="btn report-btn">Newmarket KIA</button>
+                                  <button type="button" class="btn report-btn">Humber Volvo</button> -->
+                  <!-- </ng-container> -->
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- <div class="footer p-3 mb-2">
+                      <div class="text-center d-flex align-items-center justify-content-center">
+                      <button type="button" class="btn btn-sm-save mx-2">Save Stores</button>
+                      <div class="cancel-txt mb-2 mx-2"><a href="#" class="m-0 p-0">Cancel</a></div>
+                      </div>
+                  </div> -->
+        </div>
+      </div>
+
+
+
+      <div class="col-lg-5" *ngIf="tab=='F'">
+        <div class="report-filters">
+          <div class="header">
+            <h5 class="title m-0"><img src="" alt="">Report Filters</h5>
+            <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i class="fa-solid fa-xmark"></i> </a>
+          </div>
+          <div class="body py-2">
+            <div class="filter px-5">
+              <div class="col-4">
+                <h6 class="m-3 p-0">Sale Type:</h6>
+              </div>
+              <div class="col-8 report-grid">
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('PT','counter')"
+                  [ngClass]="{'Selected':saletype.indexOf('counter')>=0, 'UnSelected':saletype.indexOf('counter')<0}">Counter
+                  Retail</button>
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('PT','wholesale')"
+                  [ngClass]="{'Selected':saletype.indexOf('wholesale')>=0, 'UnSelected':saletype.indexOf('wholesale')<0}">Wholesale</button>
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('PT','Customerpay')"
+                  [ngClass]="{'Selected':saletype.indexOf('Customerpay')>=0, 'UnSelected':saletype.indexOf('Customerpay')<0}">Customer
+                  Pay</button>
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('PT','Warranty')"
+                  [ngClass]="{'Selected':saletype.indexOf('Warranty')>=0, 'UnSelected':saletype.indexOf('Warranty')<0}">Warranty</button>
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('PT','Internal')"
+                  [ngClass]="{'Selected':saletype.indexOf('Internal')>=0, 'UnSelected':saletype.indexOf('Internal')<0}">Internal</button>
+              </div>
+            </div>
+            <div class="filter px-5">
+              <div class="col-4">
+                <h6 class="m-3 p-0">Department:</h6>
+              </div>
+              <div class="col-8 report-grid">
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('Dept','Service')"
+                  [ngClass]="{'Selected':department.indexOf('Service')>=0, 'UnSelected':department.indexOf('Service')<0}">Service</button>
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('Dept','Parts')"
+                  [ngClass]="{'Selected':department.indexOf('Parts')>=0, 'UnSelected':department.indexOf('Parts')<0}">Parts</button>
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('Dept','Others')"
+                  [ngClass]="{'Selected':department.indexOf('Others')>=0, 'UnSelected':department.indexOf('Others')<0}">Others
+                  per Svc Dept Mapping</button>
+                <!-- <button type="button" class="btn report-btn " (click)="multipleorsingle('Dept','Body')"
+                                  [ngClass]="{'Selected':department.indexOf('Body')>=0, 'UnSelected':department.indexOf('Body')<0}">Body</button>
+                              <button type="button" class="btn report-btn "
+                                  (click)="multipleorsingle('Dept','Others')"
+                                  [ngClass]="{'Selected':department.indexOf('Others')>=0, 'UnSelected':department.indexOf('Others')<0}">Others
+                                  per Dept Mapping</button> -->
+
+              </div>
+            </div>
+
+            <div class="filter px-5" style="pointer-events: none;opacity:0.4;display: none;">
+              <div class="col-4">
+                <h6 class="m-3 p-0">Select Target:</h6>
+              </div>
+              <div class="col-8 report-grid">
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('ST','Y')"
+                  [ngClass]="{'Selected':selecttarget.indexOf('Y')>=0, 'UnSelected':selecttarget.indexOf('Y')<0}">Prior
+                  Year Same Month</button>
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('ST','M')"
+                  [ngClass]="{'Selected':selecttarget.indexOf('M')>=0, 'UnSelected':selecttarget.indexOf('M')<0}">Prior
+                  Month</button>
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('ST','F')"
+                  [ngClass]="{'Selected':selecttarget.indexOf('F')>=0, 'UnSelected':selecttarget.indexOf('F')<0}">Forecast
+                  / Goal</button>
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('ST','C')"
+                  [ngClass]="{'Selected':selecttarget.indexOf('C')>=0, 'UnSelected':selecttarget.indexOf('C')<0}">Comparision
+                  Group</button>
+              </div>
+            </div>
+
+
+            <div class="filter px-5" style="pointer-events: none;opacity:0.4">
+              <div class="col-4">
+                <h6 class="m-3 p-0">Source:</h6>
+              </div>
+              <div class="col-8 report-grid">
+                <!-- <button type="button" class="btn report-btn " (click)="multipleorsingle('SRC','T')"
+                                  [ngClass]="{'Selected':Transactorgl.indexOf('T')>=0, 'UnSelected':Transactorgl.indexOf('T')<0}">Transaction</button>
+                             -->
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('SRC','T')"
+                  [ngClass]="{'Selected':Transactorgl.indexOf('T')>=0, 'UnSelected':Transactorgl.indexOf('T')<0}">Transaction
+                </button>
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('SRC','G')"
+                  [ngClass]="{'Selected':Transactorgl.indexOf('G')>=0, 'UnSelected':Transactorgl.indexOf('G')<0}">GL</button>
+              </div>
+            </div>
+            <!-- <div class="filter px-5" style="pointer-events: none;opacity:0.4">
+                          <div class="col-4">
+                              <h6 class="m-3 p-0">Source:</h6>
+                          </div>
+                          <div class="col-8 report-grid">
+                              <button type="button" class="btn report-btn " (click)="multipleorsingle('SRC','T')"
+                                  [ngClass]="{'Selected':Transactorgl.indexOf('T')>=0, 'UnSelected':Transactorgl.indexOf('T')<0}">Transaction</button>
+                              <button type="button" class="btn report-btn " (click)="multipleorsingle('SRC','G')"
+                                  [ngClass]="{'Selected':Transactorgl.indexOf('G')>=0, 'UnSelected':Transactorgl.indexOf('G')<0}">GL</button>
+                          </div>
+                      </div> -->
+
+
+            <div class="filter px-5">
+              <div class="col-4">
+                <h6 class="m-3 p-0">Report Totals:</h6>
+              </div>
+              <div class="col-8 report-grid">
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('TB','T')"
+                  [ngClass]="{'Selected':toporbottom.indexOf('T')>=0, 'UnSelected':toporbottom.indexOf('T')<0}">Top</button>
+                <button type="button" class="btn report-btn " (click)="multipleorsingle('TB','B')"
+                  [ngClass]="{'Selected':toporbottom.indexOf('B')>=0, 'UnSelected':toporbottom.indexOf('B')<0}">Bottom</button>
+                <!-- <button type="button" class="btn report-btn " (click)="multipleorsingle('TB','B')"
+                                  [ngClass]="{'Selected':toporbottom.indexOf('B')>=0, 'UnSelected':toporbottom.indexOf('B')<0}">Bottom
+                                  </button> -->
+              </div>
+            </div>
+          </div>
+          <!-- <div class="footer p-3 mb-2">
+                      <div class="text-center d-flex align-items-center justify-content-center">
+                      <button type="button" class="btn btn-sm-save mx-2">Save</button>
+                      <div class="cancel-txt mb-2 mx-2"><a href="#" class="m-0 p-0">Cancel</a></div>
+                      </div>
+                  </div> -->
+        </div>
+      </div>
+
+      <div class="col-lg-4" *ngIf="tab=='T'">
+        <div class="report-grouping">
+          <div class="header text-center">
+            <div class="row mt-2 align-items-center justify-content-center">
+              <div class="col-5">
+                <h5 class="m-0 p-0">Teams</h5>
+              </div>
+              <!-- <div class="col-4"><h6 class="m-0 p-0">Choose up to 3 Filters to Group Your Data</h6></div> -->
+              <!-- <div class="col-3"><button type="button" class="btn report-btn ">Reset</button></div> -->
+            </div>
+            <a type="button" class="close-btn ms-auto me-2"><i class="fa-solid fa-xmark" (click)="close()"></i> </a>
+          </div>
+          <div class="body px-5 py-4">
+            <div class="grouping-grid" style="pointer-events: none;opacity:0.6">
+              <button type="button" class="btn report-btn"
+                [ngClass]="{'Selected':Teams== 'CP','UnSelected':Teams!= 'CP'}"
+                (click)="teamsselection('SP')">Counterperson/Advisor</button>
+              <!-- <button type="button" class="btn report-btn"
+                              [ngClass]="{'Selected':Teams== 'SM','UnSelected':Teams!= 'SM'}"
+                              (click)="teamsselection('SM')">SalesManagers</button>
+                          <button type="button" class="btn report-btn"
+                              [ngClass]="{'Selected':Teams== 'FM','UnSelected':Teams!= 'FM'}"
+                              (click)="teamsselection('FM')">F&I Managers</button> -->
+              <!-- <button type="button" class="btn report-btn">Salesperson</button>
+                          <button type="button" class="btn report-btn">Sale Type</button>
+                          <button type="button" class="btn report-btn">Salesperson</button> -->
+            </div>
+          </div>
+          <!-- <div class="footer p-3 mb-2">
+                      <div class="text-center d-flex align-items-center justify-content-center">
+                      <button type="button" class="btn btn-sm-save mx-2">Save</button>
+                      <div class="cancel-txt mb-2 mx-2"><a href="#" class="m-0 p-0">Cancel</a></div>
+                      </div>
+                  </div> -->
+        </div>
+      </div>
+
+      <div class="col-lg-4" *ngIf="tab=='T' && Teams== 'CP'">
+        <div class="report-salesperson">
+          <div class="header text-center px-5 pt-4">
+            <div class="row">
+              <div class="col-6 d-flex justify-content-center align-items-end">
+                <h5 class="m-0 p-0">Counterperson/Advisor</h5>
+              </div>
+              <div class="col-6"></div>
+            </div>
+
+            <a type="button" class="close-btn ms-auto me-2"><i class="fa-solid fa-xmark" (click)="close()"></i> </a>
+          </div>
+          <div class="body px-5 py-4" *ngIf="selectedstorevalues.length == 0">
+            <div class="sales-grid">
+              <button type="button" class="btn report-btn UnSelected">Select Store First
+              </button>
+
+            </div>
+          </div>
+          <div class="body px-5 py-4" *ngIf="selectedstorevalues.length > 0">
+            <div class="sales-grid">
+              <button type="button" class="btn report-btn UnSelected"> No
+                Counterperson/Advisor
+              </button>
+              <!-- <button type="button" class="btn report-btn "
+                              [ngClass]="{'Selected':selectedSalespersonvalues.length == salesPersons.length,'UnSelected':selectedSalespersonvalues.length != salesPersons.length}"
+                              (click)="employees('AllSP','')">All SalesPersons
+                          </button>
+                          <button type="button" class="btn report-btn "
+                              [ngClass]="{'Selected':selectedSalespersonvalues.indexOf( sp.SPID)>=0,'UnSelected':selectedSalespersonvalues.indexOf(sp.SPID)<0}"
+                              *ngFor="let sp of salesPersons" (click)="employees('SP',sp.SPID)"> {{sp.SPName}}
+                          </button> -->
+              <!-- <button type="button" class="btn report-btn ">Sale Type</button>
+                          <button type="button" class="btn report-btn ">Salesperson</button>
+                          <button type="button" class="btn report-btn ">Salesperson</button>
+                          <button type="button" class="btn report-btn ">Sale Type</button>
+                          <button type="button" class="btn report-btn ">Salesperson</button> -->
+            </div>
+          </div>
+          <!-- <div class="footer pt-2">
+                      <div class="text-center d-flex align-items-center justify-content-center">
+                      <button type="button" class="btn btn-sm-save mx-2">Save</button>
+                      <div class="cancel-txt mb-2 mx-2"><a href="#" class="m-0 p-0">Cancel</a></div>
+                      </div>
+                  </div> -->
+        </div>
+      </div>
+      <div class="col-lg-4" *ngIf="tab=='T' && Teams== 'SM'">
+        <div class="report-salesperson">
+          <div class="header text-center px-5 pt-4">
+            <div class="row">
+              <div class="col-6 d-flex justify-content-center align-items-end">
+                <h5 class="m-0 p-0">SalesManager</h5>
+              </div>
+              <div class="col-6"></div>
+            </div>
+
+            <a type="button" class="close-btn ms-auto me-2"><i class="fa-solid fa-xmark"></i> </a>
+          </div>
+          <div class="body px-5 py-4" *ngIf="selectedstorevalues.length == 0">
+            <div class="sales-grid">
+              <button type="button" class="btn report-btn UnSelected">Select Store First
+              </button>
+
+            </div>
+          </div>
+          <div class="body px-5 py-4" *ngIf="selectedstorevalues.length > 0">
+            <div class="sales-grid">
+              <button type="button" class="btn report-btn UnSelected" *ngIf="salesManagers.length == 0">
+                No SalesManagers
+              </button>
+              <button type="button" class="btn report-btn " (click)="employees('AllSM','')"
+                [ngClass]="{'Selected':selectedSalesManagersvalues.length == salesManagers.length,'UnSelected':selectedSalesManagersvalues.length != salesManagers.length}">All
+                Sales Managers
+              </button>
+              <button type="button" class="btn report-btn "
+                [ngClass]="{'Selected':selectedSalesManagersvalues.indexOf( sm.SmId)>=0,'UnSelected':selectedSalesManagersvalues.indexOf(sm.SmId)<0}"
+                *ngFor="let sm of salesManagers" (click)="employees('SM',sm.SmId)"> {{sm.SmName}}
+              </button>
+              <!-- <button type="button" class="btn report-btn ">Sale Type</button>
+                          <button type="button" class="btn report-btn ">Salesperson</button>
+                          <button type="button" class="btn report-btn ">Salesperson</button>
+                          <button type="button" class="btn report-btn ">Sale Type</button>
+                          <button type="button" class="btn report-btn ">Salesperson</button> -->
+            </div>
+          </div>
+          <!-- <div class="footer pt-2">
+                      <div class="text-center d-flex align-items-center justify-content-center">
+                      <button type="button" class="btn btn-sm-save mx-2">Save</button>
+                      <div class="cancel-txt mb-2 mx-2"><a href="#" class="m-0 p-0">Cancel</a></div>
+                      </div>
+                  </div> -->
+        </div>
+      </div>
+      <div class="col-lg-4" *ngIf="tab=='T' && Teams== 'FM'">
+        <div class="report-salesperson">
+          <div class="header text-center px-5 pt-4">
+            <div class="row">
+              <div class="col-6 d-flex justify-content-center align-items-end">
+                <h5 class="m-0 p-0">F&I Manager</h5>
+              </div>
+              <div class="col-6"></div>
+            </div>
+
+            <a type="button" class="close-btn ms-auto me-2"><i class="fa-solid fa-xmark"></i> </a>
+          </div>
+          <div class="body px-5 py-4" *ngIf="selectedstorevalues.length == 0">
+            <div class="sales-grid">
+              <button type="button" class="btn report-btn UnSelected">Select Store First
+              </button>
+
+            </div>
+          </div>
+          <div class="body px-5 py-4" *ngIf="selectedstorevalues.length > 0">
+            <div class="sales-grid">
+              <button type="button" class="btn report-btn UnSelected" *ngIf="financeManager.length == 0">
+                No F&I Managers
+              </button>
+              <button type="button" class="btn report-btn " (click)="employees('AllFM','')"
+                [ngClass]="{'Selected':selectedFiManagersvalues.length == financeManager.length,'UnSelected':selectedFiManagersvalues.length != financeManager.length}">All
+                F&I Managers
+              </button>
+              <button type="button" class="btn report-btn "
+                [ngClass]="{'Selected':selectedFiManagersvalues.indexOf( fm.FiId)>=0,'UnSelected':selectedFiManagersvalues.indexOf(fm.FiId)<0}"
+                *ngFor="let fm of financeManager" (click)="employees('FM',fm.FiId)"> {{fm.FiName}}
+              </button>
+              <!-- <button type="button" class="btn report-btn ">Sale Type</button>
+                          <button type="button" class="btn report-btn ">Salesperson</button>
+                          <button type="button" class="btn report-btn ">Salesperson</button>
+                          <button type="button" class="btn report-btn ">Sale Type</button>
+                          <button type="button" class="btn report-btn ">Salesperson</button> -->
+            </div>
+          </div>
+          <!-- <div class="footer pt-2">
+                      <div class="text-center d-flex align-items-center justify-content-center">
+                      <button type="button" class="btn btn-sm-save mx-2">Save</button>
+                      <div class="cancel-txt mb-2 mx-2"><a href="#" class="m-0 p-0">Cancel</a></div>
+                      </div>
+                  </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

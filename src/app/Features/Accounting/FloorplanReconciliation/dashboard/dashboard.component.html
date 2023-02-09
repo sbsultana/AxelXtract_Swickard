@@ -1,0 +1,352 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="white" type="ball-fussion">
+    <p style="font-size: 20px; color: white">Loading..</p>
+</ngx-spinner>
+
+<div class="container-fluid pe-0 mt-1">
+    <div class="col-12">
+        <div class="d-flex">
+            <div class="head-tbl table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="2" style="background-color: black !important;">&nbsp;</th>
+                            <th style="background-color: black !important;color: white; ">Total</th>
+                            <th style="background-color: black;color: white;  ">0-7</th>
+                            <th style="background-color: black;color: white; ">8-15</th>
+                            <th style="background-color: black;color: white; ">16-30</th>
+                            <th style="background-color: black;color: white;  ">31+</th>
+                        </tr>
+                    </thead>
+                    <!-- <tbody *ngFor="let tfp of TotalFloorPlanData; let i=index"> -->
+                    <tbody>
+                        <tr *ngIf="FloorPlanData.length>0">
+                            <td style="background-color: #2d91f1;"><span>&nbsp;</span></td>
+                            <td style="background-color: #2d91f1;color: white;">CIT Aging</td>
+                            <!-- <td></td> -->
+                            <!-- <td>-</td> -->
+
+                            <td [ngClass]="{ negative: !inTheGreen(FloorPlanData[0].AgeData[0].TOTAL)}"> {{
+                                FloorPlanData[0].AgeData[0].TOTAL== 0 || FloorPlanData[0].AgeData[0].TOTAL == null ? '-'
+                                : FloorPlanData[0].AgeData[0].TOTAL | currency:'USD':'symbol':'1.2-2'}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(FloorPlanData[0].AgeData[0].D1)}"> {{
+                                FloorPlanData[0].AgeData[0].D1== 0 || FloorPlanData[0].AgeData[0].D1 == null ? '-' :
+                                FloorPlanData[0].AgeData[0].D1 | currency:'USD':'symbol':'1.2-2'}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(FloorPlanData[0].AgeData[0].D2)}"> {{
+                                FloorPlanData[0].AgeData[0].D2== 0 || FloorPlanData[0].AgeData[0].D2 == null ? '-' :
+                                FloorPlanData[0].AgeData[0].D2 | currency:'USD':'symbol':'1.2-2'}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(FloorPlanData[0].AgeData[0].D3)}"> {{
+                                FloorPlanData[0].AgeData[0].D3== 0 || FloorPlanData[0].AgeData[0].D3 == null ? '-' :
+                                FloorPlanData[0].AgeData[0].D3 | currency:'USD':'symbol':'1.2-2'}}</td>
+                            <td [ngClass]="{ negative: !inTheGreen(FloorPlanData[0].AgeData[0].D4)}"> {{
+                                FloorPlanData[0].AgeData[0].D4== 0 || FloorPlanData[0].AgeData[0].D4 == null ? '-' :
+                                FloorPlanData[0].AgeData[0].D4 | currency:'USD':'symbol':'1.2-2'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <div style="padding-left: 23px;">
+                    <button type="submit" class="grp-btn grp-sml-btn">Avg. Days To Fund</button>
+                    <!-- <button type="submit" class="grp-btn grp-sml-btn" (click)="avgdays(Avgdays)">Avg. Days To Fund</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pe-0 mt-1" style="padding-top: 20px;">
+    <div class="col-12">
+        <div class="d-flex">
+            <div class="sec-tbl table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+
+                            <th rowspan="2"></th>
+                            <th colspan="3" style="border-right: 2px solid #e0e1e2;"></th>
+                            <th colspan="4" style="border-right: 2px solid #e0e1e2;">Balances</th>
+                            <th colspan="7" style="border-right: 2px solid #e0e1e2;">Deal Info</th>
+                            <th colspan="3" style="border-right: 2px solid #e0e1e2;">Vehicle</th>
+                            <th colspan="1" style="border-right: 2px solid #e0e1e2;">Customer</th>
+                            <th colspan="3" style="border-right: 2px solid #e0e1e2;">Dates</th>
+                            <th colspan="5" style="border-right: 2px solid #e0e1e2; display: none;">Due Dates</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+
+                            <th (click)="sort('AGE')" style="cursor: pointer;">CIT Age</th>
+                            <th (click)="sort('StockNumner')" style="cursor: pointer;">Stock #</th>
+                            <th (click)="sort('Deal')" style="cursor: pointer;">Deal #</th>
+
+                            <th (click)="sort('BalInventory')"
+                                style="cursor: pointer; text-align: right; padding-right: 20px;">Inventory</th>
+                            <th (click)="sort('BalFloorplan')"
+                                style="cursor: pointer; text-align: right; padding-right: 40px;">Floorplan</th>
+                            <th (click)="sort('BalCIT')"
+                                style="cursor: pointer; text-align: right; padding-right: 20px;">CIT</th>
+                            <th (click)="sort('VehicleARBalance')"
+                                style="cursor: pointer; text-align: right; padding-right: 20px;">Vehicle A/R</th>
+
+                            <th (click)="sort('storeid')" style="cursor: pointer; ">Store Code</th>
+                            <th (click)="sort('store')" style="cursor: pointer;">Store</th>
+
+                            <th (click)="sort('FIManager')" style="cursor: pointer;">F&I Mgr</th>
+                            <!-- <th (click)="sort('Account')"  style="cursor: pointer; ">Account</th> -->
+                            <!-- <th (click)="sort('Control')"  style="cursor: pointer; display: none;">Control</th> -->
+                            <!-- <th (click)="sort('StockNumner')"  style="cursor: pointer;">Stock #</th> -->
+                            <th (click)="sort('SaleType')" style="cursor: pointer;">New/Used</th>
+                            <!-- <th (click)="sort('Deal')"  style="cursor: pointer;">Deal #</th> -->
+                            <th (click)="sort('DealType')" style="cursor: pointer;">Type</th>
+                            <th (click)="sort('DealStatus')" style="cursor: pointer;">Status</th>
+                            <th (click)="sort('BankName')" style="cursor: pointer;">Bank Name</th>
+
+                            <th (click)="sort('VehicleYear')" style="cursor: pointer;">Year</th>
+                            <th (click)="sort('VehicleMake')"
+                                style="cursor: pointer; text-align: left !important; padding-left: 20px;">Make</th>
+                            <th (click)="sort('VehicleModel')" style="cursor: pointer;">Model</th>
+
+                            <th (click)="sort('CustomerName')" style="cursor: pointer;">Name</th>
+                            <th (click)="sort('CustomerNumber')" style="cursor: pointer; display: none;">Number</th>
+
+                            <th (click)="sort('DeliveryDate')" style="cursor: pointer;">Delivery</th>
+                            <th (click)="sort('DateSale')" style="cursor: pointer;">Sale</th>
+                            <th (click)="sort('FundingDate')" style="cursor: pointer;"> Funding</th>
+                            <!-- <th (click)="sort('DateSoldAge')"  style="cursor: pointer;"> Sold Age</th> -->
+
+                            <th style="display: none;" *ngFor="let d of days;">{{d.day | date:'dd'}}</th>
+                        </tr>
+                    </thead>
+                    <!-- <tbody> -->
+                    <tbody>
+                        <tr *ngFor="let fp of FloorPlanData; let i=index"
+                            [ngClass]="{'even' : i % 2 == 0 , 'odd' : i % 2 != 0 }">
+                            <td><span>&nbsp;</span></td>
+
+                            <td class="divRed"> {{ fp.DateSoldAge == 0 || fp.DateSoldAge == null || fp.DateSoldAge ==
+                                undefined || fp.DateSoldAge == ''? '-' : fp.DateSoldAge}}</td>
+                            <td style="text-align: left;cursor: pointer;" (click)="openMenu(fp)"> {{ fp.StockNumner == 0
+                                || fp.StockNumner == null || fp.StockNumner == undefined || fp.StockNumner == '' ? '-' :
+                                fp.StockNumner}}</td>
+                            <td style="text-align: center;"> {{ fp.Deal == 0 || fp.Deal == null || fp.Deal ==
+                                undefined|| fp.Deal == '' ? '-' : fp.Deal}}</td>
+
+                            <td style="text-align: right;" [ngClass]="{ negative: !inTheGreen(fp.BalInventory)}"> {{
+                                fp.BalInventory == null || fp.BalInventory == undefined|| fp.BalInventory == '' ? '-' :
+                                fp.BalInventory | currency:'USD':'symbol':'1.2-2'}}</td>
+                            <td style="text-align: center;" [ngClass]="{ negative: !inTheGreen(fp.BalFloorplan)}">
+                                {{fp.BalFloorplan == null || fp.BalFloorplan == undefined|| fp.BalFloorplan == '' ? '-'
+                                : fp.BalFloorplan | currency:'USD':'symbol':'1.2-2'}}</td>
+                            <td style="text-align: right;" [ngClass]="{ negative: !inTheGreen(fp.BalCIT)}"> {{ fp.BalCIT
+                                == null || fp.BalCIT == undefined|| fp.BalCIT == '' ? '-' : fp.BalCIT |
+                                currency:'USD':'symbol':'1.2-2'}}</td>
+                            <td style="text-align: right;" [ngClass]="{ negative: !inTheGreen(fp.VehicleARBalance)}"> {{
+                                fp.VehicleARBalance == null || fp.VehicleARBalance == undefined|| fp.VehicleARBalance ==
+                                '' ? '-' : fp.VehicleARBalance | currency:'USD':'symbol':'1.2-2'}}</td>
+
+                            <td style="text-align: center;">{{ fp.storeid == 0 || fp.storeid == null || fp.storeid ==
+                                undefined|| fp.storeid == '' ? '-' : fp.storeid}}</td>
+                            <td style="text-align: left; text-transform: capitalize;" title="{{ fp.store }}">{{ fp.store
+                                == 0 || fp.store == null || fp.store == undefined || fp.store == '' ? '-' : (( fp.store
+                                | slice:0:20) + ( fp.store.length >18 ? '..':'')) }} </td>
+                            <td style="text-align: left;"> {{ fp.FIManager == 0 || fp.FIManager == null || fp.FIManager
+                                == undefined|| fp.FIManager == '' ? '-' : fp.FIManager}}</td>
+                            <!-- <td style="text-align: center;"> {{ fp.Account == 0 || fp.Account == null || fp.Account == undefined|| fp.Account == '' ? '-' : fp.Account}}</td> -->
+                            <!-- <td style="text-align: center; display: none;">{{ fp.Control == 0 || fp.Control == null || fp.Control == undefined|| fp.Control == '' ? '-' : fp.Control}}</td> -->
+
+                            <td style="text-align: center;"> {{ fp.SaleType == 0 || fp.SaleType == null || fp.SaleType
+                                == undefined|| fp.SaleType == '' ? '-' : fp.SaleType}}</td>
+
+                            <td style="text-align: center;"> {{ fp.DealType == 0 || fp.DealType == null || fp.DealType
+                                == undefined|| fp.DealType == '' ? '-' : fp.DealType}}</td>
+                            <td style="text-align: center;"> {{ fp.DealStatus == 0 || fp.DealStatus == null ||
+                                fp.DealStatus == undefined|| fp.DealStatus == '' ? '-' : fp.DealStatus}}</td>
+                            <td style="text-align: left;"> {{ fp.BankName == 0 || fp.BankName == null || fp.BankName ==
+                                undefined|| fp.BankName == '' ? '-' : fp.BankName}}</td>
+
+
+                            <td style="text-align: center;"> {{ fp.VehicleYear == 0 || fp.VehicleYear == null ||
+                                fp.VehicleYear == undefined|| fp.VehicleYear == '' ? '-' : fp.VehicleYear}}</td>
+                            <td style="text-align: left;"> {{ fp.VehicleMake == 0 || fp.VehicleMake == null ||
+                                fp.VehicleMake == undefined|| fp.VehicleMake == '' ? '-' : fp.VehicleMake}}</td>
+                            <td style="text-align: left;" title="{{ fp.VehicleModel }}"> {{ fp.VehicleModel == 0 ||
+                                fp.VehicleModel == null || fp.VehicleModel == undefined|| fp.VehicleModel == '' ? '-' :
+                                (( fp.VehicleModel | slice:0:16) + ( fp.VehicleModel.length >14 ? '..':''))}}</td>
+
+                            <td style="text-align: left;" title="{{ fp.CustomerName }}"> {{ fp.CustomerName == 0 ||
+                                fp.CustomerName == null || fp.CustomerName == undefined|| fp.CustomerName == '' ||
+                                fp.CustomerName == ', ' ? '-' : (( fp.CustomerName | slice:0:20) + (
+                                fp.CustomerName.length >18 ? '..':''))}}</td>
+                            <td style="text-align: center; display: none;"> {{ fp.CustomerNumber == 0 ||
+                                fp.CustomerNumber == null || fp.CustomerNumber == undefined|| fp.CustomerNumber == '' ?
+                                '-' : fp.CustomerNumber}}</td>
+
+                            <td style="text-align: center;"> {{ fp.DeliveryDate == 0 || fp.DeliveryDate == null ||
+                                fp.DeliveryDate == undefined|| fp.DeliveryDate == '' ? '-' : fp.DeliveryDate}}</td>
+                            <td style="text-align: center;"> {{ fp.DateSale == 0 || fp.DateSale == null || fp.DateSale
+                                == undefined|| fp.DateSale == '' ? '-' : fp.DateSale}}</td>
+                            <td style="text-align: center;"> {{ fp.FundingDate == 0 || fp.FundingDate == null ||
+                                fp.FundingDate == undefined|| fp.FundingDate == '' ? '-' : fp.FundingDate}}</td>
+                            <!-- <td style="text-align: right;"> {{ fp.DateSoldAge == 0 || fp.DateSoldAge == null || fp.DateSoldAge == undefined|| fp.DateSoldAge == '' ? '-' : fp.DateSoldAge}}</td> -->
+
+                            <!-- <td>-</td>
+                            <td>-</td>
+                            <td>-</td> -->
+
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <!--
+                            <td>$23,503.83 {{ fp.Inventory == 0 || fp.Inventory == null || fp.Inventory == undefined|| fp.Inventory == '' ? '-' : fp.Inventory | currency:'USD':'symbol':'1.2-2'}}</td>
+                            <td>$22,520.00 {{ fp.Floorplan == 0 || fp.Floorplan == null || fp.Floorplan == undefined|| fp.Floorplan == ''? '-' : fp.Floorplan | currency:'USD':'symbol':'1.2-2'}}</td>
+                            <td>$0.00 {{ fp.CIT == 0 || fp.CIT == null || fp.CIT == null|| fp.CIT == undefined || fp.CIT == '' ? '-' : fp.CIT | currency:'USD':'symbol':'1.2-2'}}</td>
+
+                            <td></td>
+                            <td>$22,520.00 {{ fp.Age == 0 || fp.Age == null || fp.Age == undefined|| fp.Age == '' ? '-' : fp.Age | currency:'USD':'symbol':'1.2-2'}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td> -->
+                        </tr>
+                    </tbody>
+                    <tbody style="position: sticky; top:0; bottom: 0; left: 0; right: 0;">
+                        <tr class="even" *ngIf="FloorPlanData.length>0">
+                            <td><span>&nbsp;</span></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td class="TotalDueDates"
+                                [ngClass]="{ negative: !inTheGreen(FloorPlanTotalData[0].BalInventory)}">
+                                {{FloorPlanTotalData[0].BalInventory| currency:'USD':'symbol':'1.2-2'}}</td>
+                            <td class="TotalDueDates"
+                                [ngClass]="{ negative: !inTheGreen(FloorPlanTotalData[0].BalFloorplan)}">
+                                {{FloorPlanTotalData[0].BalFloorplan| currency:'USD':'symbol':'1.2-2'}}</td>
+                            <td class="TotalDueDates"
+                                [ngClass]="{ negative: !inTheGreen(FloorPlanTotalData[0].BalCIT)}">
+                                {{FloorPlanTotalData[0].BalCIT| currency:'USD':'symbol':'1.2-2'}}</td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td style="display: none;"></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+
+                            <td class="TotalDueDates" style="display: none;"></td>
+                            <td class="TotalDueDates" style="display: none;"></td>
+                            <td class="TotalDueDates" style="display: none;"></td>
+                            <td class="TotalDueDates" style="display: none;"></td>
+                            <td class="TotalDueDates" style="display: none;"></td>
+                            <!-- <td class="TotalDueDates"> {{  FloorPlanData[0].AgeData[0].D1== 0 || FloorPlanData[0].AgeData[0].D1 == null ? '-' :  FloorPlanData[0].AgeData[0].D1 | currency:'USD':'symbol':'1.2-2'}}</td>
+              <td class="TotalDueDates"> {{  FloorPlanData[0].AgeData[0].D2== 0 || FloorPlanData[0].AgeData[0].D2 == null ? '-' :  FloorPlanData[0].AgeData[0].D2 | currency:'USD':'symbol':'1.2-2'}}</td>
+              <td class="TotalDueDates"> {{  FloorPlanData[0].AgeData[0].D3== 0 || FloorPlanData[0].AgeData[0].D3 == null ? '-' :  FloorPlanData[0].AgeData[0].D3 | currency:'USD':'symbol':'1.2-2'}}</td>
+              <td class="TotalDueDates"> {{  FloorPlanData[0].AgeData[0].D4== 0 || FloorPlanData[0].AgeData[0].D4 == null ? '-' :  FloorPlanData[0].AgeData[0].D4 | currency:'USD':'symbol':'1.2-2'}}</td> -->
+                        </tr>
+                    <tbody>
+                    <tbody *ngIf="NoData">
+                        <tr>
+                            <td colspan="13">No Records Found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #Avgdays let-modal>
+
+    <div class="row" id="Account Mapping" style="width: 30% !important;margin-left: 20%; font-family: 'Roboto';
+  margin-top: 15%;">
+        <div class="col-12">
+            <div class="acct-tbl " style="border-radius: 15px;background: white;width: max-content;">
+                <div class="header d-flex align-items-center">
+                    <h5 class="title m-0 ms-2">
+                        <img src="" alt=""> <span class="slash">//</span>Avg. Days To Fund
+                    </h5>
+                    <div class="col-7" style="display: flex;align-items:center;justify-content:center">
+                        <div style="font-family: Gotham\ Book\ Regular;font-size: 0.7vw;">By F&I Manager</div>
+                        <div style="margin: 0px 6px;"> <label style="float:left;" class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div style="font-family: Gotham\ Book\ Regular;font-size: 0.7vw;">By Lender</div>
+                    </div>
+                    <a type="button" class="close-btn ms-auto me-2" (click)="onclose()"><i
+                            class="fa-solid fa-xmark"></i> </a>
+                </div>
+                <div class="col-12">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td style="background-color: #2d91f1!important;color: white;    padding-left: 30%;">
+                                    << /td>
+                                <td style="background-color:  #2d91f1;color: white; text-align: center; ">Jan
+                                </td>
+                                <td style="background-color:  #2d91f1;color: white;text-align: center;  ">Feb</td>
+                                <!-- <th colspan="2"  style="background-color: #2d91f1 !important;">&nbsp;</th> -->
+
+                                <td style="background-color:  #2d91f1;color: white;text-align: center; ">Mar</td>
+
+                                <!-- <th colspan="2"  style="background-color: #2d91f1 !important;">&nbsp;</th> -->
+                                <td style="background-color: #2d91f1!important;color: white;padding-right: 5px;">></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="background-color:#1b1b1b;color: white;    padding: 12px 65px">Jones, J</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 9.3</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 9.3</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 9.3</td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #343435;color: white;    padding: 12px 65px">Smith, J</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 12.4</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 12.4</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 12.4</td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #1b1b1b;color: white;    padding: 12px 65px">Hansen, R</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 11.8</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 11.8</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 11.8</td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #343435;color: white;    padding: 12px 65px">Roberts, T
+                                </td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 7.7</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 7.7</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 7.7</td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #1b1b1b;color: white;    padding: 12px 65px"> Total</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 10.3</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 10.3</td>
+                                <td style="background-color:white;color: black;    padding: 12px 65px"> 10.3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,131 @@
+<div class="container-fluid d-flex justify-content-center align-items-center">
+    <div class="report-controls-popup">
+        <!-- <div  style="border-radius:20px !important"> -->
+        <!-- class="scrollpopup" -->
+        <div>
+            <div class="header d-flex align-items-center">
+                <h5 class="title m-0 ms-2">
+                    <img src="" alt=""> <span class="slash">//</span>REPORT CONTROLS
+                </h5>
+                <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i class="fa-solid fa-xmark"></i> </a>
+            </div>
+            <div class="body">
+                <div class="container-fluid">
+                    <div class="col-12 data-grouping">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="col-12 slt-trgt">
+                                    <h5>Select Target</h5>
+                                    <button type="button" class="btn btn-primary grp-btn" (click)="TabClick('1')"
+                                        [ngClass]="{'bg-color':activeTab==='1', 'bg-color-wt':activeTab !=='1'}">Summary</button>
+                                    <button type="button" class="btn btn-primary grp-btn" (click)="TabClick('2')"
+                                        [ngClass]="{'bg-color':activeTab==='2', 'bg-color-wt':activeTab !=='2'}">F&I</button>
+                                    <button type="button" class="btn btn-primary grp-btn" (click)="TabClick('5')"
+                                        [ngClass]="{'bg-color':activeTab==='5', 'bg-color-wt':activeTab !=='5'}">Deals</button>
+                                    <button type="button" class="btn btn-primary grp-btn" (click)="TabClick('6')"
+                                        [ngClass]="{'bg-color':activeTab==='6', 'bg-color-wt':activeTab !=='6'}">Sales
+                                        People</button>
+                                    <button type="button" class="btn btn-primary grp-btn" (click)="TabClick('7')"
+                                        [ngClass]="{'bg-color':activeTab==='7', 'bg-color-wt':activeTab !=='7'}">CV/Fleet</button>
+                                </div>
+
+                            </div>
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <h5 class="mb-1">Date</h5>
+                                                <form class="row form-inline">
+                                                    <div class="col-12 form-group">
+                                                        <div class="input-group">
+                                                            <input type="date"
+                                                                [ngModel]="ChangeDate | date:'yyyy-MM-dd'"
+                                                                [max]="getToday()" (ngModelChange)="updatedate($event)"
+                                                                name="startDate" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12" *ngIf="activeTab=='6'">
+                                            <h5>Sort By</h5>
+                                            <button type="button" class="btn btn-primary grp-sml-btn"
+                                                (click)="sort('TR')"
+                                                [ngClass]="{'bg-color':Sortby==='TR', 'bg-color-wt':Sortby !=='TR'}">Sales
+                                                Rank</button>
+                                            <button type="button" class="btn btn-primary grp-sml-btn"
+                                                (click)="sort('VR')"
+                                                [ngClass]="{'bg-color':Sortby==='VR', 'bg-color-wt':Sortby !=='VR'}">VSC
+                                                Rank</button>
+                                            <button type="button" class="btn btn-primary grp-sml-btn"
+                                                (click)="sort('ER')"
+                                                [ngClass]="{'bg-color':Sortby==='ER', 'bg-color-wt':Sortby !=='ER'}">Exec
+                                                Rank</button>
+                                        </div>
+
+                                        <div class="col-12" *ngIf="activeTab=='7'">
+                                            <h5>Filter By</h5>
+                                            <button type="button" class="btn btn-primary grp-sml-btn"
+                                                (click)="CV_Filters('')"
+                                                [ngClass]="{'bg-color':cvfilter==='', 'bg-color-wt':cvfilter !==''}">ALL</button>
+                                            <button type="button" class="btn btn-primary grp-sml-btn"
+                                                (click)="CV_Filters('CV')"
+                                                [ngClass]="{'bg-color':cvfilter==='CV', 'bg-color-wt':cvfilter !=='CV'}">CV</button>
+                                            <button type="button" class="btn btn-primary grp-sml-btn"
+                                                (click)="CV_Filters('FLEET')"
+                                                [ngClass]="{'bg-color':cvfilter==='FLEET', 'bg-color-wt':cvfilter !=='FLEET'}">FLEET</button>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-4">
+
+                                        <!-- <form [formGroup]="DropDowns"> -->
+                                        <div class="col-12 mb-4">
+
+                                            <h5 class="mb-2">Stores</h5>
+                                            <div class="report-dd">
+                                                <div class="d-flex align-items-center">
+                                                    <!-- <ng-multiselect-dropdown #multiSelect style="width: 100%;"
+                                                            [placeholder]="'Select'" [settings]="strsettings"
+                                                            [data]="stores" [(ngModel)]="StoresIds"
+                                                            [formControl]="DropDowns.controls.storesData"
+                                                            (onDropDownClose)="onDropDownClose($event)">
+
+                                                        </ng-multiselect-dropdown> -->
+                                                    <select class="store_ddl" [(ngModel)]="selectedsite"
+                                                        (change)="StoreChange($event)">
+                                                        <option value="0">ALL STORES</option>
+                                                        <option *ngFor="let i of stores" [value]="i.AS_ID">
+                                                            {{i.DEALER_NAME}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <!-- </form> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="col-12 d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary me-1" (click)="viewreport()">View Report</button>
+                    <button type="button" class="btn btn-primary ms-1" style="cursor:default; opacity: 0.2;"
+                        (click)="save()">Save to
+                        Favorites</button>
+                    <a class="cancel-txt" (click)="close()">Cancel</a>
+
+                </div>
+            </div>
+            <!-- </div> -->
+        </div>
+    </div>
+</div>

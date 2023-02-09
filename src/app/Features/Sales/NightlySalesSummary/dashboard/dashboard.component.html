@@ -1,0 +1,596 @@
+<div [ngStyle]="{'position': CompleteComponentState == true? 'inherit' : 'fixed'}">
+    <ngx-spinner size="medium" color="white" type="ball-fussion">
+        <p style="font-size: 20px; color: white">Loading...</p>
+    </ngx-spinner>
+</div>
+
+<div class="container-fluid" id="Nightly Summary Report"
+    [ngStyle]="{'pointer-events': CompleteComponentState == true? 'visible' : 'none'}">
+
+    <!-- <div class="col-12">
+        <div class="row">
+            <div class="button">
+                <ul>
+                    <li [ngClass]="{'bg-color':TabChange==='1', 'bg-color-wt':TabChange !=='1'}"
+                        (click)="TabClick('1')"><a>Summary</a></li>
+                    <li [ngClass]="{'bg-color':TabChange==='2', 'bg-color-wt':TabChange !=='2'}"
+                        (click)="TabClick('2')"><a>F&I</a></li>
+                    <li [ngClass]="{'bg-color':TabChange ==='5', 'bg-color-wt':TabChange !=='5'}"
+                        (click)="TabClick('5')"><a>Deals</a></li>
+                    <li [ngClass]="{'bg-color':TabChange ==='6', 'bg-color-wt':TabChange !=='6'}"
+                        (click)="TabClick('6')"><a>Sales People</a></li>
+                    <li [ngClass]="{'bg-color':TabChange ==='7', 'bg-color-wt':TabChange !=='7'}"
+                        (click)="TabClick('7')"><a>CV/Fleet</a></li>
+                </ul>
+            </div>
+        </div>
+    </div> -->
+    <div class="col-12" *ngIf="Sales">
+        <div class="row mt-20">
+            <div class="sales-tbl table-responsive">
+                <table>
+                    <thead>
+                        <tr class="SGtitle">
+                            <th>&nbsp;</th>
+                            <th>TODAY</th>
+                            <th>MTD</th>
+                            <th>PACE</th>
+                            <th>BUDGET</th>
+                            <th>VARIANCE</th>
+                            <th>LAST MONTH</th>
+                            <th>VARIANCE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="SalesGridData.length > 0">
+                            <tr class="sub-title" *ngFor="let item of New">
+                                <td>New</td>
+
+                                <td>{{item.TODAY}}</td>
+                                <td>{{item.MTD}}</td>
+                                <td>{{item.PACE }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false">{{item.BUDGET }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false"><label [ngClass]="{'divGreen' : item.BUDGET_VARIANCE.includes('-') == false,
+                          'divRed' : item.BUDGET_VARIANCE.includes('-') == true }">{{item.BUDGET_VARIANCE}}</label>
+                                </td>
+                                <td>{{item.LAST_MONTH }}</td>
+                                <td><label
+                                        [ngClass]="{'divGreen' : item.LAST_MONTH_VARIANCE.includes('-') == false,
+                                'divRed' : item.LAST_MONTH_VARIANCE.includes('-') == true }">{{item.LAST_MONTH_VARIANCE}}</label>
+                                </td>
+
+                            </tr>
+                            <tr class="sub-title" *ngFor="let item of PreOwned">
+                                <td>Pre-Owned</td>
+
+                                <td>{{item.TODAY}}</td>
+                                <td>{{item.MTD}}</td>
+                                <td>{{item.PACE }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false">{{item.BUDGET }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false"><label [ngClass]="{'divGreen' : item.BUDGET_VARIANCE.includes('-') == false,
+                          'divRed' : item.BUDGET_VARIANCE.includes('-') == true }">{{item.BUDGET_VARIANCE}}</label>
+                                </td>
+                                <td>{{item.LAST_MONTH }}</td>
+                                <td><label
+                                        [ngClass]="{'divGreen' : item.LAST_MONTH_VARIANCE.includes('-') == false,
+                                'divRed' : item.LAST_MONTH_VARIANCE.includes('-') == true }">{{item.LAST_MONTH_VARIANCE}}</label>
+                                </td>
+
+
+                            </tr>
+                            <tr class="sub-title high" *ngFor="let item of Count_SubTotal">
+                                <td>Sub Total</td>
+
+                                <td>{{item.TODAY}}</td>
+                                <td>{{item.MTD}}</td>
+                                <td>{{item.PACE }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false">{{item.BUDGET }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false"><label [ngClass]="{'divGreen' : item.BUDGET_VARIANCE.includes('-') == false,
+                          'divRed' : item.BUDGET_VARIANCE.includes('-') == true }">{{item.BUDGET_VARIANCE}}</label>
+                                </td>
+                                <td>{{item.LAST_MONTH }}</td>
+                                <td><label
+                                        [ngClass]="{'divGreen' : item.LAST_MONTH_VARIANCE.includes('-') == false,
+                                'divRed' : item.LAST_MONTH_VARIANCE.includes('-') == true }">{{item.LAST_MONTH_VARIANCE}}</label>
+                                </td>
+
+                            </tr>
+                            <tr class="title">
+                                <td>NEW GROSS</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="sub-title" *ngFor="let item of New_Front_Gross">
+                                <td>Front</td>
+
+                                <td>{{item.TODAY}}</td>
+                                <td>{{item.MTD}}</td>
+                                <td>{{item.PACE }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false">{{item.BUDGET }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false"><label [ngClass]="{'divGreen' : item.BUDGET_VARIANCE.includes('-') == false,
+                          'divRed' : item.BUDGET_VARIANCE.includes('-') == true }">{{item.BUDGET_VARIANCE}}</label>
+                                </td>
+                                <td>{{item.LAST_MONTH }}</td>
+                                <td><label
+                                        [ngClass]="{'divGreen' : item.LAST_MONTH_VARIANCE.includes('-') == false,
+                                'divRed' : item.LAST_MONTH_VARIANCE.includes('-') == true }">{{item.LAST_MONTH_VARIANCE}}</label>
+                                </td>
+                            </tr>
+                            <tr class="sub-title" *ngFor="let item of New_Back_Gross">
+                                <td>Back</td>
+
+                                <td>{{item.TODAY}}</td>
+                                <td>{{item.MTD}}</td>
+                                <td>{{item.PACE }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false">{{item.BUDGET }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false"><label [ngClass]="{'divGreen' : item.BUDGET_VARIANCE.includes('-') == false,
+                          'divRed' : item.BUDGET_VARIANCE.includes('-') == true }">{{item.BUDGET_VARIANCE}}</label>
+                                </td>
+                                <td>{{item.LAST_MONTH }}</td>
+                                <td><label
+                                        [ngClass]="{'divGreen' : item.LAST_MONTH_VARIANCE.includes('-') == false,
+                                'divRed' : item.LAST_MONTH_VARIANCE.includes('-') == true }">{{item.LAST_MONTH_VARIANCE}}</label>
+                                </td>
+                            </tr>
+                            <tr class="sub-title high" *ngFor="let item of New_Gross_SubTotal">
+                                <td>Sub Total</td>
+
+                                <td>{{item.TODAY}}</td>
+                                <td>{{item.MTD}}</td>
+                                <td>{{item.PACE }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false">{{item.BUDGET }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false"><label [ngClass]="{'divGreen' : item.BUDGET_VARIANCE.includes('-') == false,
+                          'divRed' : item.BUDGET_VARIANCE.includes('-') == true }">{{item.BUDGET_VARIANCE}}</label>
+                                </td>
+                                <td>{{item.LAST_MONTH }}</td>
+                                <td><label
+                                        [ngClass]="{'divGreen' : item.LAST_MONTH_VARIANCE.includes('-') == false,
+                                'divRed' : item.LAST_MONTH_VARIANCE.includes('-') == true }">{{item.LAST_MONTH_VARIANCE}}</label>
+                                </td>
+                            </tr>
+                            <tr class="title">
+                                <td>PRE-OWNED GROSS</td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="sub-title" *ngFor="let item of PreOwned_Front_Gross">
+                                <td>Front</td>
+
+                                <td>{{item.TODAY}}</td>
+                                <td>{{item.MTD}}</td>
+                                <td>{{item.PACE }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false">{{item.BUDGET }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false"><label [ngClass]="{'divGreen' : item.BUDGET_VARIANCE.includes('-') == false,
+                          'divRed' : item.BUDGET_VARIANCE.includes('-') == true }">{{item.BUDGET_VARIANCE}}</label>
+                                </td>
+                                <td>{{item.LAST_MONTH }}</td>
+                                <td><label
+                                        [ngClass]="{'divGreen' : item.LAST_MONTH_VARIANCE.includes('-') == false,
+                                'divRed' : item.LAST_MONTH_VARIANCE.includes('-') == true }">{{item.LAST_MONTH_VARIANCE}}</label>
+                                </td>
+                            </tr>
+                            <tr class="sub-title" *ngFor="let item of PreOwned_Back_Gross">
+                                <td>Back</td>
+
+                                <td>{{item.TODAY}}</td>
+                                <td>{{item.MTD}}</td>
+                                <td>{{item.PACE }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false">{{item.BUDGET }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false"><label [ngClass]="{'divGreen' : item.BUDGET_VARIANCE.includes('-') == false,
+                          'divRed' : item.BUDGET_VARIANCE.includes('-') == true }">{{item.BUDGET_VARIANCE}}</label>
+                                </td>
+                                <td>{{item.LAST_MONTH }}</td>
+                                <td><label
+                                        [ngClass]="{'divGreen' : item.LAST_MONTH_VARIANCE.includes('-') == false,
+                                'divRed' : item.LAST_MONTH_VARIANCE.includes('-') == true }">{{item.LAST_MONTH_VARIANCE}}</label>
+                                </td>
+                            </tr>
+
+                            <tr class="sub-title high" *ngFor="let item of PreOwned_Gross_SubTotal">
+                                <td>Sub Total</td>
+
+                                <td>{{item.TODAY}}</td>
+                                <td>{{item.MTD}}</td>
+                                <td>{{item.PACE }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false">{{item.BUDGET }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false"><label [ngClass]="{'divGreen' : item.BUDGET_VARIANCE.includes('-') == false,
+                          'divRed' : item.BUDGET_VARIANCE.includes('-') == true }">{{item.BUDGET_VARIANCE}}</label>
+                                </td>
+                                <td>{{item.LAST_MONTH }}</td>
+                                <td><label
+                                        [ngClass]="{'divGreen' : item.LAST_MONTH_VARIANCE.includes('-') == false,
+                                'divRed' : item.LAST_MONTH_VARIANCE.includes('-') == true }">{{item.LAST_MONTH_VARIANCE}}</label>
+                                </td>
+                            </tr>
+                            <tr class="sub-title high" *ngFor="let item of Total">
+                                <td>Total</td>
+
+                                <td>{{item.TODAY}}</td>
+                                <td>{{item.MTD}}</td>
+                                <td>{{item.PACE }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false">{{item.BUDGET }}</td>
+                                <td *ngIf="CV_Sales">-</td>
+                                <td *ngIf="CV_Sales===false"><label [ngClass]="{'divGreen' : item.BUDGET_VARIANCE.includes('-') == false,
+                          'divRed' : item.BUDGET_VARIANCE.includes('-') == true }">{{item.BUDGET_VARIANCE}}</label>
+                                </td>
+                                <td>{{item.LAST_MONTH }}</td>
+                                <td><label
+                                        [ngClass]="{'divGreen' : item.LAST_MONTH_VARIANCE.includes('-') == false,
+                                'divRed' : item.LAST_MONTH_VARIANCE.includes('-') == true }">{{item.LAST_MONTH_VARIANCE}}</label>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                    <tbody *ngIf="NoData">
+                        <tr>
+                            <td colspan="8"
+                                style="text-align: center;font-size: 14px;background: transparent !important;color: black;">
+                                <label>No Data Found</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="Summary_Sub">
+        <div class="col-6 mt-20">
+            <div class="sales-tbl table-responsive">
+                <table>
+                    <thead>
+                        <tr class="SGtitle">
+                            <th>&nbsp;</th>
+                            <th>DAY%</th>
+                            <th>MTD%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="title">
+                            <td>PRODUCT PENETRATION</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="sub-title" *ngFor="let item of SummaryGridData_FI; let ioe = index;">
+                            <td>{{item.Lable1}}</td>
+                            <td><span>{{item['DAY%']}}%</span></td>
+                            <td><span>{{item['MTD%']}}%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-6 mt-20">
+            <div class="sales-tbl table-responsive">
+                <table>
+                    <thead>
+                        <tr class="SGtitle">
+                            <th>&nbsp;</th>
+                            <th>MTD</th>
+                            <th>MTD%</th>
+                            <th>$MTD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="title">
+                            <td>LENDERS</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="sub-title" *ngFor="let item of SummaryGridData_LD; let i = index;">
+                            <td>{{item.Lender_Name }}</td>
+                            <td>{{item.MTD}}</td>
+                            <td>{{item['MTD%']}}%</td>
+                            <td>{{item['$ MTD']| currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="container-fluid" id="Nightly FI Report"
+    [ngStyle]="{'pointer-events': CompleteComponentState == true? 'visible' : 'none'}">
+    <div class="col-12" *ngIf="FI">
+        <div class="row mt-20">
+            <div class="sales-tbl table-responsive">
+                <table>
+                    <thead>
+                        <tr class="SGtitle">
+                            <th>&nbsp;</th>
+                            <th>VOLUME</th>
+                            <th>FEG</th>
+                            <th>FPVR</th>
+                            <th>BEG</th>
+                            <th>BPVR</th>
+                            <th>TOTAL GROSS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="FIGridData.length > 0">
+                            <tr class="sub-title" *ngFor="let item of TODAY_New">
+                                <td>New</td>
+                                <td>{{item.VOLUME}}</td>
+                                <td>{{item.FEG | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.FPVR | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.BEG | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.BPVR | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.TOTAL_GROSS | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                            </tr>
+                            <tr class="sub-title" *ngFor="let item of TODAY_Used">
+                                <td>Pre-Owned</td>
+                                <td>{{item.VOLUME}}</td>
+                                <td>{{item.FEG | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.FPVR | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.BEG | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.BPVR | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.TOTAL_GROSS | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                            </tr>
+                            <tr class="sub-title high" *ngFor="let item of TODAY_Total">
+                                <td>Total</td>
+                                <td>{{item.VOLUME}}</td>
+                                <td>{{item.FEG | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.FPVR | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.BEG | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.BPVR | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.TOTAL_GROSS | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                            </tr>
+                            <tr class="title">
+                                <td>MTD</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="sub-title" *ngFor="let item of MTD_New">
+                                <td>New</td>
+                                <td>{{item.VOLUME}}</td>
+                                <td>{{item.FEG | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.FPVR | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.BEG | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.BPVR | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.TOTAL_GROSS | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                            </tr>
+                            <tr class="sub-title" *ngFor="let item of MTD_Used">
+                                <td>Pre-Owned</td>
+                                <td>{{item.VOLUME}}</td>
+                                <td>{{item.FEG | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.FPVR | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.BEG | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.BPVR | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.TOTAL_GROSS | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                            </tr>
+                            <tr class="sub-title high" *ngFor="let item of MTD_Total">
+                                <td>Total</td>
+                                <td>{{item.VOLUME}}</td>
+                                <td>{{item.FEG | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.FPVR | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.BEG | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.BPVR | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.TOTAL_GROSS | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                    <tbody *ngIf="NoData">
+                        <tr>
+                            <td colspan="7"
+                                style="text-align: center;font-size: 14px;background: transparent !important;color: black;">
+                                <label>No Data Found</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" *ngIf="Sub">
+        <div class="col-6 mt-20">
+            <div class="sales-tbl table-responsive">
+                <table>
+                    <thead>
+                        <tr class="SGtitle">
+                            <th>&nbsp;</th>
+                            <th>DAY%</th>
+                            <th>MTD%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="title">
+                            <td>PRODUCT PENETRATION</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="sub-title" *ngFor="let item of FIGridData_PP; let ioe = index;">
+                            <td>{{item.Lable1}}</td>
+                            <td><span>{{item['DAY%']}}%</span></td>
+                            <td><span>{{item['MTD%']}}%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-6 mt-20">
+            <div class="sales-tbl table-responsive">
+                <table>
+                    <thead>
+                        <tr class="SGtitle">
+                            <th>&nbsp;</th>
+                            <th>MTD</th>
+                            <th>GOAL</th>
+                            <th>$MTD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="title">
+                            <td>LENDERS</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="sub-title" *ngFor="let item of FIGridData_LD; let i = index;">
+                            <td>{{item.Lender_Name }}</td>
+                            <td>{{item.MTD}}</td>
+                            <td>{{item['GOAL']}}</td>
+                            <td>{{item['$ MTD']| currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" id="Nightly Deal Report"
+    [ngStyle]="{'pointer-events': CompleteComponentState == true? 'visible' : 'none'}">
+    <div class="col-12" *ngIf="Deals">
+        <div class="row mt-20">
+            <div class="deals-tbl table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CODE</th>
+                            <th>DEAL #</th>
+                            <th>N/PO/CPO</th>
+                            <th>SOLD UNIT</th>
+                            <th>TRADE</th>
+                            <th>STOCK #</th>
+                            <th>PRICE</th>
+                            <th>FRONT</th>
+                            <th>BACK</th>
+                            <th>$ FINANCED</th>
+                            <th>LENDER</th>
+                            <th>SALES PERSON</th>
+                            <th>VSC</th>
+                            <th>EXECUTIVE SHIELD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="DealesGridData.length > 0">
+                            <tr *ngFor="let item of DealesGridData ; let ioe = index;">
+                                <td>{{item['AS_DEALER']}}</td>
+                                <td><span *ngIf="item['DEAL #'] == '-'">{{item['DEAL #']}}</span>
+                                    <span *ngIf="item['DEAL #'] != '-'" class="activetab" data-bs-toggle="modal"
+                                        data-bs-target="#DealestDetailed" style="cursor: pointer;"
+                                        (click)="DealesDetailed(item.VS_ID)">{{item['DEAL #']}}</span>
+                                </td>
+                                <td>{{item['N/PO/CPO']}}</td>
+                                <td>{{item['SOLD UNIT']}}</td>
+                                <td>{{item.TRADE}}</td>
+                                <td>{{item['STOCK #']}}</td>
+                                <td>{{item.PRICE}}</td>
+                                <td>{{item.FEG}}</td>
+                                <td>{{item.BEG}}</td>
+                                <td>{{item['$ FINANCED']}}</td>
+                                <td>{{item.LENDER}}</td>
+                                <td>{{item.SALESPERSON}}</td>
+                                <td>{{item.VSC}}</td>
+                                <td>{{item.EXECSHIELD}}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                    <tbody *ngIf="NoData">
+                        <tr>
+                            <td colspan="14"
+                                style="text-align: center;background: transparent !important;;color: #040404;font-size: 14px;">
+                                <label>No Data Found</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" id="Nightly SalesPerson Report"
+    [ngStyle]="{'pointer-events': CompleteComponentState == true? 'visible' : 'none'}">
+    <div class="col-12" *ngIf="SalesPerson">
+        <div class="row mt-20">
+            <div class="deals-tbl table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CODE</th>
+                            <th>Sales Person</th>
+                            <th>NEW</th>
+                            <th>PRE-OWNED</th>
+                            <th>CPO</th>
+                            <th>TOTAL</th>
+                            <th>FEG $</th>
+                            <th>RANK</th>
+                            <th>VSC%</th>
+                            <th>VSC Rank</th>
+                            <th>EXEC %</th>
+                            <th>EXEC&nbsp;Rank</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="SalesPersonData.length > 0">
+                            <tr *ngFor="let item of SalesPersonData ; let ioe = index;">
+                                <td>{{item.Dealer}}</td>
+                                <td>{{item['SP_Name']}}</td>
+                                <td>{{item.MTD_NEW}}</td>
+                                <td>{{item.MTD_USED}}</td>
+                                <td>{{item.MTD_CPO}}</td>
+                                <td>{{item.MTD_Total}}</td>
+                                <td>{{item['FEG $'] | currency : 'USD' : 'symbol' : '1.0-0'}}</td>
+                                <td>{{item.Rank}}</td>
+                                <td>{{item['VSC %']}}</td>
+                                <td>{{item['Vsc Rank']}}</td>
+                                <td>{{item['Exec%']}}</td>
+                                <td>{{item['Exec Rank']}}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                    <tbody *ngIf="NoData">
+                        <tr>
+                            <td colspan="12"
+                                style="text-align: center;background: transparent !important;;color: #040404;font-size: 14px;">
+                                <label>No Data Found</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

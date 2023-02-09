@@ -1,0 +1,86 @@
+<div class="container-fluid d-flex justify-content-center align-items-center">
+    <div class="gross-popup">
+        <div class="header d-flex align-items-center">
+            <h5 class="title m-0 ms-2">
+                <img src="" alt=""> <span class="slash">//</span>{{Loyaltydetails[0].empName}}
+            </h5>
+            <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i class="fa-solid fa-xmark"></i> </a>
+        </div>
+
+        <div class="loader" style="margin-top: 3%;margin-left: 35%;" *ngIf="spinnerLoader"></div>
+        <div class="content">
+            <div id="Loyalty">
+                <div class="pb-4">
+                    <div class="container-fluid pt-4">
+                        <div class="col-12">
+                            <div class="d-flex ">
+                                <div class="gross-tbl table-responsive fs-tbl" style="width: 100%;">
+
+                                    <table>
+                                        <thead>
+                                            <tr class="SGtitle">
+                                                <th>Employee </th>
+                                                <th>Store</th>
+                                                <th>Customer</th>
+                                                <th>Date</th>
+                                                <th>Sub Status </th>
+                                                <th>Source</th>
+                                                <th>Up Type</th>
+                                                <th>FromDate</th>
+                                                <th>ToDate</th>
+                                                <th>Oppts ID</th>
+                                                <th>Activity Source</th>
+                                                <th>UP Type</th>
+                                                <th>Completed Date</th>
+                                                <th>Activity Type</th>
+                                                <th>Activity Name</th>
+                                                <th>Outcome</th>
+                                                <th>Completed By</th>
+                                                <th>Assigned To</th>
+                                                <!-- <th>AHBOI CompletedBy</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let det of LoyaltyActivity;let i= index"
+                                                [ngClass]="{'titleEven': i%2 == 0, 'titleOdd':i % 2 != 0  }">
+                                                <td>{{Loyaltydetails[0].empName }}</td>
+                                                <td>{{det.STORE }}</td>
+                                                <td>{{det.Customer }}</td>
+                                                <td>{{det.OPPTS_DATE | date:'MM.dd.yyyy' }}</td>
+                                                <td>{{det.OPPTS_SUBSTATUS }}</td>
+                                                <td>{{det.OPPTS_SOURCE }}</td>
+                                                <td>{{det.OPPTS_UPTYPE }}</td>
+                                                <td>{{det.From_Date | date:'MM.dd.yyyy' }}</td>
+                                                <td>{{det.To_Date | date:'MM.dd.yyyy' }}</td>
+                                                <td>{{det.AHBOI_OPPTS_ID }}</td>
+                                                <td>{{det.Activity_Source }}</td>
+                                                <td>{{det.UPType }}</td>
+                                                <td>{{det.Completed_Date | date:'MM.dd.yyyy' }}</td>
+                                                <td>{{det.Activity_Type }}</td>
+                                                <td>{{det.Activity_Name }}</td>
+                                                <td>{{det.Outcome }}</td>
+                                                <td>{{det.Completed_By }}</td>
+                                                <td>{{det.AHBOI_ASSIGNEDTO }}</td>
+                                                <!-- <td>{{det.AHBOI_COMPLETEDBY }}</td> -->
+                                            </tr>
+                                        </tbody>
+                                        <tbody>
+                                            <tr *ngIf="NoData">
+                                                <td colspan="13"> No Records Found</td>
+                                                <td colspan="6" style="text-align: center;"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

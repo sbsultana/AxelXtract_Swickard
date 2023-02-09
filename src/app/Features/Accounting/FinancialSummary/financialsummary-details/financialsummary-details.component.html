@@ -1,0 +1,144 @@
+<div class="container-fluid d-flex justify-content-center align-items-center"
+    [ngStyle]="{'opacity': Opacity == 'Y' ? '.8' : '1' }">
+    <div class="gross-popup">
+        <div class="header d-flex align-items-center">
+            <h5 class="title m-0 ms-2">
+                <img src="" alt=""> <span class="slash">//</span>{{Fsdetails.NAME}}
+            </h5>
+            <img src="../../../../../assets/images/Export.png" (click)="exportAsXLSX()" class="img-fluid ms-auto me-2"
+                alt="" style="cursor: pointer;">
+            <a type="button" class="close-btn ms-auto me-0" (click)="close()"><i class="fa-solid fa-xmark"></i> </a>
+        </div>
+
+
+
+        <div class="content">
+            <div class="loading">
+                <div class="loader" *ngIf="spinnerLoader"></div>
+            </div>
+            <div class="d-flex" id="Details" #TABLE #table style="width: 100%;">
+
+                <div class="deal-tbl" style="min-height: 70vh;" (scroll)="updateVerticalScroll($event)">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Store Name #</th>
+                                <th>Account ID</th>
+                                <th>Account Description</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let Fsd of FSDetailsData; let i = index ">
+                                <td style="padding-left: 3rem !important;">
+                                    {{ (Fsd.Store_Name == 0 || Fsd.Store_Name == null || Fsd.Store_Name == undefined ?
+                                    '-' :
+                                    Fsd.Store_Name ) }}
+                                </td>
+                                <td (click)="AccountDetails(Accountdetails,Fsd)" data-bs-toggle="modal"
+                                    data-bs-target="#warningmessage"
+                                    style="cursor: pointer;padding-left: 3rem !important;">
+                                    {{ (Fsd.Account_ID == 0 || Fsd.Account_ID == null || Fsd.Account_ID == undefined ?
+                                    '-' :
+                                    Fsd.Account_ID ) }}
+                                </td>
+                                <td style="padding-left: 3rem !important;">
+                                    {{ (Fsd.AccountDescription == 0 || Fsd.AccountDescription == null ||
+                                    Fsd.AccountDescription ==
+                                    undefined ? '-' : Fsd.AccountDescription ) }}
+                                </td>
+                                <td [ngClass]="{ negative:!inTheGreen(Fsd.Balance)}"
+                                    style="text-align: right;padding-right: 10rem;">
+                                    {{ (Fsd.Balance == 0 || Fsd.Balance == null || Fsd.Balance == undefined ? '-' :
+                                    Fsd.Balance |
+                                    currency: 'USD':'symbol':'1.0-0' ) }}
+                                </td>
+                            </tr>
+                            <tr *ngIf="NoData">
+                                <td colspan="5" style="text-align: center;">No Data Found!!!</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-xl" id="warningmessage" tabindex="-1" aria-labelledby="contModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl " style="width: 80%;">
+        <div class="modal-content ">
+            <div class="modal-body">
+                <div class="container-fluid d-flex justify-content-center align-items-center"
+                    style="padding-top: 18vh;">
+                    <div class="acct_popup" style="    border: 2px solid #2d91f1;border-radius: 20px 20px 20px 20px;">
+                        <div class="header d-flex align-items-center">
+                            <h5 class="title m-0 ms-2">
+                                <img src="" alt=""> <span class="slash">//</span>Account Details <span class="slash">
+                                    //</span>{{Acct_ID}}
+                            </h5>
+                            <img src="../../../../../assets/images/Export.png" (click)="exportAsXLSX_1()"
+                                class="img-fluid ms-auto me-2" alt="" style="cursor: pointer;">
+                            <a type="button" class="close-btn ms-auto me-0" data-bs-dismiss="modal"
+                                aria-label="Close"><i class="fa-solid fa-xmark"></i> </a>
+                        </div>
+                        <div class="content">
+                            <div class="loading">
+                                <div class="loader2" *ngIf="spinnerLoader"></div>
+                            </div>
+                            <div class="d-flex" id="Details2" style="width: 100%;">
+
+                                <div class="deal-tbl" style="min-height: 45vh;">
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th>Control </th>
+                                                <th>Detail Description </th>
+                                                <th>Accounting Date</th>
+                                                <th>Refer</th>
+                                                <th>Posting Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let Ad of Account_Details let i=index">
+                                                <td>{{ (Ad.control == 0 || Ad.control == null || Ad.control == undefined
+                                                    ? '-' : Ad.control ) }}
+                                                </td>
+                                                <td>{{ (Ad.detaildescription == 0 || Ad.detaildescription == null ||
+                                                    Ad.detaildescription ==
+                                                    undefined
+                                                    ? '-' : Ad.detaildescription ) }}</td>
+                                                <td>{{ (Ad.accountingdate == 0 || Ad.accountingdate == null ||
+                                                    Ad.accountingdate == undefined ?
+                                                    '-' :
+                                                    Ad.accountingdate | date: 'MM.dd.yyyy') }}</td>
+                                                <td>{{ (Ad.refer == 0 || Ad.refer == null || Ad.refer == undefined ? '-'
+                                                    : Ad.refer ) }}</td>
+                                                <td [ngClass]="{ negative:!inTheGreen(Ad.postingamount)}"
+                                                    style="text-align: right;padding-right: 1rem;">{{ (Ad.postingamount
+                                                    == 0 || Ad.postingamount
+                                                    == null
+                                                    || Ad.postingamount == undefined ? '-' : Ad.postingamount |
+                                                    currency: 'USD':'symbol':'1.0-0')
+                                                    }}
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf="NoData">
+                                                <td colspan="5" style="text-align: center;">No Data Found!!!</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="container-fluid d-flex justify-content-center align-items-center">
+    <div class="gross-popup">
+        <div class="header d-flex align-items-center">
+            <h5 class="title m-0 ms-2">
+                <img src="" alt=""> <span class="slash">//</span>{{ this.Dealdetails[0].salesperson1}}
+            </h5>
+            <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i class="fa-solid fa-xmark"></i> </a>
+        </div>
+
+        <div class="loader" style="margin-top: 5%;margin-left: 30%;" *ngIf="spinnerLoader"></div>
+
+        <div class="content" [ngStyle]="{'height': spinnerLoader == true ? '240px' : '' }">
+            <div class="d-flex" style="width: 100%;">
+                <div class="deal-tbl">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Deal #</th>
+                                <th>Date</th>
+                                <th>Customer</th>
+                                <th>Deal Type</th>
+                                <th>VIN</th>
+                                <th>Front <br> Gross</th>
+                                <th>Back <br> Gross</th>
+                                <th>Total <br> Gross</th>
+                                <th>SP <br> 1</th>
+                                <th>SP <br> 2</th>
+                                <th>F&I <br> Mgr.</th>
+                                <th>Desk <br> Mgr.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let det of Dealdetails">
+                                <td>
+                                    {{ (det.dealid == 0 || det.dealid == null || det.dealid == undefined ? '-' :
+                                    det.dealid ) }}
+                                </td>
+                                <td>
+                                    {{ (det.contractdate == 0 || det.contractdate == null || det.contractdate ==
+                                    undefined ? '-' : det.contractdate | date:'MM.dd.yyyy' ) }}
+                                </td>
+                                <td title="{{det.customername}}" style="cursor: default;"> {{(det.customername ==
+                                    undefined || det.customername == null ? '--' : (
+                                    (det.customername.toString() | slice:0:13) +
+                                    (det.customername.toString().length > 13 ? '...' : '') ))}}</td>
+                                <td>
+                                    {{ ( det.ad_dealtype == null || det.ad_dealtype == undefined ? '-' : det.ad_dealtype
+                                    ) }}
+                                </td>
+                                <td>
+                                    {{ (det.vin == 0 || det.vin == null || det.vin == undefined ? '-' : det.vin ) }}
+                                </td>
+                                <td>
+                                    {{ (det.frontgross == 0 || det.frontgross == null || det.frontgross == undefined ?
+                                    '-' :
+                                    det.frontgross | currency:'USD':'symbol':'1.0-0' ) }}
+                                </td>
+                                <td>
+                                    {{ (det.backgross == 0 || det.backgross == null || det.backgross == undefined ? '-'
+                                    : det.backgross |
+                                    currency:'USD':'symbol':'1.0-0' ) }}
+                                </td>
+                                <td>
+                                    {{ (det.totalgross == 0 || det.totalgross == null || det.totalgross == undefined ?
+                                    '-' :
+                                    det.totalgross | currency:'USD':'symbol':'1.0-0' ) }}
+                                </td>
+                                <td title="{{det.salesperson1}}" style="cursor: default;white-space: nowrap;">
+                                    {{(det.salesperson1 == null || det.salesperson1 == undefined ? '' : (
+                                    (det.salesperson1.toString() | slice:0:1) +
+                                    (det.salesperson1.toString().length > 1 ? '.' : '') ))}}
+                                    {{(det.salesperson1 == null || det.salesperson1 == undefined ? '' :
+                                    det.salesperson1.toString() | slice: det.salesperson1.indexOf(',')+1 )}}
+                                </td>
+                                <td title="{{det.salesperson2}}" style="cursor: default;white-space: nowrap;">
+                                    {{(det.salesperson2 == null || det.salesperson2 == undefined ? '' : (
+                                    (det.salesperson2.toString() | slice:0:1) +
+                                    (det.salesperson2.toString().length > 1 ? '.' : '') ))}}
+                                    {{(det.salesperson2 == null || det.salesperson2 == undefined ? '' :
+                                    det.salesperson2.toString() | slice: det.salesperson2.toString().indexOf(',')+1 )}}
+                                </td>
+                                <td title="{{det.fimanager}}" style="cursor: default;white-space: nowrap;">
+                                    {{(det.fimanager == null || det.fimanager == undefined ? '' : (
+                                    (det.fimanager.toString() | slice:0:1) +
+                                    (det.fimanager.toString().length > 1 ? '.' : '') ))}}
+                                    {{(det.fimanager == null || det.fimanager == undefined ? '' :
+                                    det.fimanager.toString() | slice: det.fimanager.indexOf(',')+1 )}}</td>
+                                <td title="{{det.salesmanager}}" style="cursor: default;white-space: nowrap;">
+                                    {{(det.salesmanager == null || det.salesmanager == undefined ? '' : (
+                                    (det.salesmanager.toString() | slice:0:1) +
+                                    (det.salesmanager.toString().length > 1 ? '.' : '') ))}}
+                                    {{(det.salesmanager == null || det.salesmanager == undefined ? '' :
+                                    det.salesmanager.toString() | slice: det.salesmanager.indexOf(',')+1 )}}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,100 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="white" type="ball-fussion">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+
+
+<div class="container-fluid mt-2">
+    <div class="col-12">
+        <div class="d-flex justify-content-center">
+            <div class="gross-tbl table-responsive ">
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2">&nbsp;</th>
+                            <th colspan="4" style="border-right: 2px solid #e0e1e2;">Loyal Customers</th>
+                            <th colspan="4" style="border-right: 2px solid #e0e1e2;">Non-Loyal Customers</th>
+                            <th colspan="2" style="border-right: 2px solid #e0e1e2;">Total</th>
+
+                        </tr>
+                        <tr>
+                            <th> &nbsp;</th>
+                            <th>Count</th>
+                            <th>Gross</th>
+                            <th>Average</th>
+                            <th>% of Total</th>
+
+                            <th>Count</th>
+                            <th>Gross</th>
+                            <th>Average</th>
+                            <th>% of Total</th>
+
+                            <th>Gross</th>
+                            <th>Average</th>
+
+
+                        </tr>
+                    </thead>
+                    <ng-container *ngIf="ReportTotalData.length > 0; else NoLoyaltydata">
+                        <tbody>
+
+                            <tr class="title" *ngFor="let Lyt of LoyaltyData; let I = index;"
+                                [ngClass]="{'btm_bdr' : I == 0 }">
+                                <td (click)="isOpen = !isOpen"> <span class="dlrship">{{Lyt.Dealership}}</span>
+                                    <!-- <span class="dwn_arw ms-3" [ngClass]="{'rpt_ttl' : I == 0 }">
+                                    <img  src="../../../../assets/images/Down_Arrow1.png" height="13px" width="13px">
+                                    <i [ngClass]="isOpen ? 'gg-chevron-up' : 'gg-chevron-down'"></i>
+                                </span></td> -->
+                                <td [ngClass]="{ negative: !inTheGreen(Lyt.LoyalCustCount)}"><span>{{ Lyt.LoyalCustCount
+                                        ==
+                                        0 || Lyt.LoyalCustCount == null ? '-' : Lyt.LoyalCustCount | number}}</span>
+                                </td>
+                                <td [ngClass]="{ negative: !inTheGreen(Lyt.LoyalTotalGross)}"><span>{{
+                                        Lyt.LoyalTotalGross
+                                        == 0 || Lyt.LoyalTotalGross == null ? '-' : Lyt.LoyalTotalGross | currency:
+                                        'USD':'symbol':'1.0-0'}}</span></td>
+                                <td [ngClass]="{ negative: !inTheGreen(Lyt.LoyalAverage)}"><span>{{ Lyt.LoyalAverage ==
+                                        0 ||
+                                        Lyt.LoyalAverage == null ? '-' : Lyt.LoyalAverage | currency:
+                                        'USD':'symbol':'1.0-0'}}</span></td>
+                                <td [ngClass]="{ negative: !inTheGreen(Lyt.Loyalitypercentage)}"><span>{{
+                                        Lyt.Loyalitypercentage == 0 || Lyt.Loyalitypercentage == null ? '-' :
+                                        Lyt.Loyalitypercentage}}<span>%</span></span></td>
+
+                                <td [ngClass]="{ negative: !inTheGreen(Lyt.NonLoyalCustCount)}"><span>{{
+                                        Lyt.NonLoyalCustCount == 0 || Lyt.NonLoyalCustCount == null ? '-' :
+                                        Lyt.NonLoyalCustCount | number}}</span></td>
+                                <td [ngClass]="{ negative: !inTheGreen(Lyt.NonLoyalTotalGross)}"><span>{{
+                                        Lyt.NonLoyalTotalGross == 0 || Lyt.NonLoyalTotalGross == null ? '-' :
+                                        Lyt.NonLoyalTotalGross | currency: 'USD':'symbol':'1.0-0'}}</span></td>
+                                <td [ngClass]="{ negative: !inTheGreen(Lyt.NonLoyalAverage)}"><span>{{
+                                        Lyt.NonLoyalAverage
+                                        == 0 || Lyt.NonLoyalAverage == null ? '-' : Lyt.NonLoyalAverage | currency:
+                                        'USD':'symbol':'1.0-0'}}</span></td>
+
+                                <td [ngClass]="{ negative: !inTheGreen(Lyt.NonLoyalitypercentage)}"><span>{{
+                                        Lyt.NonLoyalitypercentage == 0 || Lyt.NonLoyalitypercentage == null ? '-' :
+                                        Lyt.NonLoyalitypercentage}}<span>%</span></span></td>
+
+                                <td [ngClass]="{ negative: !inTheGreen(Lyt.Differencetotal)}"><span>{{
+                                        Lyt.Differencetotal
+                                        == 0 || Lyt.Differencetotal == null ? '-' : Lyt.Differencetotal | currency:
+                                        'USD':'symbol':'1.0-0'}}</span></td>
+                                <td [ngClass]="{ negative: !inTheGreen(Lyt.DifferenceAverage)}"><span>{{
+                                        Lyt.DifferenceAverage == 0 || Lyt.DifferenceAverage == null ? '-' :
+                                        Lyt.DifferenceAverage | currency: 'USD':'symbol':'1.0-0'}}</span></td>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                    <ng-template #NoLoyaltydata>
+                        <tr style="background-color: #fff;">
+                            <td colspan="11"
+                                style="text-align: center;font-size: 14px;background: transparent !important;color: black; display: revert;">
+                                <label>No Data Found</label>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

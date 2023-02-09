@@ -1,0 +1,330 @@
+<!-- ////////////////////////////////// REPORT PERIOD /////////////////////////////// -->
+
+<div class="container-fluid  d-flex justify-content-start align-items-center mt-4">
+    <div class="col-lg-12 position-relative">
+        <div class="row">
+            <div class="col-lg-2 col-xl-3 col-xxl-2">
+                <div class="reports-controls">
+                    <div class="header">
+                        <h5 class="title m-0"><img src="" alt=""> <span class="slash">//</span>REPORT CONTROLS</h5>
+                        <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i
+                                class="fa-solid fa-xmark"></i> </a>
+                    </div>
+                    <div class="body">
+                        <div class="list-group">
+
+
+                            <a class="list-group-item list-group-item-action p-3 ps-4" (click)="Tabs('ST')"
+                                [ngStyle]="{'background-color': tab == 'ST' ? '#ecf0f3' : '#fff'}">
+                                <div class=" list-btn">
+                                    <div class="d-flex align-items-center justify-content-center row">
+                                        <div class="col-3">
+                                            <!-- <img class="rpt-icon"
+                                              src="../../../../../assets/images/calendar-icon.png" alt=""> -->
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="text-start">
+                                                <h6 class="m-0 p-0">Summary Type</h6>
+                                                <p class="m-0 p-0">Choose the Summary Type to report</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 m-auto text-end">
+                                            <img class="arrow-icon"
+                                                src="../../../../../assets/images/double-arrow-right.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+
+
+                            <a class="list-group-item list-group-item-action p-3 ps-4" (click)="Tabs('SM')"
+                                *ngIf="filter=='StoreSummary' || filter =='MonthSummary'"
+                                [ngStyle]="{'background-color': tab == 'SM' ? '#ecf0f3' : '#fff'}">
+                                <div class=" list-btn">
+                                    <div class="d-flex align-items-center justify-content-center row">
+                                        <div class="col-3"><img class="rpt-icon"
+                                                src="../../../../../assets/images/calendar-icon.png" alt="">
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="text-start">
+                                                <h6 class="m-0 p-0"> Month</h6>
+                                                <p class="m-0 p-0">Choose the month to report</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 m-auto text-end">
+                                            <img class="arrow-icon"
+                                                src="../../../../../assets/images/double-arrow-right.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a class="list-group-item list-group-item-action p-3 ps-4" (click)="Tabs('S')"
+                                *ngIf="filter =='MonthSummary'"
+                                [ngStyle]="{'background-color': tab == 'S' ? '#ecf0f3' : '#fff'}">
+                                <div class=" list-btn">
+                                    <div class="d-flex align-items-center justify-content-center row">
+                                        <div class="col-3"><img class="rpt-icon"
+                                                src="../../../../../assets/images/Stores.png" alt="">
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="text-start">
+                                                <h6 class="m-0 p-0">Stores</h6>
+                                                <p class="m-0 p-0">Choose the stores or groups for your report</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 m-auto text-end">
+                                            <img class="arrow-icon"
+                                                src="../../../../../assets/images/double-arrow-right.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="footer p-3 mb-2">
+                        <div class="text-center d-flex align-items-center ">
+                            <button type="button" class="btn btn-view mx-1" (click)="viewreport()">View Report</button>
+                            <button type="button" class="btn btn-save mx-1 opacity-0">Save to Favorites</button>
+                        </div>
+                        <div class="cancel-txt" (click)="close()"><a>Cancel</a></div>
+                    </div>
+                </div>
+            </div>
+            <!-- ////////////////////////////////// REPORT PERIOD /////////////////////////////// -->
+
+
+
+            <div class="col-lg-5 " *ngIf="tab=='S'">
+                <div class="report-stores">
+                    <div class="header text-center">
+                        <div class="row mt-2">
+
+                            <div class="col-lg-3">Stores</div>
+
+                        </div>
+                        <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i
+                                class="fa-solid fa-xmark"></i> </a>
+                    </div>
+                    <div class="body px-5 py-4">
+                        <div class="row">
+
+                            <div class="col-lg-12 stores">
+                                <div class="col-lg-6 w-80">
+                                    <button type="button" class="btn report-btn mb-10" (click)="individualStores(0)"
+                                        [ngClass]="{'Selected':selectedstorevalues.length == stores.length,'UnSelected':selectedstorevalues.length != stores.length}">All
+                                        Stores</button>
+                                </div>
+
+                                <div class="stores-grid">
+                                    <!-- <ng-container *ngFor="let rg of stores"> -->
+                                    <!-- <button type="button" class="btn report-btn" *ngFor="let str of rg.Stores"
+                                                [ngClass]="{'Selected':selectedstorevalues.indexOf( str.AS_ID.toString())>=0,'UnSelected':selectedstorevalues.indexOf(str.AS_ID.toString())<0}"
+                                                (click)="individualStores(str,str.mainid,str.regionName)">{{str.AS_DEALERNAME}}</button> -->
+                                    <button type="button" class="btn report-btn" *ngFor="let s of stores"
+                                        [ngClass]="{'Selected':selectedstorevalues.indexOf(s.AS_ID)>=0,'UnSelected':selectedstorevalues.indexOf(s.AS_ID)<0}"
+                                        (click)="individualStores(s.AS_ID)">{{s.DEALER_NAME}}</button>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <div class="col-lg-4 " *ngIf="tab=='SM'">
+                <div class="report-grouping">
+                    <div class="header">
+                        <h5 class="title m-0"><img src="" alt="">Report Period</h5>
+                        <a type="button" class="close-btn ms-auto me-2"><i class="fa-solid fa-xmark"
+                                (click)="close()"></i> </a>
+                    </div>
+                    <div class="body px-5 py-4">
+
+                        <div class="mb-3">
+                            <h6 style="font-size: 0.8rem;"> Month</h6>
+                            <div class="grouping-grid">
+                                <button type="button" class="btn report-btn Selected"
+                                    (click)="opencalender()"><span>{{month | date:'MMMM/yyyy'}}</span></button>
+
+
+
+                            </div>
+                            <div class="d-flex align-items-baseline">
+                                <input [(ngModel)]="month" autocomplete="off" class="form-control date" name="date"
+                                    bsDatepicker [bsConfig]="{dateInputFormat: 'MMMM/YYYY' }"
+                                    (onShown)="onOpenCalendar($event)" (ngModelChange)="changeDate($event)"
+                                    [maxDate]="previous" id="DateOfBirth" style="border: none;
+                        color: #fff;
+                        pointer-events: none;">
+                            </div>
+                            <!-- <h5 > singlr Month</h5> -->
+                        </div>
+                        <!--
+                          <input type="text" name="daterange" autocomplete="off" bsDaterangepicker
+                              [(ngModel)]="bsRangeValue" (click)="SetDates('C')" #d="bsDaterangepicker"
+                              [bsConfig]="{ rangeInputFormat : 'MM/DD/YYYY', dateInputFormat: 'MM/DD/YYYY', showWeekNumbers: false,minMode:'month' }"
+                              id="DateOfBirth" [maxDate]="maxDate" (bsValueChange)="dateRangeCreated($event)" style="border: none;
+                          color: #fff;
+                          pointer-events: none;" /> -->
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-4" *ngIf="tab=='ST'">
+
+                <div class="report-grouping">
+
+                    <div class="header text-center">
+
+                        <div class="row mt-2 align-items-center justify-content-center">
+
+                            <div class="col-5">
+
+                                <h5 class="m-0 p-0">Type</h5>
+
+                            </div>
+
+                        </div>
+
+                        <a type="button" class="close-btn ms-auto me-2"><i class="fa-solid fa-xmark"
+                                (click)="close()"></i> </a>
+
+                    </div>
+
+                    <div class="body px-5 py-4">
+
+                        <div class="grouping-grid">
+
+                            <button type="button" class="btn report-btn"
+                                [ngClass]="{'Selected': filter== 'StoreSummary','UnSelected':filter!= 'StoreSummary'}"
+                                (click)="Storeormonth('Store')">Store Summary</button>
+
+                            <button type="button" class="btn report-btn"
+                                [ngClass]="{'Selected':filter== 'MonthSummary','UnSelected':filter!= 'MonthSummary'}"
+                                (click)="Storeormonth('MonthSummary')">Month Summary</button>
+
+
+
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container-fluid d-flex justify-content-center align-items-center">
+    <div class="report-controls-popup">
+        <div>
+            <div class="header d-flex align-items-center">
+                <h5 class="title m-0 ms-2">
+                    <img src="" alt=""> <span class="slash">//</span>REPORT CONTROLS
+                </h5>
+                <a type="button" class="close-btn ms-auto me-2" (click)="close()"><i class="fa-solid fa-xmark"></i> </a>
+            </div>
+            <div class="body">
+                <div class="container-fluid">
+                    <div class="col-12 data-grouping">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <h5 >Month</h5>
+                                    <div class="d-flex align-items-baseline">
+                                        <input [(ngModel)]="month" autocomplete="off" class="form-control date"
+                                            name="date" bsDatepicker [bsConfig]="{dateInputFormat: 'MMMM/YYYY' }"
+                                            (onShown)="onOpenCalendar($event)" placeholder="Calendar"
+                                            (ngModelChange)="changeDate($event)"  [maxDate]="previous">
+                                    </div>
+                                </div>
+
+                                <div class="col-10 mb-4" [ngClass]="{'HideStores':FilterTabs.indexOf('StoreSummary')>=0, 'ShowStores':FilterTabs.indexOf('StoreSummary')<0}">
+                                    <h5 class="mb-2">Stores</h5>
+                                    <div class="acc-select" >
+                                        <select class="form-select _dropdwn" (change)="StoreFilter($event)"
+                                            [(ngModel)]="selectedStore">
+                                            <option value="0">Select</option>
+                                            <option *ngFor="let s of stores" [value]="s.AS_ID">{{s.DEALER_NAME}}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="col-12 slt-trgt">
+                                            <h5></h5>
+                                            <div class="row">
+                                                <div class="col-4 bdcolor">  <button type="button" class="btn btn-primary grp-btn"
+                                                    (click)="multipleorsingle('FT','StoreSummary')"
+                                                    [ngClass]="{'bg-color':FilterTabs.indexOf('StoreSummary')>=0, 'bg-color-wt':FilterTabs.indexOf('StoreSummary')<0}">Store Summary</button></div>
+                                                <div class="col-4"></div>
+                                                <div class="col-4"></div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-4 bdcolor">  <button type="button" class="btn btn-primary grp-btn"
+                                                    (click)="multipleorsingle('FT','Month Summary')"
+                                                    [ngClass]="{'bg-color':FilterTabs.indexOf('Month Summary')>=0, 'bg-color-wt':FilterTabs.indexOf('Month Summary')<0}">Month Summary</button></div>
+                                                <div class="col-4"></div>
+                                                <div class="col-4"></div>
+
+                                                </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="col-12 d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary me-1" (click)="viewreport()">View Report</button>
+                    <button type="button" class="btn btn-primary ms-1" style="cursor:default;opacity: 0.2;"
+                        (click)="save()">Save to Favorites</button>
+                    <a class="cancel-txt" (click)="close()">Cancel</a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div> -->

@@ -1,0 +1,154 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="white" type="ball-fussion">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<!-- <app-header></app-header> -->
+<!-- <div class="Refresh">Updated: 06/08/22 07:35 AM <img src="../../../assets/images/refresh_icon.png" alt=""> </div> -->
+
+<div class="container pe-0 mt-3">
+    <div class="col-12">
+        <div class="d-flex" *ngIf="Grid">
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <nav class="navbar navbar-light bg-light mb-4 col-12">
+                            <span class="navbar-brand mb-0 col-6">Report Control Variables
+                                <span class="AddIcon navbar-brand ms-2">
+                                    <a style="cursor: pointer"><img src="../../assets/images/add.png"
+                                            (click)="AddShowPanel()" /></a>
+                                </span>
+                            </span>
+
+                            <span class="float-right mx-3 col-4">
+                                <select class="form-control dash" style="padding: 0.275rem 0.75rem;"
+                                    (change)="SelectSubModule($event.target.value)" [(ngModel)]="selectValue">
+                                    <option value="0">Select Submodule</option>
+                                    <option *ngFor="let list of SubModulesData" value="{{list.SMOD_ID}}">
+                                        {{list.SMOD_NAME}}</option>
+                                </select>
+                            </span>
+                        </nav>
+                    </tr>
+                    <tr class="pt-3 pb-3">
+                        <!-- <td>&nbsp;</td> -->
+                    </tr>
+                    <tr>
+                        <div class="sec-tbl table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2"></th>
+                                        <th style="width: 30%;" class="RoleName">RCV Name</th>
+                                        <th style="width: 20%;" class="RoleName">RCV Id</th>
+                                        <th style="width: 30%;">Sub-Module Name</th>
+                                        <th style="width: 20%;">Edit</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="(SubModData | filter:RCV_Name).length >0; else ifNotShow">
+                                    <tr class="title even" *ngFor="let list of SubModData | filter:RCV_Name">
+                                        <td><span>&nbsp;</span></td>
+                                        <td style="width: 30%;" class="RoleName">{{list.RCV_Name}}</td>
+                                        <td style="width: 20%;" class="RoleName">{{list.RCV_Id}}</td>
+                                        <td style="width: 30%;">{{list.RCV_SubModule_Name}}</td>
+                                        <td style="width: 20%;"><img src="../../assets/images/edit_icon.png"
+                                                style="cursor: pointer;" (click)="EditShowPanel(list)" alt=""></td>
+                                    </tr>
+                                <tbody>
+                            </table>
+                            <ng-template #ifNotShow>
+                    <tr *ngIf="NoDetailFound">
+                        <td colspan="5" class="NoDataFound"><label>No Details Found</label></td>
+                    </tr>
+                    </ng-template>
+        </div>
+        </tr>
+        </tbody>
+        </table>
+        <ng-template #ifNotShow>
+            <tr *ngIf="NoDetailFound">
+                <td colspan="5" class="NoDataFound"><label>No Details Found</label></td>
+            </tr>
+        </ng-template>
+    </div>
+    <div class="container" *ngIf="AddPanel">
+        <nav class="navbar navbar-light bg-light mb-4">
+            <span class="navbar-brand mb-0 ">Report Control Variables </span>
+        </nav>
+        <div class="pt64 ">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"></h3>
+                        </div>
+                        <div class="panel-body">
+                            <form [formGroup]="RCVForm">
+                                <div class="container">
+                                    <div class="row pb-4">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <label for="RCV_Name" class="pb-2">Name:</label>
+                                            <input type="text" class="form-control" placeholder="Enter Name"
+                                                formControlName="RCV_Name"
+                                                [ngClass]="{ 'is-invalid': submitted && form.RCV_Name.errors }">
+
+                                            <small class="text-danger" *ngIf="submitted && form.RCV_Name.errors">
+                                                <div *ngIf="form.RCV_Name.errors.required">Name is required</div>
+                                                <div *ngIf="form.RCV_Name.errors.pattern">Enter only characters</div>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-4">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <label for="role" class="pb-2">Sub-Module Name:</label>
+                                            <div>
+                                                <select class="form-control dash" formControlName="RCV_SubModule_Id"
+                                                    style="padding: 0.275rem 0.75rem;"
+                                                    [ngClass]="{ 'is-invalid': submitted && form.RCV_SubModule_Id.errors }"
+                                                    [(ngModel)]="SelectedValue">
+                                                    <option value="">Select Submodule</option>
+                                                    <option *ngFor="let list of SubModulesData"
+                                                        value="{{list.SMOD_ID}}">
+                                                        {{list.SMOD_NAME}}</option>
+                                                </select>
+                                            </div>
+                                            <small class="text-danger"
+                                                *ngIf="submitted && form.RCV_SubModule_Id.errors">
+                                                <div *ngIf="form.RCV_SubModule_Id.errors.required">Submodule is required
+                                                </div>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-4">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" *ngIf="StatusHide">
+                                            Status: <label [ngStyle]="{'color': StatusValue=='Y' ? 'green' : 'red' }">
+                                                <input type="checkbox" [checked]="StatusValue=='Y'"
+                                                    (change)="checkStatus($event)">&nbsp;{{StatusValue =='Y' ?
+                                                'Active':'In-Active'}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 pt-lg-4 pl-lg-4">
+                                        <div class="row">
+                                            <div class="col-lg-2" *ngIf="AddSave">
+                                                <button type="submit" class="savebutton"
+                                                    (click)="RCVInsert()">Save</button>
+                                            </div>
+                                            <div class="col-lg-2" *ngIf="EditSave">
+                                                <button type="submit" class="savebutton"
+                                                    (click)="RCVUpdate()">Save</button>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <input type="button" class="savebutton" (click)="Cancel()"
+                                                    Value="Cancel" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

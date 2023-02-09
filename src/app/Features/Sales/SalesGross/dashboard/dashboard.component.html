@@ -1,0 +1,396 @@
+<div [ngStyle]="{'position': CompleteComponentState == true? 'inherit' : 'fixed'}">
+    <ngx-spinner size="medium" color="white" type="ball-fussion">
+        <p style="font-size: 20px; color: white">Loading...</p>
+    </ngx-spinner>
+    <!-- <app-header></app-header> -->
+    <!-- <div class="Refresh">Updated: {{updateDate}} <img src="../../../assets/images/refresh_icon.png" alt=""> </div> -->
+
+    <div class="container-fluid pe-0 mt-1" id="Sales Gross"
+        [ngStyle]="{'pointer-events': CompleteComponentState == true? 'visible' : 'none'}">
+        <div class="col-12">
+            <div class="d-flex" style="margin-right: 8px;">
+
+
+                <div class="gross-tbl Salesgross-tbl1 table-responsive" (mouseenter)="updateCurrentElement('scrollOne')"
+                    (scroll)="updateVerticalScroll($event)" #scrollOne>
+                    <table>
+                        <thead style="cursor: pointer;" (click)="openMenu()">
+                            <tr>
+                                <th rowspan="2">{{FromDate |date:'MMMM'}} <span
+                                        *ngIf="(FromDate | date: 'MMMM') != (ToDate | date: 'MMMM')">- {{ToDate
+                                        |date:'MMMM'}} </span></th>
+                            </tr>
+
+                            <tr>
+                                <th rowspan="2">{{FromDate |date:'dd'}} <span
+                                        *ngIf="(FromDate | date: 'yyyy') != (ToDate | date: 'yyyy')">{{FromDate
+                                        |date:'yyyy'}}</span>
+                                    - {{ToDate |date:'dd'}}<span
+                                        *ngIf="(FromDate | date: 'yyyy') != (ToDate | date: 'yyyy')">{{ToDate
+                                        |date:'yyyy'}}</span><span
+                                        *ngIf="(FromDate | date: 'yyyy') == (ToDate | date: 'yyyy')">, {{FromDate |
+                                        date:'yyyy'}}</span></th>
+                            </tr>
+                            <!-- <tr *ngIf="(FromDate | date: 'MMMM') != (ToDate | date: 'MMMM')">
+                                <th rowspan="2">{{FromDate |date:'dd'}}-{{ToDate |date:'dd'}}, {{FromDate |
+                                    date:'yyyy'}}HI </th>
+                            </tr> -->
+                        </thead>
+
+                        <tbody *ngFor="let SalesInfo of SalesData; let i=index">
+                            <tr class="title" [id]="'D_'+i" *ngIf="SalesData.length>0">
+                                <td>
+                                    <span style="float: left; margin-right: .5rem; color: #363b4f;"
+                                        (click)="expandorcollapse(i,$event,SalesInfo.Dealer,SalesInfo,'')"
+                                        [id]="'D_'+i">{{SalesInfo.Dealer}}</span>
+
+                                    <span [id]="'D_'+i" title="{{SalesInfo.data1}}"
+                                        (click)="expandorcollapse(i,$event,SalesInfo.Dealer,SalesInfo,'')">
+                                        {{(SalesInfo.data1 == undefined ? '--' : ( (SalesInfo.data1.toString() |
+                                        slice:0:22) +
+                                        (SalesInfo.data1.toString().length > 22 ? '...' : '') ))}} </span>
+                                </td>
+                            </tr>
+                            <ng-container *ngFor="let data2 of SalesInfo.Data2;let j=index">
+
+                                <tr [id]="'DN_'+i" [ngClass]="{'hidden': SalesInfo.Dealer === '+'  }">
+                                    <td>
+                                        <span style="float: left; margin-right: 0.8rem; color: #363b4f;"
+                                            (click)="expandorcollapse(i,$event,data2.data2sign,data2,SalesInfo)"
+                                            [id]="'DN_'+i"
+                                            [ngClass]="{'disable': SalesInfo.data1 === 'Reports Total' }">{{data2.data2sign}}</span>
+                                        <span class="sub-title" style="color: #2d7dcc;"
+                                            (click)="expandorcollapse(i,$event,data2.data2sign,data2,SalesInfo)"
+                                            [id]="'DN_'+i"> {{data2.data2 == undefined ? '-' : data2.data2}} </span>
+                                    </td>
+                                </tr>
+
+                                <tr style="font-size: .7rem!important;color: white !important; "
+                                    *ngFor="let NewUser of data2.SubData" [id]="'DNS_'+i"
+                                    [ngClass]="{'hidden': SalesInfo.Dealer === '+' || data2.data2sign === '+'  }">
+                                    <td (click)="openDetails(NewUser,SalesInfo,'3')">
+                                        <span style="margin-right: 1.5rem;"></span>
+                                        <span title="{{NewUser.data3}}">{{(NewUser.data3 == undefined ? '--' : (
+                                            (NewUser.data3.toString() | slice:0:15) +
+                                            (NewUser.data3.toString().length > 15 ? '...' : '') ))}}</span>
+
+                                    </td>
+                                </tr>
+
+                            </ng-container>
+
+
+                            <!-- <tr class="sub-title"  [id]="'DU_'+i" [ngClass]="{'hidden': SalesInfo.Dealer === '+'  }">
+                        <td>
+                            <span style="float: left; margin-right: 0.8rem; color: #363b4f;" (click)="expandorcollapse(i,$event,SalesInfo.UsedDealer,SalesInfo)" [id]="'DU_'+i" [ngClass]="{'disable': SalesInfo.DealerName === 'Reports Total'}">{{SalesInfo.UsedDealer}}</span>
+                        <span (click)="expandorcollapse(i,$event,SalesInfo.UsedDealer,SalesInfo)" [id]="'DU_'+i">    USED</span>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let UsedUser of SalesInfo.Used_User" [id]="'DUS_'+i" [ngClass]="{'hidden':  SalesInfo.Dealer === '+' || SalesInfo.UsedDealer === '+' }">
+                        <td (click)="openDetails(UsedUser,SalesInfo, 'U')">
+                           <span style="margin-right: 1.5rem;"></span>
+                           <span title="{{UsedUser.UserName}}">{{(UsedUser.UserName == undefined ? '--' : ( (UsedUser.UserName.toString() | slice:0:15) +
+                            (UsedUser.UserName.toString().length > 15 ? '...' : '') ))}}</span>
+
+                           </td>
+                    </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="sec-tbl Salesgross-tbl2 table-responsive" (mouseenter)="updateCurrentElement('scrollTwo')"
+                    (scroll)="updateVerticalScroll($event)" #scrollTwo>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="2"></th>
+                                <th colspan="5" style="border-right: 2px solid #e0e1e2;">Units</th>
+                                <th colspan="5" style="border-right: 2px solid #e0e1e2;">Front Gross</th>
+                                <th colspan="5" style="border-right: 2px solid #e0e1e2;">Back Gross</th>
+                                <th colspan="5" style="border-right: 2px solid #e0e1e2;">Total Gross</th>
+
+                            </tr>
+                            <tr>
+                                <th id="DataHead1"></th>
+                                <th id="DataHead2" (click)="sort('Units_MTD')" style="cursor: pointer;">MTD</th>
+                                <th id="DataHead3" (click)="sort('Units_Pace')" style="cursor: pointer;">Pace</th>
+                                <th id="DataHead4" (click)="sort('Units_Target')" style="cursor: pointer;">Target</th>
+                                <th id="DataHead5" (click)="sort('Units_Diff')" style="cursor: pointer;">+/-</th>
+                                <th id="DataHead6" (click)="sort('PerDay')" style="cursor: pointer;">Per Day</th>
+
+                                <th id="DataHead7" (click)="sort('FrontGross_MTD')" style="cursor: pointer;">MTD</th>
+                                <th id="DataHead8" (click)="sort('FrontGross_Pace')" style="cursor: pointer;">Pace</th>
+                                <th id="DataHead9" (click)="sort('FrontGross_Target')" style="cursor: pointer;">Target
+                                </th>
+                                <th id="DataHead10" (click)="sort('FrontGross_Diff')" style="cursor: pointer;">+/-</th>
+                                <th id="DataHead11" (click)="sort('FrontGross_PVR')" style="cursor: pointer;">PVR</th>
+
+                                <th id="DataHead12" (click)="sort('BackGross_MTD')" style="cursor: pointer;">MTD</th>
+                                <th id="DataHead13" (click)="sort('BackGross_Pace')" style="cursor: pointer;">Pace</th>
+                                <th id="DataHead14" (click)="sort('BackGross_Target')" style="cursor: pointer;">Target
+                                </th>
+                                <th id="DataHead15" (click)="sort('BackGross_Diff')" style="cursor: pointer;">+/-</th>
+                                <th id="DataHead16" (click)="sort('BackGross_PVR')" style="cursor: pointer;">PVR</th>
+
+                                <th id="DataHead17" (click)="sort('TotalGross_MTD')" style="cursor: pointer;">MTD</th>
+                                <th id="DataHead18" (click)="sort('TotalGross_Pace')" style="cursor: pointer;">Pace</th>
+                                <th id="DataHead19" (click)="sort('TotalGross_Target')" style="cursor: pointer;">Target
+                                </th>
+                                <th id="DataHead20" (click)="sort('TotalGross_Diff')" style="cursor: pointer;">+/-</th>
+                                <th id="DataHead21" (click)="sort('TotalGross_PVR')" style="cursor: pointer;">PVR</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody *ngFor="let SalesInfo of SalesData; let i=index" [ngClass]="{'hidden': NoData == true }">
+                            <tr [ngClass]="{'title' : i % 2 == 0 , 'titleOdd' : i % 2 != 0 , 'Selectedrow': SalesInfo.Dealer === '-', 'divBold': SalesInfo.data1 === 'Reports Total'  }"
+                                [id]="'DV_'+i">
+                                <td id="DataBody1"> <span>&nbsp;</span></td>
+                                <td id="DataBody2">{{ SalesInfo.Units_MTD == 0 || SalesInfo.Units_MTD == null ? '-' :
+                                    SalesInfo.Units_MTD | number}}</td>
+                                <td id="DataBody3">{{ SalesInfo.Units_Pace == 0 || SalesInfo.Units_Pace == null ||
+                                    (FromDate | date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                    SalesInfo.Units_Pace | number}}</td>
+                                <td id="DataBody4"><span *ngIf="path1 == 'store'">{{ SalesInfo.Units_Target == 0 ||
+                                        SalesInfo.Units_Target == null || (FromDate | date: 'MMMM') != (ToDate | date:
+                                        'MMMM') ? '-' : SalesInfo.Units_Target | number}}</span>
+                                    <span *ngIf="path1 != 'store'"></span>
+                                </td>
+                                <td id="DataBody5" [ngClass]="{ negative: !inTheGreen(SalesInfo.Units_Diff)}">
+                                    <span *ngIf="path1 == 'store'">{{ (SalesInfo.Units_Diff == 0 ||
+                                        SalesInfo.Units_Diff == null || (FromDate | date: 'MMMM') != (ToDate | date:
+                                        'MMMM') ? '-' : SalesInfo.Units_Diff)}} </span>
+                                    <span *ngIf="path1 != 'store'"></span>
+                                </td>
+                                <td id="DataBody6">{{ SalesInfo.PerDay == 0 || SalesInfo.PerDay == null ? '-' :
+                                    SalesInfo.PerDay | number:'1.2-2'}}</td>
+
+                                <td id="DataBody7" [ngClass]="{ negative: !inTheGreen(SalesInfo.FrontGross_MTD)}"> {{
+                                    (SalesInfo.FrontGross_MTD == 0 || SalesInfo.FrontGross_MTD == null ? '-' :
+                                    SalesInfo.FrontGross_MTD |currency:'USD':'symbol':'1.0-0') }}</td>
+                                <td id="DataBody8" [ngClass]="{ negative: !inTheGreen(SalesInfo.FrontGross_Pace)}">{{
+                                    (SalesInfo.FrontGross_Pace == 0 || SalesInfo.FrontGross_Pace == null || (FromDate |
+                                    date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                    SalesInfo.FrontGross_Pace | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                <td id="DataBody9" [ngClass]="{ negative: !inTheGreen(SalesInfo.FrontGross_Target)}">
+                                    <span *ngIf="path1 == 'store'">{{ (SalesInfo.FrontGross_Target == 0 ||
+                                        SalesInfo.FrontGross_Target == null || (FromDate | date: 'MMMM') != (ToDate |
+                                        date: 'MMMM') ? '-' : SalesInfo.FrontGross_Target
+                                        |currency:'USD':'symbol':'1.0-0') }}
+                                    </span>
+                                    <span *ngIf="path1 != 'store'"></span>
+                                </td>
+                                <td id="DataBody10" [ngClass]="{ negative: !inTheGreen(SalesInfo.FrontGross_Diff)}">
+                                    <span *ngIf="path1 == 'store'">{{(SalesInfo.FrontGross_Diff == 0 ||
+                                        SalesInfo.FrontGross_Diff == null || (FromDate | date: 'MMMM') != (ToDate |
+                                        date: 'MMMM') ? '-' :SalesInfo.FrontGross_Diff |
+                                        currency:'USD':'symbol':'1.0-0' )}}</span>
+                                    <span *ngIf="path1 != 'store'"></span>
+                                </td>
+                                <td id="DataBody11" [ngClass]="{ negative: !inTheGreen(SalesInfo.FrontGross_PVR)}">{{
+                                    (SalesInfo.FrontGross_PVR == 0 || SalesInfo.FrontGross_PVR == null ? '-' :
+                                    SalesInfo.FrontGross_PVR | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                                <td id="DataBody12" [ngClass]="{ negative: !inTheGreen(SalesInfo.BackGross_MTD)}">{{
+                                    (SalesInfo.BackGross_MTD == 0 || SalesInfo.BackGross_MTD == null ? '-' :
+                                    SalesInfo.BackGross_MTD | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                <td id="DataBody13" [ngClass]="{ negative: !inTheGreen(SalesInfo.BackGross_Pace)}">{{
+                                    (SalesInfo.BackGross_Pace == 0 || SalesInfo.BackGross_Pace == null || (FromDate |
+                                    date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                    SalesInfo.BackGross_Pace | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                <td id="DataBody14" [ngClass]="{ negative: !inTheGreen(SalesInfo.BackGross_Target)}">
+                                    <span *ngIf="path1 == 'store'">{{ (SalesInfo.BackGross_Target == 0 ||
+                                        SalesInfo.BackGross_Target == null || (FromDate | date: 'MMMM') != (ToDate |
+                                        date: 'MMMM') ? '-' : SalesInfo.BackGross_Target |
+                                        currency:'USD':'symbol':'1.0-0' ) }}
+                                    </span>
+                                    <span *ngIf="path1 != 'store'"></span>
+                                </td>
+                                <td id="DataBody15" [ngClass]="{ negative: !inTheGreen(SalesInfo.BackGross_Diff)}"><span
+                                        *ngIf="path1 == 'store'">{{(SalesInfo.BackGross_Diff == 0 ||
+                                        SalesInfo.BackGross_Diff == null || (FromDate | date: 'MMMM') != (ToDate | date:
+                                        'MMMM') ? '-' :SalesInfo.BackGross_Diff |
+                                        currency:'USD':'symbol':'1.0-0') }}
+                                    </span>
+                                    <span *ngIf="path1 != 'store'"></span>
+
+                                </td>
+                                <td id="DataBody11" [ngClass]="{ negative: !inTheGreen(SalesInfo.BackGross_PVR)}">{{
+                                    (SalesInfo.BackGross_PVR == 0 || SalesInfo.BackGross_PVR == null ? '-' :
+                                    SalesInfo.BackGross_PVR | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+
+                                <td id="DataBody17" [ngClass]="{ negative: !inTheGreen(SalesInfo.TotalGross_MTD)}">{{
+                                    (SalesInfo.TotalGross_MTD == 0 || SalesInfo.TotalGross_MTD == null ? '-' :
+                                    SalesInfo.TotalGross_MTD | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                <td id="DataBody18" [ngClass]="{ negative: !inTheGreen(SalesInfo.TotalGross_Pace)}">{{
+                                    (SalesInfo.TotalGross_Pace == 0 || SalesInfo.TotalGross_Pace == null || (FromDate |
+                                    date: 'MMMM') != (ToDate | date: 'MMMM') ? '-' :
+                                    SalesInfo.TotalGross_Pace | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                <td id="DataBody19" [ngClass]="{ negative: !inTheGreen(SalesInfo.TotalGross_Target)}">
+                                    <span *ngIf="path1 == 'store'">{{ (SalesInfo.TotalGross_Target == 0 ||
+                                        SalesInfo.TotalGross_Target == null || (FromDate | date: 'MMMM') != (ToDate |
+                                        date: 'MMMM') ? '-' : SalesInfo.TotalGross_Target |
+                                        currency:'USD':'symbol':'1.0-0' ) }}
+                                    </span>
+                                    <span *ngIf="path1 != 'store'"></span>
+
+                                </td>
+                                <td id="DataBody20" [ngClass]="{ negative: !inTheGreen(SalesInfo.TotalGross_Diff)}">
+                                    <span *ngIf="path1 == 'store'">{{(SalesInfo.TotalGross_Diff == 0 ||
+                                        SalesInfo.TotalGross_Diff == null || (FromDate | date: 'MMMM') != (ToDate |
+                                        date: 'MMMM') ? '-' : SalesInfo.TotalGross_Diff |
+                                        currency:'USD':'symbol':'1.0-0' )}}</span>
+                                    <span *ngIf="path1 != 'store'"></span>
+
+                                </td>
+                                <td id="DataBody11" [ngClass]="{ negative: !inTheGreen(SalesInfo.TotalGross_PVR)}">{{
+                                    (SalesInfo.TotalGross_PVR == 0 || SalesInfo.TotalGross_PVR == null ? '-' :
+                                    SalesInfo.TotalGross_PVR | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                            </tr>
+                            <ng-container *ngFor="let data2 of SalesInfo.Data2;let j=index">
+                                <tr class="sub-title" [id]="'DVN_'+i"
+                                    [ngClass]="{'hidden': SalesInfo.Dealer === '+'  }">
+                                    <td>&nbsp;</td>
+                                    <td>{{data2.Units_MTD == 0 || data2.Units_MTD == null ? '-' : data2.Units_MTD |
+                                        number}}</td>
+                                    <td>{{data2.Units_Pace == 0 || data2.Units_Pace == null || (FromDate | date: 'MMMM')
+                                        != (ToDate | date:
+                                        'MMMM')? '-' : data2.Units_Pace |
+                                        number}}</td>
+                                    <td></td>
+                                    <td></td>
+
+                                    <td>{{ data2.PerDay == 0 || data2.PerDay == null ? '-' : data2.PerDay |
+                                        number:'1.2-2'}}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.FrontGross_MTD)}">{{
+                                        (data2.FrontGross_MTD == 0 || data2.FrontGross_MTD == null ? '-' :
+                                        data2.FrontGross_MTD | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.FrontGross_Pace)}">{{
+                                        (data2.FrontGross_Pace == 0 || data2.FrontGross_Pace == null || (FromDate |
+                                        date: 'MMMM') != (ToDate | date:
+                                        'MMMM') ? '-' :
+                                        data2.FrontGross_Pace | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.FrontGross_MTD*1/data2.Units_MTD*1)}">
+                                        {{ (data2.FrontGross_MTD*1/data2.Units_MTD*1 == 0 ||
+                                        data2.FrontGross_MTD*1/data2.Units_MTD*1 == null ? '-' :
+                                        data2.FrontGross_MTD*1/data2.Units_MTD*1 | currency:'USD':'symbol':'1.0-0' ) }}
+                                    </td>
+
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.BackGross_MTD)}">{{
+                                        (data2.BackGross_MTD == 0 || data2.BackGross_MTD == null ? '-' :
+                                        data2.BackGross_MTD | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.BackGross_Pace)}">{{
+                                        (data2.BackGross_Pace == 0 || data2.BackGross_Pace == null || (FromDate | date:
+                                        'MMMM') != (ToDate | date:
+                                        'MMMM') ? '-' :
+                                        data2.BackGross_Pace | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.BackGross_MTD*1/data2.Units_MTD*1)}">{{
+                                        (data2.BackGross_MTD*1/data2.Units_MTD*1 == 0 ||
+                                        data2.BackGross_MTD*1/data2.Units_MTD*1 == null ? '-' :
+                                        data2.BackGross_MTD*1/data2.Units_MTD*1 | currency:'USD':'symbol':'1.0-0' ) }}
+                                    </td>
+
+
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.TotalGross_MTD)}">{{
+                                        (data2.TotalGross_MTD == 0 || data2.TotalGross_MTD == null ? '-' :
+                                        data2.TotalGross_MTD | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.TotalGross_Pace)}">{{
+                                        (data2.TotalGross_Pace == 0 || data2.TotalGross_Pace == null || (FromDate |
+                                        date: 'MMMM') != (ToDate | date:
+                                        'MMMM') ? '-' :
+                                        data2.TotalGross_Pace | currency:'USD':'symbol':'1.0-0' )}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td [ngClass]="{ negative: !inTheGreen(data2.TotalGross_MTD*1/data2.Units_MTD*1)}">
+                                        {{ (data2.TotalGross_MTD*1/data2.Units_MTD*1 == 0 ||
+                                        data2.TotalGross_MTD*1/data2.Units_MTD*1 == null ? '-' :
+                                        data2.TotalGross_MTD*1/data2.Units_MTD*1 | currency:'USD':'symbol':'1.0-0' ) }}
+                                    </td>
+
+
+                                </tr>
+                                <tr *ngFor="let dt3 of data2.SubData"
+                                    [ngClass]="{'hidden': SalesInfo.Dealer === '+' || data2.data2sign === '+' }">
+                                    <td>&nbsp;</td>
+                                    <td>{{dt3.Units_MTD == 0 || dt3.Units_MTD == null ? '-' : dt3.Units_MTD | number}}
+                                    </td>
+                                    <td>{{dt3.Units_Pace == 0 || dt3.Units_Pace == null || (FromDate | date: 'MMMM') !=
+                                        (ToDate | date:
+                                        'MMMM') ? '-' : dt3.Units_Pace |
+                                        number}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td id="DataBody6">{{ dt3.PerDay == 0 || dt3.PerDay == null ? '-' : dt3.PerDay |
+                                        number:'1.2-2'}}</td>
+
+                                    <td [ngClass]="{ negative: !inTheGreen(dt3.FrontGross_MTD)}">{{ (dt3.FrontGross_MTD
+                                        == 0 || dt3.FrontGross_MTD == null ? '-' : dt3.FrontGross_MTD |
+                                        currency:'USD':'symbol':'1.0-0' )}}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(dt3.FrontGross_Pace)}">{{
+                                        (dt3.FrontGross_Pace == 0 || dt3.FrontGross_Pace == null || (FromDate | date:
+                                        'MMMM') != (ToDate | date:
+                                        'MMMM')? '-' :
+                                        dt3.FrontGross_Pace | currency:'USD':'symbol':'1.0-0' ) }}</td>
+                                    <td></td>
+                                    <td></td>
+
+                                    <td [ngClass]="{ negative: !inTheGreen(dt3.FrontGross_MTD*1/dt3.Units_MTD*1)}">{{
+                                        (dt3.FrontGross_MTD*1/dt3.Units_MTD*1 == 0 ||
+                                        dt3.FrontGross_MTD*1/dt3.Units_MTD*1 == null ? '-' :
+                                        dt3.FrontGross_MTD*1/dt3.Units_MTD*1 | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                                    <td [ngClass]="{ negative: !inTheGreen(dt3.BackGross_MTD)}">{{ (dt3.BackGross_MTD ==
+                                        0 || dt3.BackGross_MTD == null ? '-' : dt3.BackGross_MTD |
+                                        currency:'USD':'symbol':'1.0-0' )}}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(dt3.BackGross_Pace)}">{{ (dt3.BackGross_Pace
+                                        == 0 || dt3.BackGross_Pace == null || (FromDate | date: 'MMMM') != (ToDate |
+                                        date:
+                                        'MMMM') ? '-' : dt3.BackGross_Pace |
+                                        currency:'USD':'symbol':'1.0-0' )}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td [ngClass]="{ negative: !inTheGreen(dt3.BackGross_MTD*1/dt3.Units_MTD*1)}">{{
+                                        (dt3.BackGross_MTD*1/dt3.Units_MTD*1 == 0 || dt3.BackGross_MTD*1/dt3.Units_MTD*1
+                                        == null ? '-' : dt3.BackGross_MTD*1/dt3.Units_MTD*1 |
+                                        currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+
+                                    <td [ngClass]="{ negative: !inTheGreen(dt3.TotalGross_MTD)}">{{(dt3.TotalGross_MTD
+                                        == 0 || dt3.TotalGross_MTD == null ? '-' : dt3.TotalGross_MTD |
+                                        currency:'USD':'symbol':'1.0-0' )}}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(dt3.TotalGross_Pace)}">{{
+                                        (dt3.TotalGross_Pace == 0 || dt3.TotalGross_Pace == null || (FromDate | date:
+                                        'MMMM') != (ToDate | date:
+                                        'MMMM') ? '-' :
+                                        dt3.TotalGross_Pace | currency:'USD':'symbol':'1.0-0' )}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td [ngClass]="{ negative: !inTheGreen(dt3.TotalGross_MTD*1/dt3.Units_MTD*1)}">{{
+                                        (dt3.TotalGross_MTD*1/dt3.Units_MTD*1 == 0 ||
+                                        dt3.TotalGross_MTD*1/dt3.Units_MTD*1 == null ? '-' :
+                                        dt3.TotalGross_MTD*1/dt3.Units_MTD*1 | currency:'USD':'symbol':'1.0-0' ) }}</td>
+
+                                </tr>
+                            </ng-container>
+
+
+                        </tbody>
+                        <tbody *ngIf="NoData">
+                            <tr>
+                                <td colspan="11" style="color: black;">No Records Found</td>
+                                <td colspan="11"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

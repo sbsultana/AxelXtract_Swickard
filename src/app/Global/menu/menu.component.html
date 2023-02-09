@@ -1,0 +1,134 @@
+
+<div class="container-fluid d-flex justify-content-center align-items-center">
+    <div class="menu-popup">
+        <div class="header d-flex align-items-center">
+            <h5 class="title m-0 ms-2">
+                <img src="" alt=""> <span class="slash">//</span>MENU
+            </h5>
+            <a (click)="close()" type="button" class="close-btn ms-auto me-2"><i class="fa-solid fa-xmark"></i> </a>
+        </div>
+        <div class="body ">
+            <div class="container-fluid ">
+                <div class="col-12 menu-list ">
+                    <div class="row">
+                        <div class="col-3">
+                            <div *ngFor="let list of ShowModules.slice(0,2) ;let i=index"
+                                [ngClass]="{'col-lg-12 mb-4': list.SMOD_MOD_ID == 0 && list.MOD_ID != 0 , 'col-lg-1 mb-0': list.SMOD_MOD_ID != 0 && list.MOD_ID == 0 }">
+                                <div class="list-group list-group-flush ">
+                                    <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                                        <div class="list-group-item list-group-item-action active">
+                                            {{list.MOD_NAME}}
+                                        </div>
+                                    </div>
+                                    <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                                        <div *ngIf="list.status=='N'" class="list-group-item  Disable">
+                                            No Modules
+                                        </div>
+                                        <div *ngFor="let sublist of ShowModules">
+                                            <div class="list-group-item "
+                                                *ngIf="sublist.SMOD_MOD_ID == list.MOD_ID && list.MOD_ID != 0"
+                                                [ngClass]="sublist.SMOD_DISPLAY_STATUS == 'E'?'Enable':'Disable'">
+                                                <span [ngClass]="{'No_Display' : sublist.status == 'N' }"
+                                                    (click)="navigate(sublist.SMOD_FILENAME)"
+                                                    *ngIf="sublist.status == 'Y'">{{sublist.SMOD_NAME}}</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div *ngFor="let list of ShowModules.slice(2,3) ;let i=index"
+                                [ngClass]="{'col-lg-12 mb-4': list.SMOD_MOD_ID == 0 && list.MOD_ID != 0 , 'col-lg-1 mb-0': list.SMOD_MOD_ID != 0 && list.MOD_ID == 0 }">
+                                <div class="list-group list-group-flush ">
+                                    <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                                        <div class="list-group-item list-group-item-action active">
+                                            {{list.MOD_NAME}}
+                                        </div>
+                                    </div>
+                                    <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                                        <div *ngIf="list.status=='N'" class="list-group-item  Disable">
+                                            No Modules
+                                        </div>
+                                        <div *ngFor="let sublist of ShowModules">
+                                            <div class="list-group-item "
+                                                *ngIf="sublist.SMOD_MOD_ID == list.MOD_ID && list.MOD_ID != 0"
+                                                [ngClass]="sublist.SMOD_DISPLAY_STATUS == 'E'?'Enable':'Disable'">
+                                                <span [ngClass]="{'No_Display' : sublist.status == 'N' }"
+                                                    (click)="navigate(sublist.SMOD_FILENAME)"
+                                                    *ngIf="sublist.status == 'Y'">{{sublist.SMOD_NAME}}</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-3">
+                            <div *ngFor="let list of ShowModules.slice(3,5) ;let i=index"
+                                [ngClass]="{'col-lg-12 mb-4': list.SMOD_MOD_ID == 0 && list.MOD_ID != 0 , 'col-lg-1 mb-0': list.SMOD_MOD_ID != 0 && list.MOD_ID == 0 }">
+                                <div class="list-group list-group-flush ">
+                                    <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                                        <div class="list-group-item list-group-item-action active">
+                                            {{list.MOD_NAME}}
+                                        </div>
+                                    </div>
+                                    <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                                        <div *ngIf="list.status=='N'" class="list-group-item  Disable">
+                                            No Modules
+                                        </div>
+                                        <div *ngFor="let sublist of ShowModules">
+                                            <div class="list-group-item "
+                                                *ngIf="sublist.SMOD_MOD_ID == list.MOD_ID && list.MOD_ID != 0"
+                                                [ngClass]="sublist.SMOD_DISPLAY_STATUS == 'E'?'Enable':'Disable'">
+                                                <span [ngClass]="{'No_Display' : sublist.status == 'N' }"
+                                                    (click)="navigate(sublist.SMOD_FILENAME)"
+                                                    *ngIf="sublist.status == 'Y'">{{sublist.SMOD_NAME}}</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-3">
+                            <div *ngFor="let list of ShowModules.slice(5,8) ;let i=index"
+                                [ngClass]="{'col-lg-12 mb-4': list.SMOD_MOD_ID == 0 && list.MOD_ID != 0 , 'col-lg-1 mb-0': list.SMOD_MOD_ID != 0 && list.MOD_ID == 0 }">
+                                <div class="list-group list-group-flush ">
+                                    <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                                        <div class="list-group-item list-group-item-action active">
+                                            {{list.MOD_NAME}}
+                                        </div>
+                                    </div>
+                                    <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                                        <div *ngIf="list.status=='N'" class="list-group-item  Disable">
+                                            No Modules
+                                        </div>
+                                        <div *ngFor="let sublist of ShowModules">
+                                            <div class="list-group-item "
+                                                *ngIf="sublist.SMOD_MOD_ID == list.MOD_ID && list.MOD_ID != 0"
+                                                [ngClass]="sublist.SMOD_DISPLAY_STATUS == 'E'?'Enable':'Disable'">
+                                                <span [ngClass]="{'No_Display' : sublist.status == 'N' }"
+                                                    (click)="navigate(sublist.SMOD_FILENAME)"
+                                                    *ngIf="sublist.status == 'Y'">{{sublist.SMOD_NAME}}</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

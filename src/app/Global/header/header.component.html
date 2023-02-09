@@ -1,0 +1,281 @@
+<header class="navbar sticky-top bg-white flex-md-nowrap p-0">
+  <div class="ms-2">
+    <button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#confirm-logout">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+  <!--div class="offcanvas offcanvas-start " tabindex="-1" id="offcanvasmenu" data-bs-keyboard="false" data-bs-backdrop="true">
+      <div class="offcanvas-header">
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <h6 class="offcanvas-title  d-sm-block mx-auto" id="offcanvasmenu"><img src="assets/images/Swickard-Logo.png" class="img-fluid"></h6>
+      </div>
+      <div class="offcanvas-body px-0">
+          <nav id="sidebar">
+              <ul class="list-unstyled components">
+                 <li><a href="" data-toggle="collapse" aria-expanded="false">DATA</a></li>
+                 <li><a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">REPORTS </a>
+                      <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">SALES</a>
+                          <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li><a href="#">DAILY SALES</a></li>
+                            <li><a href="#">INVENTORY PROJECTIONS</a></li>
+                            <li><a href="#">F & I SUMMARY</a></li>
+                            <li><a href="#">DEALS</a></li>
+                          </ul>
+                        </li>
+                        <li>
+                          <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false">Finance</a>
+                          <ul class="collapse list-unstyled" id="pageSubmenu1">
+                            <li><a href="#">DAILY SALES</a></li>
+                            <li><a href="#">INVENTORY PROJECTIONS</a></li>
+                            <li><a href="#">F & I SUMMARY</a></li>
+                            <li><a href="#">DEALS</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                 </li>
+                 <li><a href="" data-toggle="collapse" aria-expanded="false">EXCHANGE</a></li>
+                 <li><a href="" data-toggle="collapse" aria-expanded="false">UCAR</a></li>
+                 <li><a href="" data-toggle="collapse" aria-expanded="false">SERVICE MAX</a></li>
+                 <li><a href="" data-toggle="collapse" aria-expanded="false">TOUCH</a></li>
+
+              </ul>
+            </nav>
+      </div>
+  </div-->
+  <a class="navbar-brand ms-lg-3" style="cursor: pointer;" (click)="dashboard()"><img src="assets/images/Launch.png"
+      class="img-fluid"></a>
+
+  <!-- <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button> -->
+
+  <div class="d-lg-flex justify-content-start align-items-center">
+    <div class="heading d-lg-flex justify-content-start align-items-center">
+      <h1>{{componentDetails.title}}</h1>
+      <div *ngIf="componentDetails.path1 != ''" class="type">
+
+        {{componentDetails.path1}} <span *ngIf="componentDetails.path2 != ''  ">//</span>{{componentDetails.path2}}
+        <span *ngIf="componentDetails.path3 != ''  ">//</span>{{componentDetails.path3}}
+
+      </div>
+      <img src="../../../assets/images/analyze.png" alt="" style="cursor: pointer; margin-left: 1.5rem;"
+        [ngStyle]="{'display':  componentDetails.title == 'CIT Report' ? 'block' : 'none' }" (click)="openAnalyze()">
+      <!-- <img src="assets/images/Filter.png" alt="" style="margin-left: 1.5rem;"
+        [ngStyle]="{'cursor': title == 'Sales Gross' || title == 'Service Gross' || title == 'Balance Sheet' || title == 'Schedules / Managed Accounts' ||
+        title == 'CIT Report' || title == 'Sales Conversion' || title == 'Parts Gross' || title == 'Financial Summary' || title == 'Nightly Sales Report' ||
+         title == 'Cash Flow' || title == 'CIT Report' ||
+        title == 'Loyalty Activity Report'|| title == 'Financial Statement' || title == 'Sales Person Ranking' || title == 'Income Statement' || title == 'Loyalty' || title == 'Account Mapping' ? 'pointer' : 'default', 'display':   componentDetails.title == 'Dashboard' || componentDetails.title == 'Users' || componentDetails.title == 'Stores' || componentDetails.title == 'Roles' || componentDetails.title == 'Job Titles' || componentDetails.title == 'Permissions' || componentDetails.title == 'Modules'? 'none' : 'block' }"
+        (click)="openFilter()">  -->
+      <img src="assets/images/Filter.png" alt="" style="margin-left: 1.5rem;cursor: pointer;"
+        [ngStyle]="{ 'display':   componentDetails.title == 'Dashboard' || componentDetails.title == 'Users' || componentDetails.title == 'Stores' || componentDetails.title == 'Roles' || componentDetails.title == 'Job Titles' || componentDetails.title == 'Permissions' || componentDetails.title == 'Schedules / Managed Accounts' || componentDetails.title == 'Modules'? 'none' : 'block' }"
+        (click)="openFilter()">
+
+      <!-- <img src="../../../assets/images/analyze.png" alt="" style="cursor: pointer; margin-left: 1.5rem;display: none;" (click)="openAnalyze()">  -->
+
+      <!-- <div class="icons">
+             <img src="assets/images/Action.png" class="img-fluid" alt="">
+             <img src="assets/images/Chat.png" class="img-fluid" alt="">
+             <img src="assets/images/Favourite.png" class="img-fluid" alt="">
+             <img src="assets/images/Export.png" class="img-fluid" alt="">
+             <img src="assets/images/Print.png" class="img-fluid" alt="">
+             <img src="assets/images/settings.png" class="img-fluid" alt="">
+         </div> -->
+    </div>
+  </div>
+
+  <div class="d-lg-flex justify-content-end ms-lg-auto me-lg-5">
+    <div class="heading mt-lg-0 mt-3 d-flex justify-content-end align-items-center">
+      <div class="icons me-auto">
+        <img src="assets/images/Action.png" class="img-fluid" alt="" title="Task" style="cursor:default"
+          (click)="Actions()">
+        <img src="assets/images/Chat.png" class="img-fluid" alt="" title="Messenger" style="cursor:default"
+          (click)="msg()">
+        <img src="assets/images/Favourite.png" class="img-fluid" alt="" title="Favorite" style="cursor:default">
+        <img src="assets/images/Export.png" class="img-fluid" alt="" title="Export" style="cursor:default"
+          [ngStyle]="{ 'cursor':   componentDetails.title == 'Account Mapping' ? 'pointer' : 'default' }"
+           (click)="exportAsXLSX(componentDetails.title,componentDetails.filter)">
+        <img src="assets/images/Print.png" class="img-fluid" alt="" title="Print"
+          [ngStyle]="{'cursor': title == 'Sales Gross' || title == 'Account Mapping'? 'pointer': 'default' }">
+        <img src="assets/images/settings.png" class="img-fluid" alt="" title="settings" style="cursor:default">
+      </div>
+    </div>
+  </div>
+
+  <div class=" d-flex align-items-center mx-auto mx-lg-0 pe-lg-4 py-2 py-lg-0 ">
+    <div class="prof">
+      <!-- <div class="prof_pic"> </div> -->
+      <div class="text" *ngIf="userData  != undefined">
+        <!-- <div class="grt">Prasad Chavali</div>
+        <div class="name"><span>Super Admin</span></div> -->
+        <div class="grt">{{userData.lname}}</div>
+        <div class="name"><span>{{userData.title}}</span></div>
+      </div>
+    </div>
+    <div><img src="../../../assets/images/Xtract_logo.png" class="img-fluid "> </div>
+  </div>
+</header>
+
+<div class="Refresh col-12 pe-3">
+  <div class="RefreshTitle col-3">Updated: </div>
+  <div class="RefreshDate col-3">{{updatedDate}}</div> @ <div class="RefreshTime col-3">{{updatedTime}}</div>
+  <!-- <img src="../../../assets/images/refresh_icon.png" alt="">  -->
+</div>
+
+<div style="display: none;"><a [href]="axeloneurl" id="Redirect">Redirect</a></div>
+
+<ng-template #menus> 
+  <!-- <app-menu [data]="ShowModules"></app-menu> -->  hii
+</ng-template>
+
+<div class="modal fade" id="confirm-logout" tabindex="-1" role="dialog" aria-labelledby="logoutLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- <div class="modal-header"> <button type="button" class="close" data-dismiss="modal"
+          aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">....</h4>
+      </div> -->
+      <div class="modal-body">
+        <div class="container-fluid d-flex justify-content-center align-items-center">
+          <div class="menu-popup">
+            <div class="header d-flex align-items-center">
+              <h5 class="title m-0 ms-2">
+                <img src="" alt=""> <span class="slash">//</span>MENU
+              </h5>
+              <a id="CloseMenu" type="button" class="close-btn ms-auto me-2" data-bs-dismiss="modal"
+                aria-hidden="true"><i class="fa-solid fa-xmark"></i> </a>
+            </div>
+            <div class="body ">
+              <div class="container-fluid ">
+                <div class="col-12 menu-list ">
+                  <div class="row">
+                    <div class="col-3">
+                      <div *ngFor="let list of ShowModules.slice(0,2) ;let i=index"
+                        [ngClass]="{'col-lg-12 mb-4': list.SMOD_MOD_ID == 0 && list.MOD_ID != 0 , 'col-lg-1 mb-0': list.SMOD_MOD_ID != 0 && list.MOD_ID == 0 }">
+                        <div class="list-group list-group-flush ">
+                          <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                            <div class="list-group-item list-group-item-action active">
+                              {{list.MOD_NAME}}
+                            </div>
+                          </div>
+                          <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                            <div *ngIf="list.status=='N'" class="list-group-item  Disable">
+                              No Modules
+                            </div>
+                            <div *ngFor="let sublist of ShowModules">
+                              <div class="list-group-item "
+                                *ngIf="sublist.SMOD_MOD_ID == list.MOD_ID && list.MOD_ID != 0"
+                                [ngClass]="sublist.SMOD_DISPLAY_STATUS == 'E'?'Enable':'Disable'">
+                                <span [ngClass]="{'No_Display' : sublist.status == 'N' }"
+                                  (click)="navigate(sublist.SMOD_FILENAME)"
+                                  *ngIf="sublist.status == 'Y'">{{sublist.SMOD_NAME}}</span>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div *ngFor="let list of ShowModules.slice(2,3) ;let i=index"
+                        [ngClass]="{'col-lg-12 mb-4': list.SMOD_MOD_ID == 0 && list.MOD_ID != 0 , 'col-lg-1 mb-0': list.SMOD_MOD_ID != 0 && list.MOD_ID == 0 }">
+                        <div class="list-group list-group-flush ">
+                          <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                            <div class="list-group-item list-group-item-action active">
+                              {{list.MOD_NAME}}
+                            </div>
+                          </div>
+                          <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                            <div *ngIf="list.status=='N'" class="list-group-item  Disable">
+                              No Modules
+                            </div>
+                            <div *ngFor="let sublist of ShowModules">
+                              <div class="list-group-item "
+                                *ngIf="sublist.SMOD_MOD_ID == list.MOD_ID && list.MOD_ID != 0"
+                                [ngClass]="sublist.SMOD_DISPLAY_STATUS == 'E'?'Enable':'Disable'">
+                                <span [ngClass]="{'No_Display' : sublist.status == 'N' }"
+                                  (click)="navigate(sublist.SMOD_FILENAME)"
+                                  *ngIf="sublist.status == 'Y'">{{sublist.SMOD_NAME}}</span>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                    <div class="col-3">
+                      <div *ngFor="let list of ShowModules.slice(3,5) ;let i=index"
+                        [ngClass]="{'col-lg-12 mb-4': list.SMOD_MOD_ID == 0 && list.MOD_ID != 0 , 'col-lg-1 mb-0': list.SMOD_MOD_ID != 0 && list.MOD_ID == 0 }">
+                        <div class="list-group list-group-flush ">
+                          <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                            <div class="list-group-item list-group-item-action active">
+                              {{list.MOD_NAME}}
+                            </div>
+                          </div>
+                          <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                            <div *ngIf="list.status=='N'" class="list-group-item  Disable">
+                              No Modules
+                            </div>
+                            <div *ngFor="let sublist of ShowModules">
+                              <div class="list-group-item "
+                                *ngIf="sublist.SMOD_MOD_ID == list.MOD_ID && list.MOD_ID != 0"
+                                [ngClass]="sublist.SMOD_DISPLAY_STATUS == 'E'?'Enable':'Disable'">
+                                <span [ngClass]="{'No_Display' : sublist.status == 'N' }"
+                                  (click)="navigate(sublist.SMOD_FILENAME)"
+                                  *ngIf="sublist.status == 'Y'">{{sublist.SMOD_NAME}}</span>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                    <div class="col-3">
+                      <div *ngFor="let list of ShowModules.slice(5,8) ;let i=index"
+                        [ngClass]="{'col-lg-12 mb-4': list.SMOD_MOD_ID == 0 && list.MOD_ID != 0 , 'col-lg-1 mb-0': list.SMOD_MOD_ID != 0 && list.MOD_ID == 0 }">
+                        <div class="list-group list-group-flush ">
+                          <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                            <div class="list-group-item list-group-item-action active">
+                              {{list.MOD_NAME}}
+                            </div>
+                          </div>
+                          <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                            <div *ngIf="list.status=='N'" class="list-group-item  Disable">
+                              No Modules
+                            </div>
+                            <div *ngFor="let sublist of ShowModules">
+                              <div class="list-group-item "
+                                *ngIf="sublist.SMOD_MOD_ID == list.MOD_ID && list.MOD_ID != 0"
+                                [ngClass]="sublist.SMOD_DISPLAY_STATUS == 'E'?'Enable':'Disable'">
+                                <span [ngClass]="{'No_Display' : sublist.status == 'N' }"
+                                  (click)="navigate(sublist.SMOD_FILENAME)"
+                                  *ngIf="sublist.status == 'Y'">{{sublist.SMOD_NAME}}</span>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> <a
+          class="btn btn-danger btn-ok">OK</a> </div> -->
+    </div>
+  </div>
+
+</div>

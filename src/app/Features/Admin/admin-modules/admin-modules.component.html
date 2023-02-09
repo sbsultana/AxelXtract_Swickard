@@ -1,0 +1,318 @@
+<ngx-spinner  bdColor="rgba(51,51,51,0.8)"  size="medium"  color="white"  type="ball-fussion">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>
+<!-- <app-header></app-header>
+<div class="Refresh">Updated: 06/08/22 07:35:56 am <img src="../../../assets/images/refresh_icon.png" alt=""> </div> -->
+<div class="container pe-0 mt-3">
+    <div class="col-lg-12">
+        <div class="d-flex"  *ngIf="Grid">
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                      <table class="sec-tbl1">
+                          <thead>
+                              <tr>
+                                  <th>&nbsp;</th>
+                                <th style="width: 40%;">
+                                    <div class="row" style="float: left; padding: 3%;">
+                                      <div class="getuser col-7">
+                                        <label class="getuserlabel">Modules</label>
+                                      </div>
+                                      <div class="AddIcon col-5">
+                                        <a style="cursor: pointer"><img src="../../assets/images/add.png" (click)="AddShowPanel()" /></a>
+                                      </div>
+                                    </div>
+                                  </th>
+                                  <th style="width: 30%;">
+                                    <div style="float: left"></div>
+                                  </th>
+                                  <th style="width: 30%; text-align: end; ">
+                                      <div style="padding: 3%;">
+                                          <div class="search">
+                                              <input type="text" class="form-control" style="padding: 0.275rem 0.75rem;" placeholder="Search" name="Module_Name" [(ngModel)]="Module_Name"   >
+                                            </div>
+                                            <div style="float: right; margin-top: -31px; margin-right: 7px;"><img
+                                                src="../../assets/images/Search-Icon.png"></div>
+                                      </div>
+                                  </th>
+                              </tr>
+                          </thead>
+                      </table>
+                    </tr>
+                    <tr class="pt-3 pb-3">
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <div class="sec-tbl table-responsive" >
+                          <table>
+                              <thead>
+                                  <tr>
+                                      <th rowspan="2"></th>
+                                      <th style="width: 40%;" class="text-align">Module Name</th>
+                                      <th style="width: 30%;" >Status</th>
+                                      <th style="width: 30%;" >Edit</th>
+                                  </tr>
+                              </thead>
+                              <tbody *ngIf="(ModulesData | filter:Module_Name).length >0; else ifNotShow">
+                                  <tr class="title even" *ngFor="let list of ModulesData | filter:Module_Name">
+                                      <td><span>&nbsp;</span></td>
+                                      <td style="width: 40%;" class="text-align">{{list.mod_name}}</td>
+                                      <td style="width: 30%;" [ngClass]="list.mod_status=='Y'?'Active':'Inactive'">{{list.mod_status=='Y'?'Active':'Inactive'}}</td>
+                                      <td style="width: 30%;"><img src="../../assets/images/edit_icon.png" style="cursor: pointer;" (click)="EditShowPanel(list)"  alt=""></td>
+                                  </tr>
+                                  <tbody>
+                              </table>
+                      </div>
+                    </tr>
+                </tbody>
+            </table>
+            <ng-template #ifNotShow >
+                <tr *ngIf="NoDetailFound">
+                  <td colspan="5" class="NoDataFound"><label>No Details Found</label></td>
+                </tr>
+            </ng-template>
+      </div>
+            <div class="container" *ngIf="AddEditPanel">
+                <nav class="navbar navbar-light bg-light mb-4">
+                    <span class="navbar-brand mb-0 ">Admin</span>
+                </nav>
+         <div class="pt64 ">   
+            <div class="row ">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"></h3>
+                        </div>
+                        <div class="panel-body">
+                            <form  [formGroup]="ModulesForm">
+                                <div class="container">
+                                    <div class="row pb-4">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <label for="module" class="pb-2">Module Name:</label>
+                                            <input type="text" class="form-control" placeholder="Enter Module Name"  formControlName="Module_Name"
+                                            [ngClass]="{ 'is-invalid': submitted && form.Module_Name.errors }">
+
+                                            <small class="text-danger" *ngIf="submitted && form.Module_Name.errors" >
+                                                <div *ngIf="form.Module_Name.errors.required">Module Name is required</div>
+                                                <div *ngIf="form.Module_Name.errors.pattern">Enter only characters</div>
+                                                <div *ngIf="form.Module_Name.errors.maxlength">Limit is exceeded</div>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-4">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <label for="module" class="pb-2">Sequence:</label>
+                                            <input type="text" class="form-control" placeholder="Enter Sequence"  formControlName="Module_Sequence"
+                                            [ngClass]="{ 'is-invalid': submitted && form.Module_Sequence.errors }">
+                                            <small class="text-danger" *ngIf="submitted && form.Module_Sequence.errors" >
+                                                <div *ngIf="form.Module_Sequence.errors.required">Sequence is required</div>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-4">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" *ngIf="StatusHide">
+                                            Status: <label [ngStyle]="{'color': StatusValue=='Y' ? 'green' : 'red' }" >
+                                                <input
+                                                type="checkbox" [checked]="StatusValue=='Y'"
+                                                (change)="checkStatus($event)">&nbsp;{{StatusValue =='Y' ? 'Active':'In-Active'}}
+                                             </label>
+                                        </div>
+                                        </div>
+                                    <div class="col-lg-12 pt-lg-4 pl-lg-4">
+                                        <div class="row">
+                                                <div class="col-lg-2" *ngIf="AddSave">
+                                                <button type="submit" class="savebutton" (click)="ModuleInsert()" >Save</button>
+                                                </div>
+                                                <div class="col-lg-2" *ngIf="EditSave">
+                                                <button  type="submit"  class="savebutton" (click)="ModuleUpdate()" >Save</button>
+                                                </div>
+                                            <div class="col-lg-2">
+                                            <input type="button" class="savebutton" (click)="Cancel()" Value="Cancel" />
+                                            </div>
+                                        </div>
+                                        </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="row ">
+                <div class="col-lg-12">
+                    <div class="d-flex"  *ngIf="SubModuleGrid">
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <table class="sec-tbl1">
+                                        <thead>
+                                            <tr >
+                                                <th>&nbsp;</th>
+                                            <th style="width: 20%;">
+                                                <div class="row" style="float: left; padding: 3%;">
+                                                    <div class="getuser col-9" style="padding-right: 0px;">
+                                                    <label class="getuserlabel">SubModules</label>
+                                                    </div>
+                                                    <div class="AddIcon col-3" >
+                                                    <a style="cursor: pointer"><img src="../../assets/images/add.png" (click)=" SubModuleAddPanel()" /></a>
+                                                    </div>
+                                                </div>
+                                                </th>
+                                                <th style="width: 20%;">
+                                                   <div style="float: left"></div>
+                                                </th>
+                                                <th style="width: 20%;">
+                                                    <div style="float: left"></div>
+                                                 </th>
+                                                <th style="width: 20%;">
+                                                    <div style="float: left"></div>
+                                                </th>
+                                                <th style="width: 20%; text-align: end; ">
+                                                    <div style="padding: 3%;">
+                                                        <div class="search">
+                                                            <input type="text" class="form-control" style="padding: 0.275rem 0.75rem;" placeholder="Search"  name="SubModule_Name" [(ngModel)]="SubModule_Name"  >
+                                                        </div>
+                                                        <div style="float: right; margin-top: -31px; margin-right: 7px;"><img
+                                                            src="../../assets/images/Search-Icon.png"></div>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </tr>
+                                <tr class="pt-3 pb-3">
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <div class="sec-tbl table-responsive" >
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th rowspan="2"></th>
+                                                    <th style="width: 25%;" class="text-align">SubModule Name</th>
+                                                    <th style="width: 25%;" class="text-align">Path</th>
+                                                    <th style="width: 20%;" >Display Status</th>
+                                                    <th style="width: 20%;" >Status</th>
+                                                    <th style="width: 10%;" >Edit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngIf="(SubModulesData | filter:SubModule_Name).length >0; else ifNotShow">
+                                                <tr class="title even" *ngFor="let list of SubModulesData | filter:SubModule_Name">
+                                                    <td><span>&nbsp;</span></td>
+                                                    <td style="width: 25%;" class="text-align">{{list.smod_name}}</td>
+                                                    <td style="width: 25%;" class="text-align">{{list.smod_filename}}</td>
+                                                    <td style="width: 20%;">{{list.smod_display_status =='E'?'Enable':'Disable'}}</td>
+                                                    <td style="width: 10%;"  [ngClass]="list.smod_active=='Y'?'Active':'Inactive'">{{list.smod_active=='Y'?'Active':'Inactive'}}</td>
+                                                    <td style="width: 10%;"><img src="../../assets/images/edit_icon.png" style="cursor: pointer;" (click)="SubModuleEditPanel(list)"  alt=""></td>
+                                                </tr>
+                                                <tbody>
+                                            </table>
+                                        </div>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ng-template #ifNotShow >
+                                <tr *ngIf="NoDetailFound">
+                                  <td colspan="6" class="NoDataFound"><label>No Details Found</label></td>
+                                </tr>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="container" *ngIf="SM_AddEditPanel">
+            <nav class="navbar navbar-light bg-light mb-4">
+                <span class="navbar-brand mb-0 ">SubModules</span>
+            </nav>
+            <div class="pt64 ">
+            <div class="row ">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"></h3>
+                        </div>
+                        <div class="panel-body">
+                            <form [formGroup]="SubModulesForm" >
+                                <div class="container">
+                                    <div class="row pb-4">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <label for="role" class="pb-2">SubModule Name:</label>
+                                            <input type="text" class="form-control" placeholder="Enter SubModule"  formControlName="SubModule_Name"
+                                            [ngClass]="{ 'is-invalid': submitted && forms.SubModule_Name.errors }">
+
+                                            <small class="text-danger" *ngIf="submitted && forms.SubModule_Name.errors" >
+                                                <div *ngIf="forms.SubModule_Name.errors.required">Module Name is required</div>
+                                                <div *ngIf="forms.SubModule_Name.errors.pattern">Enter only characters</div>
+                                                <div *ngIf="forms.SubModule_Name.errors.maxlength">Limit is exceeded</div>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-4">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <label for="role" class="pb-2">Path:</label>
+                                            <input type="text" class="form-control" placeholder="Enter Path"  formControlName="SubModule_FileName"
+                                            [ngClass]="{ 'is-invalid': submitted && forms.SubModule_FileName.errors }">
+
+                                            <small class="text-danger" *ngIf="submitted && forms.SubModule_FileName.errors" >
+                                                <div *ngIf="forms.SubModule_FileName.errors.required">Path is required</div>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-4">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                            <label for="role" class="pb-2">Sequence:</label>
+                                            <input type="text" class="form-control" placeholder="Enter Sequence"  formControlName="SubModule_Sequence"
+                                            [ngClass]="{ 'is-invalid': submitted && forms.SubModule_Sequence.errors }">
+
+                                            <small class="text-danger" *ngIf="submitted && forms.SubModule_Sequence.errors" >
+                                                <div *ngIf="forms.SubModule_Sequence.errors.required">Sequence is required</div>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-4">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                          <div class="form-group">
+                                            <label for="SM_DisplayStatus">Display Status :</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" value="E" name="SM_DisplayStatus" formControlName="SM_DisplayStatus">&nbsp;
+                                            <label for="SM_DisplayStatus">Enable</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" value="D" name="SM_DisplayStatus" formControlName="SM_DisplayStatus">&nbsp;
+                                            <label for="SM_DisplayStatus">Disable</label>
+                                          </div>
+                                          <small class="text-danger" *ngIf="submitted && forms.SM_DisplayStatus.errors" >
+                                            <div *ngIf="forms.SM_DisplayStatus.errors.required">Display Status is required</div>
+                                        </small>
+                                        </div>
+                                      </div>
+                                    <div class="row pb-4">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" *ngIf="SMStatusHide">
+                                            Status: <label [ngStyle]="{'color': SM_StatusValue=='Y' ? 'green' : 'red' }" >
+                                                <input
+                                                type="checkbox" [checked]="SM_StatusValue=='Y'"
+                                                (change)="SMcheckStatus($event)">&nbsp;{{SM_StatusValue =='Y' ? 'Active':'In-Active'}}
+                                             </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 pt-lg-4 pl-lg-4">
+                                        <div class="row">
+                                            <div class="col-lg-2" *ngIf="SMAddSave">
+                                                <button type="submit" class="savebutton" (click)="SubModuleInsert()" >Save</button>
+                                            </div>
+                                            <div class="col-lg-2" *ngIf="SMEditSave">
+                                                <button  type="submit"  class="savebutton" (click)="SubModuleUpdate()" >Save</button>
+                                            </div>
+                                        <div class="col-lg-2">
+                                            <input type="button" class="savebutton" (click)="SMCancel()" Value="Cancel" />
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

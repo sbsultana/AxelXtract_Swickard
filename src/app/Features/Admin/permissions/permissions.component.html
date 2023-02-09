@@ -1,0 +1,73 @@
+<ngx-spinner  bdColor="rgba(51,51,51,0.8)"  size="medium"  color="white"  type="ball-fussion">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>
+  <!-- <app-header></app-header>
+  <div class="Refresh">Updated: 06/08/22 07:35:56 am <img src="../../../assets/images/refresh_icon.png" alt=""> </div> -->
+  
+  <div class="container pe-0 mt-3">
+      <div class="col-lg-12">
+        <nav class="navbar navbar-light bg-light mb-4">
+          <span class="navbar-brand mb-0 ">Permissions</span>
+        </nav>
+        <div class="container pt64 " >
+          <div class="row pb-4 m-auto">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                <label for="role" class="pb-2">Role:</label>
+                <div >
+                    <select class="form-control dash" (change)="RoleChange($event.target.value)" [(ngModel)]="SelectedId" aria-label="Default select example">
+                        <option value="0">Select Role</option>
+                        <option *ngFor="let list of RolesData" value="{{list.Role_Id}}">
+                            {{list.Role_Name}}</option>
+                    </select>
+                </div>
+            </div>
+         </div>
+        <div class="container-fluid mt-4 text-center d-flex justify-content-center align-items-center" style="height: 66vh;overflow: auto;">
+          <div class="row" *ngIf="MsgShow">
+            <h5 style="font-family: Roboto;">Please select role to get modules data..!</h5>
+          </div>
+          <div class="row" style="text-align: left !important;" *ngIf="MsgNotShow">
+              <div  *ngFor="let list of ModulesData ;let i=index" [ngClass]="{'col-lg-3 mb-4': list.SMOD_MOD_ID == 0 && list.MOD_ID != 0 , 'col-lg-1 mb-0': list.SMOD_MOD_ID != 0 && list.MOD_ID == 0 }">
+                      <div *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                          <div class="CheckHeader p-2">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" value="" id="{{list.MOD_ID}}" 
+                                  [checked]="list.status=='Y'" (change)="CheckModule(list, $event)" >
+                                  <label class="form-check-label" for="{{list.MOD_ID}}">
+                                    {{list.MOD_NAME}}
+                                  </label>
+                             </div>
+                          </div>
+                      </div>
+                      <div class="scroll my-1" style="height: 20vh;overflow: auto;" *ngIf="list.MOD_ID != 0 && list.SMOD_MOD_ID == 0 ">
+                        <div class="ms-3"  *ngFor="let sublist of ModulesData">
+                            <div *ngIf="sublist.SMOD_MOD_ID == list.MOD_ID && list.MOD_ID != 0">
+                              <div class="form-check"  >
+                                <input class="form-check-input" type="checkbox" value="" 
+                                id="{{sublist.SMOD_ID}}" [checked]="sublist.status=='Y'" 
+                                (change)="CheckSubModule(sublist, list, $event)">
+                                <label class="form-check-label" for="{{sublist.SMOD_ID}}">
+                                    {{sublist.SMOD_NAME}}
+                                </label>
+                              </div>
+                            </div> 
+                        </div>
+                    </div>    
+                </div>
+            </div>        
+        </div>
+        <div class="col-lg-12 pt-lg-3 pl-lg-3 ">  
+          <div class="row m-auto">
+             <div class="col-lg-2" >
+              <button type="submit" (click)="UpdateRolePermissions()" class="savebutton">Save</button>
+             </div>
+             <div class="col-lg-2">
+              <input type="button" (click)="Cancel()" class="savebutton" Value="Cancel" />
+             </div>
+           </div>
+         </div>
+      </div>
+     </div>
+  </div>
+  
+  

@@ -1,0 +1,149 @@
+<!-- <app-header (UpdatedDateFun)='displaydate($event)'></app-header> -->
+
+<!-- <div class="Refresh">Updated: {{updateDate}} <img src="../../../assets/images/refresh_icon.png" alt=""> </div> -->
+
+<div class="container-fluid pe-0 mt-1">
+    <div class="col-12 ">
+        <!-- <ngx-spinner  size="medium" color="white" type="ball-fussion">
+
+        </ngx-spinner> -->
+
+        <div class="d-flex">
+            <div class="loader" style="margin-top: 12%;margin-left: 12%;" *ngIf="!isShow"></div>
+
+            <div class="gross-tbl table-responsive">
+                <table>
+                    <thead style="cursor: pointer;white-space: nowrap;">
+                        <tr>
+                            <th rowspan="2" style="padding-left: 1.3rem;">Units And Gross</th>
+                        </tr>
+                        <tr>
+                            <!-- <th rowspan="2" style="font-size: 0.6rem;padding-left: 1rem;">&nbsp;&nbsp;<i>As of {{TodayDate | date:'MMMM'}}&nbsp;{{TodayDate |date:'d'}} @{{time | date:'h:mm a'}}
+                                </i></th> -->
+                            <th rowspan="2" style="font-size: 0.6rem;padding-left: 1rem;">&nbsp;&nbsp;<i>As of
+                                    {{TodayDate | date:'MMMM'}}&nbsp;{{TodayDate |date:'d'}}
+                                </i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="title">
+                            <td>
+                                <span> SALES </span>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let Unitsgross of unitsandgross; let i=index">
+                            <td [ngClass]="{'total' : Unitsgross.val.slice(0,5) == 'Total' }">
+                                {{(Unitsgross.val == undefined ? '--' : ( (Unitsgross.val.toString() | slice:0:22) +
+                                (Unitsgross.val.toString().length > 22 ? '...' : '') ))}}
+                            </td>
+                        </tr>
+                    <tbody>
+                </table>
+            </div>
+            <div class="sec-tbl table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="2"></th>
+                            <th id="DataHead2">{{TodayDate | date:'MMM d'}}</th>
+                            <th id="DataHead5">vs. Daily Goal</th>
+                            <th id="DataHead2">MTD</th>
+                            <th id="DataHead3">Pace</th>
+                            <th id="DataHead4">Goal</th>
+                            <th id="DataHead6">Variance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+
+                            <td id="DataBody2" colspan="8"
+                                style="color: #f1f1f1;background-color: #f1f1f1;border-right: 2px solid #e0e1e2;">&nbsp;
+                            </td>
+                        </tr>
+
+                        <tr *ngFor="let Unitsgross of unitsandgross; let i=index"
+                            [ngClass]="{'titleOdd' : i % 2 == 0 , 'title' : i % 2 != 0 }">
+                            <td colspan="2">&nbsp;&nbsp;</td>
+                            <td id="DataBody2" [ngClass]="{ negative: !inTheGreen(Unitsgross.Data[0].Today)}">
+                                <span
+                                    *ngIf="Unitsgross.val == 'New Units' || Unitsgross.val == 'Used Units' || Unitsgross.val == 'Total Units'">
+                                    {{(Unitsgross.Data[0].Today == 0 ? '-' : Unitsgross.Data[0].Today | number )}}
+                                </span>
+                                <span
+                                    *ngIf="Unitsgross.val != 'New Units' && Unitsgross.val != 'Used Units' && Unitsgross.val != 'Total Units'">
+                                    {{(Unitsgross.Data[0].Today == 0 ? '-' : Unitsgross.Data[0].Today |
+                                    currency:'USD':'symbol':'1.0-0')}}
+                                </span>
+                            </td>
+                            <td id="DataBody3" [ngClass]="{ negative: !inTheGreen(Unitsgross.Data[0].DailyGoal)}">
+                                <span
+                                    *ngIf="Unitsgross.val == 'New Units' || Unitsgross.val == 'Used Units' || Unitsgross.val == 'Total Units'">
+                                    {{(Unitsgross.Data[0].DailyGoal == 0 ? '-' : Unitsgross.Data[0].DailyGoal | number
+                                    )}}
+                                </span>
+                                <span
+                                    *ngIf="Unitsgross.val != 'New Units' && Unitsgross.val != 'Used Units' && Unitsgross.val != 'Total Units'">
+                                    {{(Unitsgross.Data[0].DailyGoal == 0 ? '-' : Unitsgross.Data[0].DailyGoal |
+                                    currency:'USD':'symbol':'1.0-0')}}
+                                </span>
+                            </td>
+                            <td id="DataBody2" [ngClass]="{ negative: !inTheGreen(Unitsgross.Data[0].MTD)}">
+                                <span
+                                    *ngIf="Unitsgross.val == 'New Units' || Unitsgross.val == 'Used Units' || Unitsgross.val == 'Total Units'">
+                                    {{(Unitsgross.Data[0].MTD == 0 ? '-' : Unitsgross.Data[0].MTD | number )}}
+                                </span>
+                                <span
+                                    *ngIf="Unitsgross.val != 'New Units' && Unitsgross.val != 'Used Units' && Unitsgross.val != 'Total Units'">
+                                    {{(Unitsgross.Data[0].MTD == 0 ? '-' : Unitsgross.Data[0].MTD |
+                                    currency:'USD':'symbol':'1.0-0')}}
+                                </span>
+                            </td>
+                            <td id="DataBody3" [ngClass]="{ negative: !inTheGreen(Unitsgross.Data[0].Pace)}">
+                                <span
+                                    *ngIf="Unitsgross.val == 'New Units' || Unitsgross.val == 'Used Units' || Unitsgross.val == 'Total Units'">
+                                    {{(Unitsgross.Data[0].Pace == 0 ? '-' : Unitsgross.Data[0].Pace | number )}}
+                                </span>
+                                <span
+                                    *ngIf="Unitsgross.val != 'New Units' && Unitsgross.val != 'Used Units' && Unitsgross.val != 'Total Units'">
+                                    {{(Unitsgross.Data[0].Pace == 0 ? '-' : Unitsgross.Data[0].Pace |
+                                    currency:'USD':'symbol':'1.0-0')}}
+                                </span>
+                            </td>
+                            <td id="DataBody2" [ngClass]="{ negative: !inTheGreen(Unitsgross.Data[0].Goal)}">
+                                <span
+                                    *ngIf="Unitsgross.val == 'New Units' || Unitsgross.val == 'Used Units' || Unitsgross.val == 'Total Units'">
+                                    {{(Unitsgross.Data[0].Goal == 0 ? '-' : Unitsgross.Data[0].Goal | number )}}
+                                </span>
+                                <span
+                                    *ngIf="Unitsgross.val != 'New Units' && Unitsgross.val != 'Used Units' && Unitsgross.val != 'Total Units'">
+                                    {{(Unitsgross.Data[0].Goal == 0 ? '-' : Unitsgross.Data[0].Goal |
+                                    currency:'USD':'symbol':'1.0-0')}}
+                                </span>
+                            </td>
+                            <td id="DataBody3"
+                                [ngClass]="{ negative: !inTheGreen(Unitsgross.Data[0].Pace *1 - Unitsgross.Data[0].Goal*1)}">
+                                <span
+                                    *ngIf="Unitsgross.val == 'New Units' || Unitsgross.val == 'Used Units' || Unitsgross.val == 'Total Units'">
+                                    {{(Unitsgross.Data[0].Pace *1 - Unitsgross.Data[0].Goal*1 == 0 ? '-' :
+                                    Unitsgross.Data[0].Pace *1 - Unitsgross.Data[0].Goal*1 | number )}}
+                                </span>
+                                <span
+                                    *ngIf="Unitsgross.val != 'New Units' && Unitsgross.val != 'Used Units' && Unitsgross.val != 'Total Units'">
+                                    {{(Unitsgross.Data[0].Pace *1 - Unitsgross.Data[0].Goal*1 == 0 ? '-' :
+                                    Unitsgross.Data[0].Pace *1 - Unitsgross.Data[0].Goal*1 |
+                                    currency:'USD':'symbol':'1.0-0')}}
+                                </span>
+                            </td>
+
+                        </tr>
+                    <tbody>
+                    <tbody *ngIf="NoData">
+                        <tr>
+                            <td colspan="11">No Records Found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

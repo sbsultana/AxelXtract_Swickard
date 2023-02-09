@@ -1,0 +1,138 @@
+<ngx-spinner size="medium" bdColor="rgba(51,51,51,0.8)" type="ball-fussion">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+
+<div id="Loyalty">
+    <div class="pb-4">
+        <div class="container-fluid pt-4">
+
+            <div class="row pb-2">
+                <div class="dpvc">
+                    <h3 class="cv" style="font-family: 'RobotoBold'; ">Loyalty Activity Report</h3>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="d-flex ">
+                    <div class="gross-tbl table-responsive fs-tbl" style="width: 100%;">
+                        <table>
+                            <thead>
+
+                                <tr class="SGtitle">
+                                    <th>Employee </th>
+                                    <th>Store
+                                    </th>
+                                    <th>Day</th>
+                                    <th>Emails</th>
+                                    <th>Phone </th>
+                                    <th>Text
+                                    </th>
+                                    <th>Notes</th>
+                                    <th>Appt</th>
+                                    <th>Other</th>
+                                    <th>Total</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <ng-container *ngFor="let loyal of LoyalityData">
+                                    <tr class="sub-title">
+                                        <!-- [ngClass]="{'title' : cashflow.SubLable == 'Cash and Cash Equivalents'  , 'sub-title' :  cashflow.SubLable !== 'Cash and Cash Equivalents' }" -->
+                                        <td>{{loyal.Employee}}</td>
+                                        <td colspan="9"> </td>
+                                    </tr>
+                                    <ng-container *ngFor="let store of loyal.Stores;let j=index">
+                                        <tr class="sub-title"
+                                            [ngClass]="{'totalborder' :  j == loyal.Stores.length-1 }">
+                                            <!-- [ngClass]="{'title' : cashflow.SubLable == 'Cash and Cash Equivalents'  , 'sub-title' :  cashflow.SubLable !== 'Cash and Cash Equivalents' }" -->
+                                            <td></td>
+                                            <td>{{store.Store}}</td>
+                                            <td colspan="8" *ngIf="j !== loyal.Stores.length-1"></td>
+                                            <ng-container *ngIf="j == loyal.Stores.length-1">
+                                                <td *ngIf="store.StoreData[0].Day != 'Total By Store'">
+                                                    {{store.StoreData[0].Day | date: 'MM.dd.yyyy'}}</td>
+                                                <td *ngIf="store.StoreData[0].Day == 'Total By Store'">
+                                                    {{store.StoreData[0].Day }}</td>
+
+                                                <td [ngClass]="{'pointer' : store.StoreData[0]['# Emails'] != '0'  , 'disabled' :  store.StoreData[0]['# Emails'] == '0'}"
+                                                    (click)="openDetails('Email',store.StoreData[0])">
+                                                    {{store.StoreData[0]['# Emails']}}
+                                                </td>
+                                                <td [ngClass]="{'pointer' : store.StoreData[0]['# Phone'] != '0'  , 'disabled' :  store.StoreData[0]['# Phone'] == '0'}"
+                                                    (click)="openDetails('Phone',store.StoreData[0])">
+                                                    {{store.StoreData[0]['# Phone']}}
+                                                </td>
+                                                <td [ngClass]="{'pointer' : store.StoreData[0]['#Text'] != '0'  , 'disabled' :  store.StoreData[0]['#Text'] == '0'}"
+                                                    (click)="openDetails('Text',store.StoreData[0])">
+                                                    {{store.StoreData[0]['#Text']}}</td>
+                                                <td [ngClass]="{'pointer' : store.StoreData[0].Notes != '0'  , 'disabled' :  store.StoreData[0].Notes == '0'}"
+                                                    (click)="openDetails('Note',store.StoreData[0])">
+                                                    {{store.StoreData[0].Notes}}</td>
+                                                <td [ngClass]="{'pointer' : store.StoreData[0].Appt != '0'  , 'disabled' :  store.StoreData[0].Appt == '0'}"
+                                                    (click)="openDetails('Appointment',store.StoreData[0])">
+                                                    {{store.StoreData[0].Appt}} </td>
+                                                <td [ngClass]="{'pointer' : store.StoreData[0].Others != '0'  , 'disabled' :  store.StoreData[0].Others == '0'}"
+                                                    (click)="openDetails('Others',store.StoreData[0])">
+                                                    {{store.StoreData[0].Others}} </td>
+                                                <td [ngClass]="{'pointer' : store.StoreData[0].Total != '0'  , 'disabled' :  store.StoreData[0].Total == '0'}"
+                                                    (click)="openDetails('Total',store.StoreData[0])">
+                                                    {{store.StoreData[0].Total}}</td>
+                                            </ng-container>
+                                        </tr>
+                                        <tr class="sub-title" *ngFor="let strdata of store.StoreData;let k=index"
+                                            [ngClass]="{'totalborder' :  store.StoreData.length-1 == k && strdata.Store !== 'All Stores Total'  }">
+                                            <ng-container *ngIf="strdata.Store !== 'All Stores Total'">
+                                                <td></td>
+                                                <td></td>
+                                                <!-- <td colspan="7" *ngIf="strdata.Store == 'All Stores Total'"></td> -->
+                                                <td *ngIf="strdata.Day != 'Total By Store'">{{strdata.Day | date:
+                                                    'MM.dd.yyyy'}}</td>
+                                                <td *ngIf="strdata.Day == 'Total By Store'">{{strdata.Day}}</td>
+
+                                                <td (click)="openDetails('Email',strdata)"
+                                                    [ngClass]="{'pointer' : strdata['# Emails'] != '0'  , 'disabled' : strdata['# Emails'] == '0'}">
+                                                    {{strdata['#
+                                                    Emails']}} </td>
+                                                <td (click)="openDetails('Phone',strdata)"
+                                                    [ngClass]="{'pointer' : strdata['# Phone'] != '0'  , 'disabled' : strdata['# Phone'] == '0'}">
+                                                    {{strdata['#
+                                                    Phone']}}</td>
+                                                <td [ngClass]="{'pointer' : strdata['#Text'] != '0'  , 'disabled' : strdata['#Text'] == '0'}"
+                                                    (click)="openDetails('Text',strdata)">
+                                                    {{strdata['#Text']}}</td>
+                                                <td [ngClass]="{'pointer' : strdata.Notes != '0'  , 'disabled' : strdata.Notes == '0'}"
+                                                    (click)="openDetails('Note',strdata)">
+                                                    {{strdata.Notes}}</td>
+                                                <td [ngClass]="{'pointer' : strdata.Appt != '0'  , 'disabled' : strdata.Appt == '0'}"
+                                                    (click)="openDetails('Appointment',strdata)">
+                                                    {{strdata.Appt}} </td>
+                                                <td [ngClass]="{'pointer' : strdata.Others != '0'  , 'disabled' : strdata.Others == '0'}"
+                                                    (click)="openDetails('Others',strdata)">
+                                                    {{strdata.Others}} </td>
+                                                <td [ngClass]="{'pointer' : strdata.Total != '0'  , 'disabled' : strdata.Total == '0'}"
+                                                    (click)="openDetails('Total',strdata)">
+                                                    {{strdata.Total}}</td>
+                                            </ng-container>
+                                        </tr>
+                                    </ng-container>
+                                </ng-container>
+
+
+                            </tbody>
+
+                            <tbody>
+                                <tr *ngIf="NoData">
+                                    <td></td>
+                                    <td colspan="9" style="text-align: center;">No Records Found!!!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

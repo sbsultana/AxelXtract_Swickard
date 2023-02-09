@@ -1,0 +1,424 @@
+<ngx-spinner size="medium" bdColor="rgba(51,51,51,0.8)" type="ball-fussion">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+
+<div id="Cash Flow ">
+    <div class="pb-4">
+        <div class="container-fluid pt-4">
+
+            <div class="row pb-2">
+                <div class="dpvc">
+                    <h3 class="cv" style="font-family: 'RobotoBold'; ">Cash Flow Statement</h3>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="d-flex ">
+                    <div class="gross-tbl table-responsive fs-tbl"
+                        style="width: 100%;overflow: none !important; height: auto;">
+                        <table>
+                            <thead>
+                                <tr class="SGtitle" style="background-color: #2d91f1;">
+                                    <th rowspan="1">&nbsp;</th>
+                                    <th colspan="5"
+                                        style=" color: #000; text-align: center !important; background-color: #fff; border-right: 2px solid #e0e1e2;">
+                                        {{StoreName}}</th>
+
+                                </tr>
+                                <tr class="SGtitle">
+                                    <th style="font-size: 1rem;"><br>Cash Accounts</th>
+                                    <th *ngIf="CashFlowData.length >0">
+                                        {{CashFlowData[0].Quarters.slice(0,CashFlowData[0].Quarters.indexOf(','))
+                                        }}<br>Balance</th>
+                                    <th>Change</th>
+                                    <th *ngIf="CashFlowData.length >0">{{CashFlowData[0].Quarters | slice:
+                                        CashFlowData[0].Quarters.indexOf(',')+1
+                                        }}<br>Balance</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr class="sub-title" *ngFor="let cashflow of CashFlowData"
+                                    [ngClass]="{'title' : cashflow.SubLable == 'Cash and Cash Equivalents'  , 'sub-title' :  cashflow.SubLable !== 'Cash and Cash Equivalents' }">
+
+                                    <td *ngIf="cashflow.Lable== 'Cash Accounts'">{{ cashflow.SubLable
+                                        == 0 ||
+                                        cashflow.SubLable == null || cashflow.SubLable == undefined || cashflow.SubLable
+                                        =='' ? '-' : cashflow.SubLable }}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(cashflow.CCQBalance)}"
+                                        *ngIf="cashflow.Lable== 'Cash Accounts'"> {{
+                                        cashflow.CCQBalance == 0 ||
+                                        cashflow.CCQBalance == null || cashflow.CCQBalance == undefined ||
+                                        cashflow.CCQBalance
+                                        =='' ? '-' : cashflow.CCQBalance | number:'1.0-0'
+                                        }}</td>
+                                    <td *ngIf="cashflow.Lable== 'Cash Accounts' ">
+                                        <span *ngIf="cashflow.SubLable != 'Cash and Cash Equivalents'"
+                                            [ngClass]="{'setPerens' : isNegitive(cashflow.Change)}"> {{
+                                            cashflow.Change == 0 ||
+                                            cashflow.Change == null || cashflow.Change == undefined || cashflow.Change
+                                            =='' ? '-' : cashflow.Change.toString().replace('-','') *1 | number:'1.0-0'
+                                            }}</span>
+                                        <span *ngIf="cashflow.SubLable == 'Cash and Cash Equivalents'"> &nbsp;</span>
+                                    </td>
+                                    <td [ngClass]="{ negative: !inTheGreen(cashflow.PCQBalance)}"
+                                        *ngIf="cashflow.Lable== 'Cash Accounts'">
+                                        {{ cashflow.PCQBalance == 0 ||
+                                        cashflow.PCQBalance == null || cashflow.PCQBalance == undefined ||
+                                        cashflow.PCQBalance
+                                        =='' ? '-' : cashflow.PCQBalance |
+                                        number:'1.0-0'}}</td>
+
+                                </tr>
+
+                                <tr class="sub-title" *ngIf="NetValues.length>0">
+                                    <td>Net Change in Cash/Equivalents</td>
+                                    <td>&nbsp;</td>
+                                    <td [ngClass]="{'setPerens' : isNegitive(NetValues[0][0].Change)}">
+                                        {{NetValues[0][0].Change == 0 ||
+                                        NetValues[0][0].Change == null || NetValues[0][0].Change == undefined ||
+                                        NetValues[0][0].Change
+                                        =='' ? '-' :NetValues[0][0].Change.toString().replace('-','') *1 |
+                                        number:'1.0-0'}} </td>
+                                    <td>&nbsp;</td>
+
+                                </tr>
+
+                            </tbody>
+                            <tbody *ngIf="NoData">
+                                <tr>
+                                    <td colspan="13" style="text-align: center;">No Records Found!!!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid pt-4">
+            <div class="row pb-2">
+                <!-- <div class="dpvc">
+                   <h6 class="cv" style="font-family: 'RobotoBold'; ">Department Performance - Passenger Car</h6>
+               </div> -->
+            </div>
+            <div class="col-12">
+                <div class="d-flex">
+                    <div class="gross-tbl table-responsive fs-tbl"
+                        style="width: 100%;overflow: none !important; height: auto;">
+                        <table>
+                            <thead>
+                                <tr class="SGtitle" style="background-color: #2d91f1;"> </tr>
+                                <tr class="SGtitle">
+                                    <th>Operating Activities</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="sub-title" *ngFor="let cashflow of CashFlowData"
+                                    [ngClass]="{'title' : cashflow.SubLable == 'Total Operating Activities'  , 'sub-title' :  cashflow.SubLable !== 'Total Operating Activities' }">
+
+                                    <td *ngIf="cashflow.Lable== 'Operating Activities'">{{
+                                        cashflow.SubLable == 0 ||
+                                        cashflow.SubLable == null || cashflow.SubLable == undefined || cashflow.SubLable
+                                        =='' ? '-' : cashflow.SubLable }}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(cashflow.CCQBalance)}"
+                                        *ngIf="cashflow.Lable== 'Operating Activities'"> {{ cashflow.CCQBalance == 0 ||
+                                        cashflow.CCQBalance == null || cashflow.CCQBalance == undefined ||
+                                        cashflow.CCQBalance
+                                        =='' ? '-' : cashflow.CCQBalance | number:'1.0-0'
+                                        }}</td>
+                                    <td *ngIf="cashflow.Lable== 'Operating Activities'">
+
+                                        <span *ngIf="cashflow.SubLable != 'Total Operating Activities'"
+                                            [ngClass]="{'setPerens' : isNegitive(cashflow.Change)}"> {{
+                                            cashflow.Change == 0 ||
+                                            cashflow.Change == null || cashflow.Change == undefined || cashflow.Change
+                                            =='' ? '-' : cashflow.Change.toString().replace('-','') *1
+                                            | number:'1.0-0' }}</span>
+                                        <span *ngIf="cashflow.SubLable == 'Total Operating Activities'"> &nbsp;</span>
+
+                                        <!--
+
+                                        {{ cashflow.Change == 0 ||
+                                        cashflow.Change == null || cashflow.Change == undefined || cashflow.Change
+                                        =='' ? '-' : cashflow.Change | number:'1.0-0' }} -->
+
+                                    </td>
+                                    <td [ngClass]="{ negative: !inTheGreen(cashflow.PCQBalance)}"
+                                        *ngIf="cashflow.Lable== 'Operating Activities'">
+                                        {{ cashflow.PCQBalance == 0 ||
+                                        cashflow.PCQBalance == null || cashflow.PCQBalance == undefined ||
+                                        cashflow.PCQBalance
+                                        =='' ? '-' : cashflow.PCQBalance |
+                                        number:'1.0-0'}}</td>
+
+                                </tr>
+
+                                <!-- <tr class="title">
+                                    <td>Total Operating Activities</td>
+                                    <td>&nbsp;</td>
+                                    <td>345344</td>
+                                    <td>&nbsp;</td>
+                                </tr> -->
+                                <tr class="sub-title" *ngIf="NetValues.length>0">
+                                    <td>Net Cash Provided/(Used)</td>
+                                    <td>&nbsp;</td>
+                                    <td [ngClass]="{'setPerens' : isNegitive(NetValues[1][0].Change)}">
+                                        {{NetValues[1][0].Change == 0 ||
+                                        NetValues[1][0].Change == null || NetValues[1][0].Change == undefined ||
+                                        NetValues[1][0].Change
+                                        =='' ? '-' :NetValues[1][0].Change.toString().replace('-','') *1 |
+                                        number:'1.0-0'}} </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="NoData">
+                                <tr>
+                                    <td colspan="13" style="text-align: center;">No Records Found!!!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid pt-4">
+            <div class="row pb-2">
+                <!-- <div class="dpvc">
+                <h6 class="cv" style="font-family: 'RobotoBold'; ">Department Performance - Passenger Car</h6>
+            </div> -->
+            </div>
+            <div class="col-12">
+                <div class="d-flex ">
+                    <div class="gross-tbl table-responsive fs-tbl"
+                        style="width: 100%;overflow: none !important; height: auto;">
+                        <table>
+                            <thead>
+                                <tr class="SGtitle" style="background-color: #2d91f1;"> </tr>
+                                <tr class="SGtitle">
+                                    <th>Financing Activities</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="sub-title" *ngFor="let cashflow of CashFlowData"
+                                    [ngClass]="{'title' : cashflow.SubLable == 'Total Financing Activities'  , 'sub-title' :  cashflow.SubLable !== 'Total Financing Activities' }">
+
+
+                                    <td *ngIf="cashflow.Lable== 'Financing Activities'">{{
+                                        cashflow.SubLable == 0 ||
+                                        cashflow.SubLable == null || cashflow.SubLable == undefined || cashflow.SubLable
+                                        =='' ? '-' : cashflow.SubLable }}</td>
+                                    <td [ngClass]="{  negative: !inTheGreen(cashflow.CCQBalance)}"
+                                        *ngIf="cashflow.Lable== 'Financing Activities'"> {{ cashflow.CCQBalance == 0 ||
+                                        cashflow.CCQBalance == null || cashflow.CCQBalance == undefined ||
+                                        cashflow.CCQBalance
+                                        =='' ? '-' : cashflow.CCQBalance | number:'1.0-0'
+                                        }}</td>
+                                    <td *ngIf="cashflow.Lable== 'Financing Activities'">
+
+                                        <span *ngIf="cashflow.SubLable != 'Total Financing Activities'"
+                                            [ngClass]="{'setPerens' : isNegitive(cashflow.Change)}"> {{
+                                            cashflow.Change == 0 ||
+                                            cashflow.Change == null || cashflow.Change == undefined || cashflow.Change
+                                            =='' ? '-' : cashflow.Change.toString().replace('-','') *1
+                                            | number:'1.0-0' }}</span>
+                                        <span *ngIf="cashflow.SubLable == 'Total Financing Activities'"> &nbsp;</span>
+
+
+                                        <!-- {{ cashflow.Change == 0 ||
+                                        cashflow.Change == null || cashflow.Change == undefined || cashflow.Change
+                                        =='' ? '-' : cashflow.Change | number:'1.0-0' }} -->
+                                    </td>
+                                    <td [ngClass]="{  negative: !inTheGreen(cashflow.PCQBalance)}"
+                                        *ngIf="cashflow.Lable== 'Financing Activities'">
+                                        {{ cashflow.PCQBalance == 0 ||
+                                        cashflow.PCQBalance == null || cashflow.PCQBalance == undefined ||
+                                        cashflow.PCQBalance
+                                        =='' ? '-' : cashflow.PCQBalance |
+                                        number:'1.0-0'}}</td>
+
+                                </tr>
+
+                                <tr class="sub-title" *ngIf="NetValues.length>0">
+                                    <td>Net Cash Provided/(Used)</td>
+                                    <td>&nbsp;</td>
+                                    <td [ngClass]="{'setPerens' : isNegitive(NetValues[2][0].Change)}">
+                                        {{NetValues[2][0].Change == 0 ||
+                                        NetValues[2][0].Change == null || NetValues[2][0].Change == undefined ||
+                                        NetValues[2][0].Change
+                                        =='' ? '-' :NetValues[2][0].Change.toString().replace('-','') *1 |
+                                        number:'1.0-0'}} </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+
+                            </tbody>
+                            <tbody *ngIf="NoData">
+                                <tr>
+                                    <td colspan="13" style="text-align: center;">No Records Found!!!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid pt-4">
+            <div class="row pb-2">
+                <!-- <div class="dpvc">
+                <h6 class="cv" style="font-family: 'RobotoBold'; ">Department Performance - Passenger Car</h6>
+            </div> -->
+            </div>
+            <div class="col-12">
+                <div class="d-flex ">
+                    <div class="gross-tbl table-responsive fs-tbl"
+                        style="width: 100%;overflow: none !important; height: auto;">
+                        <table>
+                            <thead>
+                                <tr class="SGtitle" style="background-color: #2d91f1;"> </tr>
+                                <tr class="SGtitle">
+                                    <th>Investing Activities</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="sub-title" *ngFor="let cashflow of CashFlowData"
+                                    [ngClass]="{'title' : cashflow.SubLable == 'Total Investing Activities'  , 'sub-title' :  cashflow.SubLable !== 'Total Investing Activities' }">
+
+
+                                    <td *ngIf="cashflow.Lable== 'Investing Activities'">{{
+                                        cashflow.SubLable == 0 ||
+                                        cashflow.SubLable == null || cashflow.SubLable == undefined || cashflow.SubLable
+                                        =='' ? '-' : cashflow.SubLable }}</td>
+                                    <td [ngClass]="{ negative: !inTheGreen(cashflow.CCQBalance)}"
+                                        *ngIf="cashflow.Lable== 'Investing Activities'"> {{ cashflow.CCQBalance == 0 ||
+                                        cashflow.CCQBalance == null || cashflow.CCQBalance == undefined ||
+                                        cashflow.CCQBalance
+                                        =='' ? '-' : cashflow.CCQBalance| number:'1.0-0'
+                                        }}</td>
+                                    <td *ngIf="cashflow.Lable== 'Investing Activities'">
+
+
+                                        <span *ngIf="cashflow.SubLable != 'Total Investing Activities'"
+                                            [ngClass]="{'setPerens' : isNegitive(cashflow.Change)}"> {{
+                                            cashflow.Change == 0 ||
+                                            cashflow.Change == null || cashflow.Change == undefined || cashflow.Change
+                                            =='' ? '-' : cashflow.Change.toString().replace('-','') *1
+                                            | number:'1.0-0' }}</span>
+                                        <span *ngIf="cashflow.SubLable == 'Total Investing Activities'"> &nbsp;</span>
+
+
+
+                                    </td>
+                                    <td [ngClass]="{ negative: !inTheGreen(cashflow.PCQBalance)}"
+                                        *ngIf="cashflow.Lable== 'Investing Activities'">
+                                        {{ cashflow.PCQBalance == 0 ||
+                                        cashflow.PCQBalance == null || cashflow.PCQBalance == undefined ||
+                                        cashflow.PCQBalance
+                                        =='' ? '-' : cashflow.PCQBalance |
+                                        number:'1.0-0'}}</td>
+
+                                </tr>
+
+
+                                <tr class="sub-title" *ngIf="NetValues.length>0">
+                                    <td>Net Cash Provided/(Used)</td>
+                                    <td>&nbsp;</td>
+                                    <td [ngClass]="{'setPerens' : isNegitive(NetValues[3][0].Change)}">
+                                        {{NetValues[3][0].Change == 0 ||
+                                        NetValues[3][0].Change == null || NetValues[3][0].Change == undefined ||
+                                        NetValues[3][0].Change
+                                        =='' ? '-' :NetValues[3][0].Change.toString().replace('-','') *1 |
+                                        number:'1.0-0'}} </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+
+                            </tbody>
+                            <tbody *ngIf="NoData">
+                                <tr>
+                                    <td colspan="13" style="text-align: center;">No Records Found!!!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid pt-4">
+            <div class="row pb-2">
+                <!-- <div class="dpvc">
+                <h6 class="cv" style="font-family: 'RobotoBold'; ">Department Performance - Passenger Car</h6>
+            </div> -->
+            </div>
+            <div class="col-12">
+                <div class="d-flex ">
+                    <div class="gross-tbl table-responsive fs-tbl"
+                        style="width: 100%;overflow: none !important; height: auto;">
+                        <table>
+                            <!-- <thead>
+                                <tr class="SGtitle" style="background-color: #2d91f1;"> </tr>
+                                <tr class="SGtitle">
+                                    <th>Investing Activities</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead> -->
+                            <tbody>
+                                <tr class="sub-title" *ngIf="NetValues.length>0"
+                                    style="font-family: 'RobotoBold !important'; ">
+                                    <td style="width:256px !important; ">
+                                        {{NetValues[4][0].SubLable == 0 ||
+                                        NetValues[4][0].SubLable == null || NetValues[4][0].SubLable == undefined ||
+                                        NetValues[4][0].SubLable
+                                        =='' ? '-' :NetValues[4][0].SubLable }} </td>
+                                    <td style="width:25% !important; "
+                                        [ngClass]="{ negative: !inTheGreen(NetValues[4][0].CCQBalance)}">
+                                        {{NetValues[4][0].CCQBalance == 0 ||
+                                        NetValues[4][0].CCQBalance == null || NetValues[4][0].CCQBalance == undefined ||
+                                        NetValues[4][0].CCQBalance
+                                        =='' ? '-' :NetValues[4][0].CCQBalance |
+                                        number:'1.0-0'}} </td>
+                                    <td style="width:29% !important;"
+                                        [ngClass]="{'setPerens' : isNegitive(NetValues[4][0].Change)}">
+                                        {{NetValues[4][0].Change == 0 ||
+                                        NetValues[4][0].Change == null || NetValues[4][0].Change == undefined ||
+                                        NetValues[4][0].Change
+                                        =='' ? '-' :NetValues[4][0].Change.toString().replace('-','') *1 |
+                                        number:'1.0-0'}} </td>
+                                    <td [ngClass]="{ negative: !inTheGreen(NetValues[4][0].PCQBalance)}">
+                                        &nbsp; {{NetValues[4][0].PCQBalance == 0 ||
+                                        NetValues[4][0].PCQBalance == null || NetValues[4][0].PCQBalance == undefined ||
+                                        NetValues[4][0].PCQBalance
+                                        =='' ? '-' :NetValues[4][0].PCQBalance |
+                                        number:'1.0-0'}} </td>
+                                </tr>
+
+
+                            </tbody>
+                            <tbody *ngIf="NoData">
+                                <tr>
+                                    <td colspan="13" style="text-align: center;">No Records Found!!!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

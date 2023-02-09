@@ -1,0 +1,221 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="white" type="ball-fussion">
+  <p style="font-size: 20px; color: white">Loading..</p>
+</ngx-spinner>
+
+<!-- <div class="search">
+  <input type="text" class="form-control" style="padding: 0.275rem 0.75rem;" placeholder="Search" name="User_name"
+    [(ngModel)]="User_name">
+</div> -->
+<div class="container-fluid pe-0 mt-1" style="padding-top: 10px;overflow: hidden;">
+  <div class="row">
+
+    <div class="col-2">
+      <input class="form-control NR_search" placeholder="Search" type="text" autocomplete="off" #myInput
+        (keyup)="searchFilter($event)">
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container-fluid pe-0 mt-1" *ngIf="scheduleviewdata != undefined">
+  <div class="col-12">
+    <div class="d-flex">
+      <div class="sec-tbl table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th (click)="sort(k)" style="cursor: pointer;text-align: initial;"
+                *ngFor="let k of settingkeys.slice(settingkeys.length-4,settingkeys.length-1) "> {{k}}</th>
+              <th (click)="sort(settingkeys[settingkeys.length-1])" style="cursor: pointer;">
+                {{settingkeys[settingkeys.length-1]}}</th>
+              <th (click)="sort(k)" style="cursor: pointer;"
+                *ngFor="let k of settingkeys.slice(0,settingkeys.length-4) "> {{k}}</th>
+              <th *ngIf="scheduleviewdata.length>0"> Comments </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of scheduleviewdata ; let j=index"
+              [ngStyle]="{'background-color' : j % 2 == 0 ? '#e8ebf0' : '#f8f9fb' }">
+              <td></td>
+              <td *ngFor="let cols of settingkeys.slice(settingkeys.length-4,settingkeys.length-1);let i=index"
+                style="text-align: left !important;">
+                <span *ngIf="i>=0 && i<=1"> {{d[cols]=='' ||d[cols]==null ||
+                  d[cols]==undefined ? '-' : d[cols]}}</span>
+                <span *ngIf="i==2"> {{d[cols]==''||d[cols]==null || d[cols]==undefined ? '-' : d[cols] |
+                  date:'MM/dd/yyyy' }}</span>
+              </td>
+
+              <!-- (click)="opendetails(settingkeys[settingkeys.length-1], d[settingkeys[settingkeys.length-1]],d)" -->
+              <td [ngClass]="{ negative: !inTheGreen(d[settingkeys[settingkeys.length-1]]) }">
+                {{d[settingkeys[settingkeys.length-1]]==''||d[settingkeys[settingkeys.length-1]]==null ||
+                d[settingkeys[settingkeys.length-1]]==undefined || d[settingkeys[settingkeys.length-1]]== 0
+                ? '-' : d[settingkeys[settingkeys.length-1]] | currency:'USD':'symbol':'1.0-0' }}
+              </td>
+              <td *ngFor="let cols of settingkeys.slice(0,settingkeys.length-4);let i=index"
+                [ngClass]="{ negative: !inTheGreen(d[cols]) ,pntr: d[cols] != 0 && d[cols] != '' }"
+                (click)="opendetails(cols, d[cols],d)">
+                {{d[cols]==''||d[cols]==null || d[cols]==undefined
+                ? '-' : d[cols] | currency:'USD':'symbol':'1.0-0'}}
+              </td>
+              <td>
+                <lable title="View Comments History" class="Anchor" data-bs-toggle="modal" data-bs-target="#getcomment"
+                  (click)="getcomments(d)">View</lable>&nbsp;&nbsp;
+                <!-- <button type="button" title="Add Comment" class="btn add-btn" data-bs-toggle="modal"
+                  data-bs-target="#savecomment" >Add</button> -->
+                <img src="../../../../assets/images/add.png" style="cursor: pointer;" title="Add Comment"
+                  data-bs-toggle="modal" data-bs-target="#savecomment" (click)="getitem(d)">
+
+
+              </td>
+            </tr>
+          </tbody>
+
+          <tbody *ngIf="NoData">
+            <tr>
+              <td></td>
+              <td [attr.colspan]="settingkeys.length+1" style="text-align: center !important;">No Records Found</td>
+            </tr>
+          </tbody>
+
+
+
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade bd-example-modal-sm" id="savecomment" tabindex="-1" aria-labelledby="contModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm " style="width: 40%;padding-top: 8%;">
+    <div class="modal-content favourites-popup">
+      <div class="modal-header header">
+
+        <h5 class="title m-0 ms-2">
+          <span class="slash">//</span>Comments
+        </h5>
+        <a type="button" class="close-btn ms-auto me-2" id="close" data-bs-dismiss="modal" aria-label="Close"><i
+            class="fa-solid fa-xmark"></i> </a>
+
+
+      </div>
+      <div class="modal-body body">
+        <!-- <div class="col-12 mt-3 ps-4 pe-4 pb-3"> -->
+        <div class="row  d-flex align-items-center">
+          <div class="col-12 ps-0 cntr">
+            <!-- <input type="text" class="form-control cntr" [(ngModel)]="comment" maxlength="500" placeholder="Comments"> -->
+            <textarea class="form-control" [(ngModel)]="comment" rows="5" maxlength="500"
+              placeholder="Comment..."></textarea>
+          </div>
+        </div>
+
+
+
+
+        <div class="row mb-2 mt-2 d-flex align-items-center">
+          <div class="col-4"></div>
+          <div class="col-2 ps-0 cntr">
+            <button type="button" class="btn grp-btn" (click)="savecomment()">Save</button>
+          </div>
+          <div class="col-1 pt-2 cntr" style="color: #2a91f0;font-size: .8rem;font-family: 'Roboto';cursor: pointer;">
+            <span data-bs-dismiss="modal" aria-label="Close" id="closecommment">Close</span>
+          </div>
+          <div class="col-4"></div>
+
+        </div>
+        <!-- <div class="row mb-2 mt-4 d-flex align-items-center">
+            <div class="col-12 ps-0 cntr"
+              style="color: #2a91f0;font-size: .8rem;font-family: 'Roboto';cursor: pointer;">
+              <span data-bs-dismiss="modal" aria-label="Close">Close</span>
+            </div>
+          </div> -->
+        <!-- </div> -->
+      </div>
+      <!-- <div class="footer">
+              <div class="col-12 d-flex justify-content-center">
+
+                <button type="button" class="btn btn-primary ms-1" style="cursor:default" (click)="saveFav()">Save</button>
+
+
+              </div>
+
+            </div> -->
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bd-example-modal-sm" id="getcomment" tabindex="-1" aria-labelledby="contModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm " style="width: 90%;padding-top: 8%;">
+    <div class="modal-content favourites-popup">
+      <div class="modal-header header">
+
+        <h5 class="title m-0 ms-2">
+          <span class="slash">//</span>Comments
+        </h5>
+        <a type="button" class="close-btn ms-auto me-2" id="close" data-bs-dismiss="modal" aria-label="Close"><i
+            class="fa-solid fa-xmark"></i> </a>
+
+
+      </div>
+      <div class="modal-body body" style="padding:0px !important">
+        <div class="loader" style="margin-top: 1%;margin-left: 30%;" *ngIf="spinnerLoader"></div>
+        <div class="col-12 mt-3 ps-4 pe-4 pb-3">
+          <div class="row mb-2 mt-4 d-flex align-items-center">
+            <div class="col-12 ps-0 cntr" style="max-height: 25vh;overflow: auto;min-height:15vh;">
+              <div class="mb-3" *ngFor="let c of commentslist;let i=index"
+                [ngStyle]="{'background-color': i%2== 0 ? '#e8ebf0' :'#f8f9fb' } " style="text-align: left !important;">
+                <label class="mt-1 mb-1" style="font-size: 1rem;font-family: 'Roboto';">{{c.SC_USER == '' || c.SC_USER
+                  == null ||
+                  c.SC_USER == undefined ? '-': c.SC_USER }} - {{c.SC_CREATEDTS | date:
+                  'MM/dd/yyyy hh:mm:ss'}}</label>
+                <div>
+                  <label style="font-size: .8rem;font-family: 'Roboto';">{{c.SC_COMMENTS == '' || c.SC_COMMENTS == null
+                    || c.SC_COMMENTS == undefined ? '-': c.SC_COMMENTS}}</label>
+                </div>
+              </div>
+              <div *ngIf="commentslist != undefined && spinnerLoader==false">
+                <label *ngIf="commentslist.length==0">No Comments</label>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <div class="row mb-2 mt-4 d-flex align-items-center">
+            <div class="col-5"></div>
+            <div class="col-2 ps-0 cntr">
+              <button type="button" class="btn grp-btn" data-bs-dismiss="modal" aria-label="Close">Close</button>
+            </div>
+            <!-- <div class="col-2 pt-2 cntr" style="color: #2a91f0;font-size: .8rem;font-family: 'Roboto';cursor: pointer;"
+              id="closecommment">
+              <span data-bs-dismiss="modal" aria-label="Close">Cancel</span>
+            </div> -->
+            <div class="col-5"></div>
+
+          </div>
+          <!-- <div class="row mb-2 mt-4 d-flex align-items-center">
+            <div class="col-12 ps-0 cntr"
+              style="color: #2a91f0;font-size: .8rem;font-family: 'Roboto';cursor: pointer;">
+              <span data-bs-dismiss="modal" aria-label="Close">Close</span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <!-- <div class="footer">
+              <div class="col-12 d-flex justify-content-center">
+
+                <button type="button" class="btn btn-primary ms-1" style="cursor:default" (click)="saveFav()">Save</button>
+
+
+              </div>
+
+            </div> -->
+    </div>
+  </div>
+</div>

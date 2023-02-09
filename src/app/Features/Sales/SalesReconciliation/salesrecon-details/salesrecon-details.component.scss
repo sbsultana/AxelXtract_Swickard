@@ -1,0 +1,333 @@
+
+
+
+
+
+
+
+.gross-popup {
+
+
+    width: 100%;
+
+    .header {
+        background: #ffffff;
+        border-radius: 20px 20px 0px 0px;
+        border-bottom: 2px solid #edf1f4;
+        position: relative;
+        padding: 0.5rem 3rem;
+
+        .close-btn {
+            color: #d4d4d4;
+            font-size: 1.2vw;
+            position: absolute;
+            right: 20px;
+        }
+
+        .title {
+            font-family: 'RobotoBold';
+            font-size: 1.3vw;
+            color: #333;
+            line-height: 2rem;
+
+            .slash {
+                color: #449df8;
+                padding-right: 5px;
+            }
+        }
+    }
+
+    .content {
+        background-color: #f5f9f7;
+        padding: 0rem;
+        border-radius: 0px 0px 20px 20px;
+        padding-bottom: 1rem;
+
+
+        ////////////////////// COMMON TABLE SCSS /////////////////////
+
+        table {
+            text-align: center;
+            margin: 0;
+
+            thead {
+                box-shadow: inset 0 -5px 0 #449df8;
+                height: 60px;
+                vertical-align: middle;
+                font-size: 0.9vw;
+                color: black;
+                font-family: 'RobotoBold';
+                white-space: nowrap;
+
+                th {
+                    .product {
+                        color: rgb(182, 182, 182);
+                        font-size: 0.6vw;
+                        font-family: 'Roboto';
+
+                        span {
+                            padding: 0px 10px;
+                        }
+                    }
+                }
+
+                th:first-child {
+                    padding-left: 0rem;
+                }
+
+            }
+
+            tbody {
+                td {
+                    font-size: 0.8vw;
+                    color: black;
+                    font-family: 'Roboto';
+                    padding: 0.2rem 0.5rem;
+                }
+
+                tr:first-child {
+                    td {
+                        padding-top: 1rem !important;
+                    }
+                }
+
+                tr:last-child {
+                    td {
+                        padding-bottom: 1rem !important;
+                    }
+                }
+
+                th:nth-child(3) {
+                    text-align: left;
+                }
+
+            }
+        }
+
+        ////////////////////// COMMON TABLE SCSS /////////////////////
+
+        .deal-tbl {
+            width: 30%;
+            white-space: nowrap;
+            box-shadow: 10px 0 20px -10px #888;
+            max-height: 70vh;
+            overflow: hidden;
+
+            thead {
+                position: sticky;
+                top: 0;
+                background-color: #f5f9f7;
+                z-index: 2;
+                tr th:first-child{
+                    padding-left: 1rem;
+                }
+            }
+            tbody{
+                tr td:first-child{
+                    padding-left: 1rem;
+                }
+            }
+
+        }
+
+        .gross-tbl-scroll {
+            width: 70%;
+            overflow-x: auto;
+            display: block;
+            max-height: 70vh;
+
+            .gross-tbl {
+
+                thead {
+                    line-height: 1rem;
+                    position: sticky;
+                    top: 0;
+                    background-color: #f5f9f7;
+                    z-index: 2;
+
+                    th {
+                        padding: 0.2rem;
+                    }
+
+                    th:nth-child(4) {
+                        border-right: 2px solid #edf1f4;
+                        position: relative;
+                    }
+                    th:nth-child(8) {
+                        border-right: 2px solid #edf1f4;
+                        position: relative;
+                    }
+                    th:nth-child(12) {
+                        border-right: 2px solid #edf1f4;
+                        position: relative;
+                    }
+
+                    tr:nth-child(2) {
+                        color: rgb(182, 182, 182);
+                        font-size: 0.6vw;
+                        font-family: 'Roboto';
+                        background-color: #f5f9f7;
+                        box-shadow: inset 0 -5px 0 #449df8;
+
+                        td:nth-child(5) {
+                            border-right: 2px solid #edf1f4 !important;
+                            position: relative;
+                        }
+
+                        td:nth-child(8) {
+                            border-right: 2px solid #edf1f4 !important;
+                            position: relative;
+                        }
+
+                        td:nth-child(12) {
+                            border-right: 2px solid #edf1f4 !important;
+                            position: relative;
+                        }
+
+
+                        .Main_td {
+                            /* line-height: 1rem; */
+                            color: black;
+                            font-size: .8vw;
+                            font-weight: 600;
+                            padding-top: inherit;
+                        }
+                    }
+
+                    /* line-height: 1rem; */
+                    // color: black;
+                    // font-size: 1vw;
+                    /* font-weight: 600; */
+                    // padding-top: inherit;
+                    // th:nth-child(n + 10) {
+                    // border-right: 2px solid #edf1f4;
+                    // position: relative;}
+                }
+
+                tbody {
+
+
+                    td:nth-child(4) {
+                        border-right: 2px solid #edf1f4;
+                        position: relative;
+                    }
+                    td:nth-child(8) {
+                        border-right: 2px solid #edf1f4;
+                        position: relative;
+                    }
+                    td:nth-child(12) {
+                        border-right: 2px solid #edf1f4;
+                        position: relative;
+                    }
+
+
+                    // td:nth-child(2n + 11) {
+                    //     border-right: 2px solid #edf1f4;
+                    //     position: relative;}
+
+                    td:nth-child(n+1) {
+                        text-align: center;
+                    }
+
+                    // td:nth-child(2) {
+                    //     text-align: right;
+                    // }
+                    // td:nth-child(3) {
+                    //     text-align: right;
+                    // }
+                    // td:nth-child(4) {
+                    //     text-align: left;
+                    // }
+                    // td:nth-child(5) {
+                    //     text-align: left;
+                    // }
+                    // td:nth-child(6) {
+                    //     text-align: left;
+                    // }
+                    // td:nth-child(7) {
+                    //     text-align: left;
+                    // }
+                    // td:nth-child(8) {
+                    //     text-align: right;
+                    // }
+                    // td:nth-child(9) {
+                    //     text-align: right;
+                    // }
+                    // td:nth-child(10) {
+                    //     text-align: right;
+                    // }
+                    // td:nth-child(11) {
+                    //     text-align: right;
+                    // }
+                }
+            }
+        }
+    }
+}
+
+.deal-tbl td {
+    text-align: left !important;
+}
+
+tr:nth-child(even) {
+    background: #f1f1f1
+}
+
+// .loader {
+//     border: 5px solid #c8bdbd;
+//     border-radius: 50%;
+//     border-top: 5px solid #2d91f1;
+//     width: 50px;
+//     height: 50px;
+//     animation: spin 2s linear infinite;
+//     top: 5rem;
+//     position: absolute;
+//     left: 11rem;
+// }
+
+.loader {
+    border: 5px solid #c8bdbd;
+     border-radius: 50%;
+     border-top: 5px solid #2d91f1;
+    width: 50px;
+     height: 50px;
+    animation: spin 2s linear infinite;
+     top: 5rem;
+     position: absolute;
+     z-index: 999;
+    left: 11rem;
+    }
+    .loader2 {
+        border: 5px solid #c8bdbd;
+         border-radius: 50%;
+         border-top: 5px solid #2d91f1;
+        width: 50px;
+         height: 50px;
+        animation: spin 2s linear infinite;
+         top: 10rem;
+         position: absolute;
+         z-index: 999;
+        left: 11rem;
+        }
+ .loading{
+    width: 400px;
+    min-height: 150px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+ }
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
